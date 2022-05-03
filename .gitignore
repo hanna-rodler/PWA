@@ -2,8 +2,8 @@ node_modules/
 
 .vscode/
 .idea/
-./api
-./api/
+.api/
+
 
 public/*.css
 public/*.css.map
