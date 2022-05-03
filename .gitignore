@@ -1,0 +1,10 @@
+node_modules/
+
+.vscode/
+.idea/
+./api
+./api/
+
+public/*.css
+public/*.css.map
+public/*.js
