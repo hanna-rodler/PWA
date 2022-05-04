@@ -5,6 +5,6 @@ vscode/
 api/
 
 
-public/*.css
-public/*.css.map
-public/*.js
+app/public/*.css
+app/public/*.css.map
+app/public/*.js
