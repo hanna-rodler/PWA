@@ -4,11 +4,35 @@
     <meta charset="UTF-8">
     <title>LoDiDa</title>
     <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="pwa.css">
 </head>
 <body>
 <h4>LoDiDa Working Title</h4>
-<p>Test</p>
 
+<section id="login">
+    <span id="login_state" class="red">    </span>
+    <span id="user_display_name"></span>
+
+    <form action="" id="form_login">
+        <label for="username">Benutzername</label>
+        <input type="text" id="username" placeholder="Aneta Solarikova">
+        <label for="password">Passwort</label>
+        <input type="password" id="password">
+        <button id="btn_login">Einloggen</button>
+    </form>
+
+    <form action="" id="frm_submit_post">
+        <label for="post_title">Titel</label><br>
+        <input type="text" id="post_title" placeholder="Mein Titel"><br>
+        <label for="post_content">Text</label><br>
+        <textarea id="post_content" placeholder="Es war einmal."></textarea><br>
+        <button id="submit_post">Abschicken.</button>
+    </form>
+</section>
+<div id="resources">
+    <div id="posts" class="resource">
+        <h2>Posts</h2>
+    </div>
 </div>
 <script type="module" src="pwa.js"></script>
 </body>

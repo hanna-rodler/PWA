@@ -1,0 +1,20 @@
+#login_state{
+    display: block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: lime;
+}
+
+#login_state.red{
+    background-color: red;
+}
+
+
+#frm_submit_post{
+    display: none;
+}
+
+#frm_submit_post.visible{
+    display: block;
+}
