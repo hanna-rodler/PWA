@@ -56,7 +56,8 @@ if (window.localStorage.getItem("token")) {
 
 /*** PAGINATION***/
 
-fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/posts?per_page=3")
+//TODO: über acf laden.
+fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=3")
 .then(function (response) {
   paginate(response.headers.get("X-WP-TotalPages"));
   return response;
@@ -65,7 +66,7 @@ fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/posts?per_page=3"
 
 function renderPosts(posts) {
   // TODO: render posts like I want them to be rendered.
-  let posts_container = document.getElementById("posts");
+  let posts_container = document.getElementById("datingIdeas");
   for (let post of posts) {
     let post_container = document.createElement("div");
     post_container.classList.add("post");
@@ -90,7 +91,7 @@ function paginate(totalPages) {
     button.dataset.nextPage = 2;
     // button.removeEventListener("click");
     button.addEventListener("click", function () {
-      fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/posts?per_page=3&page=" +
+      fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=3&page=" +
         this.dataset.nextPage).then(response => response.json())
       .then(posts => {
         renderPosts(posts);
@@ -100,3 +101,32 @@ function paginate(totalPages) {
     resources.append(button);
   }
 }
+
+fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/acf/v3/datingIdea")
+.then(response=>response.json())
+.then(datingIdeas => {
+  let allIdeasContainer = document.getElementById("datingIdeasACF");
+  for(let idea of datingIdeas){
+    let ideaContainer = document.createElement("div");
+    ideaContainer.classList.add("pet");
+    allIdeasContainer.append(ideaContainer);
+    for(const [key, value] of Object.entries(idea.acf)){
+      console.log(key, value);
+      // TODO: if funktioniert nicht.
+      if([key] != "link" && key != ""){
+        let idea_attribute = document.createElement("p");
+        idea_attribute.classList.add(key);
+        idea_attribute.innerHTML = value;
+        ideaContainer.append(idea_attribute);
+      }else {
+        console.log("HERE");
+        console.log("Link", value.url);
+        let idea_attribute = document.createElement("a");
+        idea_attribute.classList.add(key);
+        idea_attribute.innerHTML = value;
+        idea_attribute.href = value.url;
+        ideaContainer.append(idea_attribute);
+      }
+    }
+  }
+})
