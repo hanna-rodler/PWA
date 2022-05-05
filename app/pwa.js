@@ -1,6 +1,6 @@
 "use strict";
 
-console.log("Hello, World");
+console.log("Hello, I am PWA");
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('serviceworker.js')

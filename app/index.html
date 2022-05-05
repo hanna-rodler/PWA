@@ -8,16 +8,28 @@
 </head>
 <body>
 <h4>LoDiDa Working Title</h4>
-
+<header>
+    <nav>
+        <ul>
+            <li><a href="#/">Favourites</a></li>
+            <li><a href="#/ideas">Dating Ideas</a></li>
+            <li><a href="#/invites">Invites</a></li>
+            <li><a href="#/profile">Profile</a></li>
+        </ul>
+    </nav>
+</header>
+<div id="kwmJS">
+    <p>Target for template</p>
+</div>
 <section id="login">
     <span id="login_state" class="red">    </span>
     <span id="user_display_name"></span>
 
     <form action="" id="form_login">
         <label for="username">Benutzername</label>
-        <input type="text" id="username" placeholder="Aneta Solarikova">
+        <input type="text" id="username" autocomplete="username">
         <label for="password">Passwort</label>
-        <input type="password" id="password">
+        <input type="password" id="password" autocomplete="current-password">
         <button id="btn_login">Einloggen</button>
     </form>
 
@@ -35,5 +47,6 @@
     </div>
 </div>
 <script type="module" src="pwa.js"></script>
+<script type="module" src="js/kwm.js"></script>
 </body>
 </html>
