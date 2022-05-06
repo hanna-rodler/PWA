@@ -37,7 +37,6 @@ export default class KWM_Model {
         if(kwm.utils.isEmpty(this.dateIdeas)){
           for(let idea of data){
             this.dateIdeas.push(idea.acf);
-
           }
           console.log("DateIdeas", this.dateIdeas);
           resolve(this.dateIdeas);

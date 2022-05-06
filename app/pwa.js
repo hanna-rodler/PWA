@@ -15,7 +15,7 @@ if (window.localStorage.getItem("token")) {
   user_display_name.innerHTML = "Willkommen zurück, " +
     window.localStorage.getItem("user_display_name") + "!";
   form_login.style.display = "none";
-  frm_submit_post.classList.add("visible");
+  // frm_submit_post.classList.add("visible");
 } else {
   // Bin leider nicht eingeloggt
   // btn_login.removeEventListener("click");
@@ -56,6 +56,7 @@ if (window.localStorage.getItem("token")) {
 
 /*** PAGINATION***/
 
+/*
 fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/posts?per_page=3")
 .then(function (response) {
   paginate(response.headers.get("X-WP-TotalPages"));
@@ -99,4 +100,4 @@ function paginate(totalPages) {
     });
     resources.append(button);
   }
-}
+}*/

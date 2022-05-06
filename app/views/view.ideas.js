@@ -19,6 +19,7 @@ view.rendering = async function(){
     div.classList.add("dateIdea");
     document.querySelector("#dateIdeas").append(div);
     console.log(idea);
+    // TODO: check if values are empty.
     kwm.templater.renderTemplate("ideas.date-idea", div, idea);
   }
 };
