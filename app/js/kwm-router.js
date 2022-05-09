@@ -23,7 +23,7 @@ export default class KWM_Router{
         this.homeRoute = favourites;
         this.route404 = route404;
         this.init();
-        console.log(this.routes);
+        // console.log(this.routes);
     }
 
     init(){

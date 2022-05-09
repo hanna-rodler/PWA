@@ -1,11 +1,11 @@
 "use strict";
 
-console.log("Hello, I am PWA");
+// console.log("Hello, I am PWA");
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('serviceworker.js')
   .then(function () {
-    console.log("Service Worker registered");
+    // console.log("Service Worker registered");
   });
 }
 
