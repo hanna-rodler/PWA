@@ -1,6 +1,6 @@
 <div>
     <h2><&>title<&></h2>
     <p><&>description<&></p>
-    <!--TODO: image-->
-    <a href="#"><&>link<&></a>
+    <img src="<&>image<&>" alt="">
+    <a href="<&>link<&>"><&>link<&></a>
 </div>
