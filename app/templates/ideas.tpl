@@ -1,5 +1,5 @@
 <section id="main_content">
-    <h2>Dating Ideas</h2>
+    <h1>Dating Ideas</h1>
     <div id="dateIdeas">
 
     </div>
