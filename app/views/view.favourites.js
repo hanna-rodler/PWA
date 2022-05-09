@@ -30,4 +30,14 @@ export let view = new KWM_Route("/", async function(){
 
 view.rendering = async function() {
   await kwm.templater.renderTemplate("favourites", document.getElementById("kwmJS"));
+
+  let favorites = await kwm.model.getAllFavorites();
+  for(let favorite of favorites){
+    let div = document.createElement("div");
+    div.classList.add("favorite");
+    document.querySelector("#favorites").append(div);
+    console.log(favorite);
+    // TODO: check if values are empty.
+    kwm.templater.renderTemplate("favorites.favorite", div, favorite);
+  }
 }

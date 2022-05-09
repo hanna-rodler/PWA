@@ -10,6 +10,7 @@ export default class KWM_Model {
     }
     this.dateIdeas = [];
     this.invitations=[];
+    this.favorites=[];
   }
 
 /*  getAllPets(){
@@ -57,6 +58,22 @@ export default class KWM_Model {
           }
           console.log("Invitations", this.invitations);
           resolve(this.invitations);
+        }
+      })
+    })
+  }
+
+  getAllFavorites(){
+    return new Promise(resolve => {
+      fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/acf/v3/favorite')
+      .then(response => response.json())
+      .then(data=>{
+        if(kwm.utils.isEmpty(this.favorites)){
+          for(let favorite of data){
+            this.favorites.push(favorite.acf);
+          }
+          console.log("Favorites", this.favorites);
+          resolve(this.favorites);
         }
       })
     })

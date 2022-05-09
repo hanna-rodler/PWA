@@ -1,3 +1,6 @@
 <section id="main_content">
-    <h2>Favourites</h2>
+    <h2>Favorites</h2>
+    <div id="favorites">
+
+    </div>
 </section>
