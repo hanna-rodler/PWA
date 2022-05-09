@@ -32,10 +32,6 @@ class kwmJS{
         this.router = new KWM_Router();
     }
 
-    /*init(){
-        this.model.getAllPets();
-
-    }*/
 
     t(key){
         return this.translator.translate(key);
