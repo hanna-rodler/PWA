@@ -9,6 +9,7 @@ export default class KWM_Model {
       short_bio: "Hüpft total weit"
     }
     this.dateIdeas = [];
+    this.invitations=[];
   }
 
 /*  getAllPets(){
@@ -40,6 +41,22 @@ export default class KWM_Model {
           }
           console.log("DateIdeas", this.dateIdeas);
           resolve(this.dateIdeas);
+        }
+      })
+    })
+  }
+
+  getAllInvitations(){
+    return new Promise(resolve => {
+      fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/acf/v3/invitation')
+      .then(response => response.json())
+      .then(data=>{
+        if(kwm.utils.isEmpty(this.invitations)){
+          for(let invitation of data){
+            this.invitations.push(invitation.acf);
+          }
+          console.log("Invitations", this.invitations);
+          resolve(this.invitations);
         }
       })
     })
