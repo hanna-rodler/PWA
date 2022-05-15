@@ -23,21 +23,40 @@ import KWM_Route from '../js/kwm-route.js?v=0.2';
  *     KWM - 2022-03-26
  *******************************************************************************/
 
-export let view = new KWM_Route("/", async function(){
+export let view = new KWM_Route("/", async function () {
   await this.rendering();
 });
 
 
-view.rendering = async function() {
-  await kwm.templater.renderTemplate("favourites", document.getElementById("kwmJS"));
+view.rendering = async function () {
+  /*let hearts = document.getElementsByClassName("fa-heart")
+  for (let h of hearts) {
+    h.addEventListener("click", function (e) {
+      let target = e.target;
+      console.log(target);
+      target.classList.remove("fa-regular");
+      target.classList.add("fa-solid");
+    })
+  }*/
+  /*let navChange = document.getElementsByClassName("navLink");
+  for(let link of navChange){
+    link.addEventListener("click", function (){
+      kwm.templater.changeNavIcon("Favorite");
+    })
+  }*/
 
+  // await kwm.templater.changeNavIcon("fa-heart");
+
+  await kwm.templater.renderTemplate("favourites", document.getElementById("kwmJS"));
   let favorites = await kwm.model.getAllFavorites();
-  for(let favorite of favorites){
+
+  await kwm.model.getFavorites();
+  /*for (let favorite of favorites) {
     let div = document.createElement("div");
     div.classList.add("favorite");
     document.querySelector("#favorites").append(div);
     console.log(favorite);
     // TODO: check if values are empty.
     kwm.templater.renderTemplate("favorites.favorite", div, favorite);
-  }
+  }*/
 }

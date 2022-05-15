@@ -11,6 +11,8 @@ export let view = new KWM_Route("/ideas", async function(){
 });
 
 view.rendering = async function(){
+  // kwm.templater.changeNavIcon("fa-lightbulb");
+
   await kwm.templater.renderTemplate("ideas", document.getElementById("kwmJS"));
 
   let ideas = await kwm.model.getAllDateIdeas();
@@ -18,7 +20,7 @@ view.rendering = async function(){
     let div = document.createElement("div");
     div.classList.add("dateIdea");
     document.querySelector("#dateIdeas").append(div);
-    console.log(idea);
+  //  console.log(idea);
     // TODO: check if values are empty.
     kwm.templater.renderTemplate("ideas.date-idea", div, idea);
   }

@@ -11,5 +11,6 @@ export let view = new KWM_Route("/profile", async function(){
 });
 
 view.rendering = async function(){
+  // kwm.templater.changeNavIcon("fa-user");
   await kwm.templater.renderTemplate("profile", document.getElementById("kwmJS"));
 };
