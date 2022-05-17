@@ -1,0 +1,10 @@
+/*#dateIdeas{
+ @include flex-center-col;
+
+}*/
+
+@for $i from 2 through 4 {
+  @include grid($i, 3em);
+}
+
+

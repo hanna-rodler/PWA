@@ -1,4 +1,4 @@
-<div>
+<div class="dateIdea">
     <h2><&>title<&></h2>
     <p><&>description<&></p>
     <img src="<&>image<&>" alt="">
