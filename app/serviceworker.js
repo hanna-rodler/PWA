@@ -4,8 +4,8 @@ let filesToCache = [
 ];
 
 self.addEventListener('install', function (e) {
-  console.log("Install");
-  console.info("I am here");
+  //console.log("Install");
+  //console.info("I am here");
   e.waitUntil(
     caches.open(cache).then(function (cache) {
       return cache.addAll(filesToCache).then(() => console.log('Assets added to cache'))
@@ -15,11 +15,11 @@ self.addEventListener('install', function (e) {
 });
 
 self.addEventListener('activate', event => {
-  console.log("activate!");
+  //console.log("activate!");
 });
 
 self.addEventListener('fetch', function(event) {
-  console.log("fetch", event.request);
+ // console.log("fetch", event.request);
 });
 
 

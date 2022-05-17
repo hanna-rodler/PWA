@@ -11,6 +11,7 @@ export default class KWM_Model {
     this.dateIdeas = [];
     this.invitations=[];
     this.favorites=[];
+    this.partnerFavorites=[];
   }
 
 /*  getAllPets(){
@@ -40,9 +41,10 @@ export default class KWM_Model {
           for(let idea of data){
             this.dateIdeas.push(idea.acf);
           }
-          console.log("DateIdeas", this.dateIdeas);
+          //console.log("DateIdeas", this.dateIdeas);
           resolve(this.dateIdeas);
-        }
+        }else
+          resolve(this.dateIdeas);
       })
     })
   }
@@ -56,9 +58,11 @@ export default class KWM_Model {
           for(let invitation of data){
             this.invitations.push(invitation.acf);
           }
-          console.log("Invitations", this.invitations);
+         // console.log("Invitations", this.invitations);
           resolve(this.invitations);
         }
+        else
+          resolve(this.invitations);
       })
     })
   }
@@ -70,13 +74,28 @@ export default class KWM_Model {
       .then(data=>{
         if(kwm.utils.isEmpty(this.favorites)){
           for(let favorite of data){
+            /*this.favorites.push(favorite.acf.user_1.ID);
+            this.favorites.push(favorite.acf.user_2.ID);
+            this.favorites.push(favorite.acf.idea);*/
             this.favorites.push(favorite.acf);
           }
           console.log("Favorites", this.favorites);
           resolve(this.favorites);
         }
+        else
+          resolve(this.favorites);
       })
     })
+  }
+
+  getFavorites(){
+    console.info("getting favorites");
+    for(let fav of this.favorites){
+      let userId = window.localStorage.getItem("user_display_name");
+      if(fav.user_1 === userId || fav.user_2 === userId){
+        console.log(fav);
+      }
+    }
   }
 
 /*  async getAllPets2(){

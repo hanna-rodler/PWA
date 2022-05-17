@@ -1,5 +1,5 @@
 <section id="main_content">
-    <h1>Favorites</h2>
+    <h1>Favorites</h1>
     <div id="favorites">
 
     </div>

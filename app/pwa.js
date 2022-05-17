@@ -48,11 +48,79 @@ if (window.localStorage.getItem("token")) {
         user_display_name.innerHTML = "Willkommen zurück, " +
           window.localStorage.getItem("user_display_name") + "!";
         form_login.style.display = "none";
-        frm_submit_post.classList.add("visible");
+        // frm_submit_post.classList.add("visible");
       }
     )
   });
 }
+
+/** POST Abschicken**/
+btn_submit_idea.addEventListener("click", async function (e) {
+  e.preventDefault();
+  let img_id = await uploadMedia();
+  console.warn("IMG ID:", img_id);
+  let post = {
+    title: invite_title.value,
+    fields: {
+      title: invite_title.value,
+      text: invite_text.value,
+      ph: img_id
+    },
+    status: "publish"
+  };
+  console.log("POST", post);
+  fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/invitation", {
+    method: "POST",
+    headers: {
+      "Content-Type" : 'application/json',
+      "Authorization" : "Bearer "+window.localStorage.getItem("token"),
+    },
+    body : JSON.stringify(post)
+  }).then(function (response) {
+    if (response.status !== 201) {
+      alert("Fehlgeschlagen: " + response.status);
+      console.error(response);
+      return false;
+    }
+    return response;
+  }).then(response => response.json())
+  .then(posts => {
+    // renderPosts([posts]);
+    invite_title.value = "";
+    invite_text.value = "";
+  });
+
+});
+
+async function uploadMedia() {
+  let img_id = "";
+  return new Promise(async function (resolve, reject) {
+    const media = document.getElementById("post_media");
+    console.warn("Media: ", media);
+    const formData = new FormData();
+    formData.append("file", media.files[0]);
+    await fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/media", {
+      method: "POST",
+      headers: {
+        //when using FormData(), the
+        //'Content-Type' will automatically be set to 'form/multipart'
+        //so there's no need to set it here
+        "Authorization": "Bearer " + window.localStorage.getItem("token")
+      },
+      body: formData
+    }).then(response => response.json())
+    .then(data => {
+      img_id = data.id;
+      resolve(img_id);
+    })
+    .catch(err => {
+      reject(err);
+    });
+    resolve(img_id);
+  })
+
+}
+
 
 /*** PAGINATION***/
 
