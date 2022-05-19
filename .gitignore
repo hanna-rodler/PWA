@@ -8,3 +8,4 @@ api/
 app/public/*.css
 app/public/*.css.map
 app/public/*.js
+app/node_modules/
