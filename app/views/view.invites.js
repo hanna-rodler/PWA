@@ -21,7 +21,12 @@ view.rendering = async function(){
     div.classList.add("invitation");
     // div.classList.add("card");
     document.querySelector("#invitations").append(div);
-    // console.log(invite);
+    console.log(invite);
+    console.info(invite.ph);
+    if(kwm.utils.isEmpty(invite.ph)){
+      invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/love-letter.png";
+      console.log(invite.ph);
+    }
     kwm.templater.renderTemplate("invites.invitation", div, invite);
   }
 

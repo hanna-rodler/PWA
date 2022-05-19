@@ -1,25 +1,29 @@
-@mixin flex($justifyContent, $dir: 'column', $vw: 100vw, $align: 'center'){
-  .flex-#{$justifyContent}-#{$dir}{
-    display: flex;
-    justify-content: #{$justifyContent};
-    width: $vw;
-    flex-direction: #{$dir};
-    color: orange;
-  }
-
-  .flex-#{$justifyContent}-#{$dir}-#{$vw}{
-    display: flex;
-    justify-content: $justifyContent;
-    width: $vw;
-    flex-direction: $dir;
-    color: green;
-  }
-}
-
 @mixin position($position, $bottom){
   .position-#{$position}-#{$bottom}{
     position: $position;
     bottom: $bottom;
+  }
+}
+
+@mixin flex($justifyContent, $align: 'start', $dir: 'col'){
+  .flex-#{$justifyContent}{
+    display: flex;
+    justify-content: $justifyContent;
+    border: 1px solid orange;
+  }
+
+  .flex-#{$justifyContent}-#{$align}{
+    display: flex;
+    justify-content: $justifyContent;
+    align-items: #{$align};
+  }
+
+  .flex-#{$justifyContent}-#{$align}-#{$dir}{
+    @extend .flex-#{$justifyContent}-#{$align};
+    /*display: flex;
+    justify-content: $justifyContent;
+    align-items: #{$align};*/
+    flex-direction: $dir;
   }
 }
 

@@ -21,7 +21,7 @@
             <button type="submit" class="btn btn-primary">Senden&nbsp;&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
         </form>-->
     </section>
-    <div id="invitations" class="flex-center-column-95vw">
+    <div id="invitations">
 
     </div>
 </section>

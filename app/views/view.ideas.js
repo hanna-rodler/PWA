@@ -25,8 +25,8 @@ view.rendering = async function(){
    console.log(idea);
    if(idea.image === false){
      idea.image = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/anastasia-lysiak-3EY-p8uyNTg-unsplash_squareMini.jpg";
-     console.log(idea.title, "has no img");
-     console.log(idea.image);
+     // console.log(idea.title, "has no img");
+     // console.log(idea.image);
    }
     // TODO: check if values are empty.
     kwm.templater.renderTemplate("ideas.date-idea", div, idea);
