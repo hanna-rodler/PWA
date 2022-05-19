@@ -55,7 +55,7 @@ if (window.localStorage.getItem("token")) {
 }
 
 /** POST Abschicken**/
-btn_submit_idea.addEventListener("click", async function (e) {
+btn_submit_invite.addEventListener("click", async function (e) {
   e.preventDefault();
   let img_id = await uploadMedia();
   console.warn("IMG ID:", img_id);
@@ -120,6 +120,8 @@ async function uploadMedia() {
   })
 
 }
+
+
 
 
 /*** PAGINATION***/
