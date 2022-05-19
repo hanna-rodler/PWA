@@ -1,0 +1,52 @@
+@mixin flex($justifyContent, $dir: 'column', $vw: 100vw, $align: 'center'){
+  .flex-#{$justifyContent}-#{$dir}{
+    display: flex;
+    justify-content: #{$justifyContent};
+    width: $vw;
+    flex-direction: #{$dir};
+    color: orange;
+  }
+
+  .flex-#{$justifyContent}-#{$dir}-#{$vw}{
+    display: flex;
+    justify-content: $justifyContent;
+    width: $vw;
+    flex-direction: $dir;
+    color: green;
+  }
+}
+
+@mixin position($position, $bottom){
+  .position-#{$position}-#{$bottom}{
+    position: $position;
+    bottom: $bottom;
+  }
+}
+
+/*@mixin flex-center-col{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  color: #32ad32;
+}*/
+
+@mixin grid($columns, $gap: 1em, $justify: 'center', $align: 'center'){
+  .grid-#{$columns}{
+    display: grid;
+    grid-template-columns: repeat(#{$columns}, 1fr);
+    //grid-gap: 20px;
+    justify-content: $justify;
+    align-items: $align;
+    grid-gap: $gap;
+  }
+}
+
+
+/*#dateIdeas{
+  @include flex(center, column, 90vw);
+/*  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  justify-content: center;
+}*/
+

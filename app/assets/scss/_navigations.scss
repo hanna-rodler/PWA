@@ -1,10 +1,15 @@
+@include position(fixed, 0);
+
 nav {
-  position: fixed;
-  bottom: 0;
+  //@include position(fixed, 0);
+
+  //position: fixed;
+  //bottom: 0;
   right: 0;
+  left:0;
   background-color: white;
   display: flex;
-  width: 100vw;
+  //width: 100vw;
   border-top: 1px solid #7e8993;
   margin-right: -8px;
   margin-left: -8px;
@@ -25,5 +30,5 @@ nav > ul {
 }
 
 .fa-regular, .fa-solid {
-  font-size: 2rem;
+  font-size: 1.3rem;
 }

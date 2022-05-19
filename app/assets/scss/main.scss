@@ -1,15 +1,49 @@
-@import "abstracts/variables";
+// Option B: Include parts of Bootstrap
+
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+//@import "../../node_modules/bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+$body-bg: #f1f2f6;
+$primary: #b12040;
+$secondary: #8eaa39;
+$input-bg: #ffffff;
+$input-color:                           #ffffff;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// 3. Include remainder of required Bootstrap stylesheets
+/*@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/utilities";*/
+
+// 4. Include any optional Bootstrap components as you like
+/*@import "../../node_modules/bootstrap/scss/root";
+@import "../../node_modules/bootstrap/scss/reboot";
+@import "../../node_modules/bootstrap/scss/type";
+@import "../../node_modules/bootstrap/scss/images";
+@import "../../node_modules/bootstrap/scss/containers";
+@import "../../node_modules/bootstrap/scss/grid";*/
+
+// 5. Add additional custom code here
+@import "variables";
+@import "mixins";
+@import "CPT";
 @import "components";
-@import "layout/CPT";
-@import "layout/navigations";
-@import "abstracts/mixins";
+@import "navigations";
+@import "layout";
 
 //TODO: darken function
 
-body{
-  font-family: Helvetica, Montserrat, sans-serif;
-  font-size: 1rem;
-}
+$darkGreen: #505d1e;
+/*$custom-colors: (
+        "redPink": #b12040,
+        "green": #8eaa39,
+        "yellow": #fec12f
+);
+
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);*/
 
 
 #login_state {
@@ -24,7 +58,6 @@ body{
   background-color: #980505;
 }
 
-
 #frm_submit_post {
   display: none;
 }
@@ -38,5 +71,5 @@ h1 {
 }
 
 h2 {
-  color: $pink;
+  color: $primary;
 }

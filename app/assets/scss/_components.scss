@@ -1,0 +1,14 @@
+.myBtn{
+  @extend .btn-primary;
+/*  background-color: $primary;
+  color: white;
+  */
+  border: 1px solid darken($primary, 20%);
+  padding: 0.4rem 0.7rem;
+  border-radius: 10px;
+}
+
+.form-control{
+  background-color: white;
+}
+

@@ -1,0 +1,29 @@
+@include flex(center, column, 95vw);
+
+body{
+  font-family: Helvetica, Montserrat, sans-serif;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#kwmJS{
+  display: flex;
+  justify-content: center;
+}
+
+
+
+/*
+@for $i from 1 to 6 {
+  @include m($i);
+}*/
+
+#appHeader{
+  background-color: white;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  //border-bottom: 1px solid #7e8993;
+}
