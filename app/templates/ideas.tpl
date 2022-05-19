@@ -13,7 +13,7 @@
             <label for="idea_link" class="form-label">Link</label>
             <input type="url" id="idea_link" name="homepage" class="form-control">
         </div>
-        <button type="submit" value="Abschicken" id="btn_submit_invite" class="myBtn">Senden&nbsp;&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
+        <button type="submit" value="Abschicken" id="btn_submit_invite" class="myBtn-primary">Senden&nbsp;&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
     </form>
 
 

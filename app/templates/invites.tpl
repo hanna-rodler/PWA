@@ -6,8 +6,8 @@
             <input type="text" id="invite_title"><br>
             <label for="invite_text">Invite text:</label>
             <textarea name="inviteText" id="invite_text" rows="5" cols="35"></textarea><br>
-            <input type="file" value="media" id="post_media"><br>
-            <button type="submit" value="Abschicken" id="btn_submit_invite" class="myBtn">Senden&nbsp;&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
+            <label><input type="file" value="media" id="post_media"></label><br>
+            <button type="submit" value="Abschicken" id="btn_submit_invite" class="myBtn myBtn-primary">Senden&nbsp;&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
         </form>
         <!--<form>
             <div class="mb-3">

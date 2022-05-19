@@ -16,26 +16,21 @@
     border: 1px solid darken($primary, 20%);
   }
 
-/*  &-logout {
-    @extend .myBtn-primary;
-    background-color: darken($primary, 30%);
-  }*/
-}
+  &-primary:hover{
+    background-color: white;
+    color: black;
+  }
 
-.btn-logout{
-  @extend .myBtn;
-  background-color: white;
-  border: 1px solid darken($green, 60%);
-}
+  &-logout{
+    @extend .myBtn;
+    background-color: white;
+    border: 1px solid darken($green, 60%);
+  }
 
-.btn-logout:hover{
-  background-color: darken($green, 60%);
-  color: white;
-}
-
-.myBtn-primary:hover{
-  background-color: white;
-  color: black;
+  &-logout:hover{
+    background-color: darken($green, 60%);
+    color: white;
+  }
 }
 
 .form-control{
