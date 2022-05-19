@@ -1,4 +1,6 @@
-@include flex(center, column, 95vw);
+@include flex(center);
+@include flex(center, center);
+@include flex(center, start, column);
 
 body{
   font-family: Helvetica, Montserrat, sans-serif;
@@ -11,9 +13,8 @@ body{
 #kwmJS{
   display: flex;
   justify-content: center;
+  margin-bottom: 5rem;
 }
-
-
 
 /*
 @for $i from 1 to 6 {
