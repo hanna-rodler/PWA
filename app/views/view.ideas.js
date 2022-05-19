@@ -18,8 +18,8 @@ view.rendering = async function(){
   let ideas = await kwm.model.getAllDateIdeas();
   for(let idea of ideas){
     let div = document.createElement("div");
-    // div.classList.add("card");
     div.classList.add("dateIdea");
+    // div.classList.add("card");
     div.classList.add("container");
     document.querySelector("#dateIdeas").append(div);
    console.log(idea);
