@@ -20,10 +20,11 @@ view.rendering = async function(){
     let div = document.createElement("div");
     div.classList.add("invitation");
     // div.classList.add("card");
+    div.classList.add("container");
     document.querySelector("#invitations").append(div);
     console.log(invite);
     console.info(invite.ph);
-    if(kwm.utils.isEmpty(invite.ph)){
+    if(kwm.utils.isEmpty(invite.ph) || invite.ph === false){
       invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/love-letter.png";
       console.log(invite.ph);
     }
