@@ -1,14 +1,4 @@
-/*#dateIdeas{
- @include flex-center-col;
-
-}*/
-
-/*@for $i from 2 through 4 {
-  @include grid($i);
-}*/
-
 .dateIdea{
-  //@include flex(center, column, 90vw);
   background-color: white;
   padding: 0.1rem 1rem;
   border-radius: 20px;
@@ -22,6 +12,16 @@
 }
 
 .invitation{
+/*  background-color: white;
+  padding: 0.1rem 1rem;
+  border-radius: 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);*/
+  @extend .dateIdea;
+}
+
+.card{
   background-color: white;
   padding: 0.1rem 1rem;
   border-radius: 20px;
@@ -29,15 +29,6 @@
   margin-bottom: 1rem;
   box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
 }
-
-/*.card{
-  background-color: white;
-  padding: 0.1rem 1rem;
-  border-radius: 20px;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
-}*/
 // vererbung h2
 
 #dateIdeas{
