@@ -2,5 +2,5 @@
     <h1>Profile</h1>
 
 
-    <button class="btn btn-primary" id="btn_log_out">Logout</button>
+    <button class="btn-logout" id="btn_log_out">Log out</button>
 </section>
