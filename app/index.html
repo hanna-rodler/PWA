@@ -5,64 +5,68 @@
     <title>LoDiDa</title>
     <link rel="manifest" href="manifest.json">
 <!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
     <link rel="stylesheet" href="public/main.min.css">
 </head>
 <body>
-<h4>LoDiDa Working Title</h4>
+<div id="appHeader" class="d-flex justify-content-center">
+    <img src="./images/flower.png" alt="Logo" height="50" class="text-center">
+</div>
 <header>
-    <nav>
-        <ul>
-            <li><a class="navLink" href="#/"><i class="fa-regular fa-heart"></i></a></li>
-            <li><a class="navLink" href="#/ideas"><i class="fa-regular fa-lightbulb"></i></a></li>
-            <li><a class="navLink" href="#/invites"><i class="fa-regular fa-envelope"></i></a></li>
-            <li><a class="navLink" href="#/profile"><i class="fa-regular fa-user"></i></a></li>
+    <nav class="position-fixed-0">
+        <ul class="my-2">
+            <li><a class="navLink p-3" href="#/"><i class="fa-regular fa-heart"></i></a></li>
+            <li><a class="navLink p-3" href="#/ideas"><i class="fa-regular fa-lightbulb"></i></a></li>
+            <li><a class="navLink p-3" href="#/invites"><i class="fa-regular fa-envelope"></i></a></li>
+            <li><a class="navLink p-3" href="#/profile"><i class="fa-regular fa-user"></i></a></li>
         </ul>
     </nav>
 </header>
-<section>
-    <h2>New Invitation</h2>
-    <form action="">
-        <label for="invite_title">Titel</label>
-        <input type="text" id="invite_title"><br>
-        <label for="invite_text">Invite text:</label>
-        <textarea name="inviteText" id="invite_text" rows="5" cols="35"></textarea><br>
-        <input type="file" value="media" id="post_media"><br>
-        <input type="submit" value="Abschicken" id="btn_submit_idea">
-    </form>
-</section>
-<section id="login">
-    <span id="login_state" class="red">    </span>
-    <span id="user_display_name"></span>
+<main class="mx-2 mt-2">
+<!--    <section>
+        <h2>New Invitation</h2>
+        <form action="">
+            <label for="invite_title">Titel</label>
+            <input type="text" id="invite_title"><br>
+            <label for="invite_text">Invite text:</label>
+            <textarea name="inviteText" id="invite_text" rows="5" cols="35"></textarea><br>
+            <input type="file" value="media" id="post_media"><br>
+            <input type="submit" value="Abschicken" id="btn_submit_idea" class="btn-primary">
+        </form>
+    </section>-->
+    <section id="login">
+        <span id="login_state" class="red">    </span>
+        <span id="user_display_name"></span>
 
-    <form action="" id="form_login">
-        <label for="username">Benutzername</label>
-        <input type="text" id="username" autocomplete="username">
-        <label for="password">Passwort</label>
-        <input type="password" id="password" autocomplete="current-password">
-        <button id="btn_login">Einloggen</button>
-    </form>
+        <form action="" id="form_login">
+            <label for="username">Benutzername</label>
+            <input type="text" id="username" autocomplete="username">
+            <label for="password">Passwort</label>
+            <input type="password" id="password" autocomplete="current-password">
+            <button id="btn_login">Einloggen</button>
+        </form>
 
-    <!--    <form action="" id="frm_submit_post">
-            <label for="post_title">Titel</label><br>
-            <input type="text" id="post_title" placeholder="Mein Titel"><br>
-            <label for="post_content">Text</label><br>
-            <textarea id="post_content" placeholder="Es war einmal."></textarea><br>
-            <button id="submit_post">Abschicken.</button>
-        </form>-->
+        <!--    <form action="" id="frm_submit_post">
+                <label for="post_title">Titel</label><br>
+                <input type="text" id="post_title" placeholder="Mein Titel"><br>
+                <label for="post_content">Text</label><br>
+                <textarea id="post_content" placeholder="Es war einmal."></textarea><br>
+                <button id="submit_post">Abschicken.</button>
+            </form>-->
 
-    <!--    pagination tryout-->
-</section>
+        <!--    pagination tryout-->
+    </section>
 
-<div id="kwmJS">
-    <p>Target for template</p>
-</div>
-<!--<div id="resources">
-    <div id="posts" class="resource">
-        <h2>Dating Ideas</h2>
+    <div id="kwmJS">
+        <p>Target for template</p>
     </div>
-</div>-->
+</main>
 <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>-->
 <script src="https://kit.fontawesome.com/48e799a5b5.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script type="module" src="pwa.js"></script>
 <script type="module" src="js/kwm.js"></script>
 </body>
