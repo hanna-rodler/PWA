@@ -10,7 +10,8 @@ $secondary: #8eaa39;
 $input-bg: #ffffff;
 $input-color:#000000;
 
-@import "../../node_modules/bootstrap/scss/bootstrap";
+//@import "../../node_modules/bootstrap/scss/bootstrap";
+@import "../../../node_modules/bootstrap/scss/bootstrap";
 
 // 3. Include remainder of required Bootstrap stylesheets
 /*@import "../../node_modules/bootstrap/scss/variables";
