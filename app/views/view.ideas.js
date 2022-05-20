@@ -16,17 +16,19 @@ view.rendering = async function(){
   await kwm.templater.renderTemplate("ideas", document.getElementById("kwmJS"));
 
   let ideas = await kwm.model.getAllDateIdeas();
+  console.table(ideas);
   for(let idea of ideas){
     let div = document.createElement("div");
     div.classList.add("dateIdea");
     // div.classList.add("card");
     div.classList.add("container");
     document.querySelector("#dateIdeas").append(div);
-   console.log(idea);
-   if(idea.image === false){
+   // console.log(idea);
+   if(idea.image === false || kwm.utils.isEmpty(idea.image)){
      idea.image = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/anastasia-lysiak-3EY-p8uyNTg-unsplash_squareMini.jpg";
-     // console.log(idea.title, "has no img");
-     // console.log(idea.image);
+   }
+   if(kwm.utils.isEmpty(idea.link)){
+      idea.link = "";
    }
     // TODO: check if values are empty.
     kwm.templater.renderTemplate("ideas.date-idea", div, idea);

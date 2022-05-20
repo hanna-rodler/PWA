@@ -8,7 +8,7 @@ module.exports = {
   },
 
   scripts: {
-    files: ['app/js/*.js', 'app/pwa.js', 'app/serviceworker.js'],
+    files: ['app/js/*.js', 'app/pwa.js', 'app/serviceworker.js', 'app/views/*.js'],
     tasks: ['concat', 'uglify'],
   },
 };
