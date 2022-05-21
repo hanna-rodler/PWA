@@ -1,6 +1,5 @@
 <section id="main_content">
     <section>
-        <h2>New Invitation</h2>
         <form action="">
             <label for="invite_title">Titel</label>
             <input type="text" id="invite_title"><br>

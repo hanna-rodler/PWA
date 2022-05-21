@@ -50,16 +50,15 @@ export default class KWM_Templater{
     }
 
     changeNavIcon(navItem){
-
         this.removeSolidIcon();
-        switch(iconClass, navItem) {
+        switch(navItem) {
             case "Favorite":
                 this.renderSolidIcon("fa-heart");
                 break;
             case "Idea":
                 this.renderSolidIcon("fa-lightbulb");
                 break;
-            case "Inivte":
+            case "Invite":
                 this.renderSolidIcon("fa-envelope");
                 break;
             case "Profile":
@@ -69,28 +68,14 @@ export default class KWM_Templater{
             default:
                 console.error("Default Case");
         }
-        /*let icons = document.getElementsByClassName(iconClass)
-        for (let icon of icons) {
-            icon.addEventListener("click", function (e) {
-                let target = e.target;
-                if(target.classList.contains("fa-regular")){
-                    console.info("regular icon");
-                    target.classList.remove("fa-regular");
-                    target.classList.add("fa-solid");
-                }
-                else if(target.classList.contains("fa-solid")){
-                    console.info("solid icon");
-                    target.classList.remove("fa-solid");
-                    target.classList.add("fa-regular");
-                }
-            })
-        }*/
     }
 
     removeSolidIcon(){
         let icons = document.getElementsByClassName("fa-solid");
         for(let solid of icons){
             solid.classList.remove("fa-solid");
+            solid.classList.remove("active");
+            solid.parentElement
             solid.classList.add("fa-regular");
         }
     }
@@ -100,6 +85,7 @@ export default class KWM_Templater{
         for(let icon of icons){
             icon.classList.remove("fa-regular");
             icon.classList.add("fa-solid");
+            icon.classList.add("active");
         }
     }
 }

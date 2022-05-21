@@ -7,6 +7,8 @@ import KWM_Route from '../js/kwm-route.js?v=0.2';
  *******************************************************************************/
 
 export let view = new KWM_Route("/profile", async function(){
+  kwm.templater.changeNavIcon("Profile");
+
   await this.rendering();
   btn_log_out.addEventListener("click", async function(e){
     window.localStorage.removeItem("token");

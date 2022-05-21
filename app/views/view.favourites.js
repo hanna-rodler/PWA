@@ -46,6 +46,7 @@ view.rendering = async function () {
   }*/
 
   // await kwm.templater.changeNavIcon("fa-heart");
+  await kwm.templater.changeNavIcon("Favorite");
 
   await kwm.templater.renderTemplate("favourites", document.getElementById("kwmJS"));
   let favorites = await kwm.model.getAllFavorites();

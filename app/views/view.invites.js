@@ -12,6 +12,8 @@ export let view = new KWM_Route("/invites", async function(){
 
 view.rendering = async function(){
   // kwm.templater.changeNavIcon("fa-envelope");
+  kwm.templater.changeNavIcon("Invite");
+
   await kwm.templater.renderTemplate("invites", document.getElementById("kwmJS"));
 
   let invitations = await kwm.model.getAllInvitations();

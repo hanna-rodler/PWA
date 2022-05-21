@@ -32,3 +32,12 @@ nav > ul {
 .fa-regular, .fa-solid {
   font-size: 1.3rem;
 }
+
+.navLink > i {
+  padding: 5px;
+}
+
+.active {
+  border-bottom: 2px solid $pink;
+  color: $pink;
+}

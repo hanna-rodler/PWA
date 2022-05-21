@@ -1,5 +1,4 @@
 <section id="main_content">
-    <h1>Dating Ideas</h1>
     <form action="">
         <div class="mb-3">
             <label for="idea_title" class="form-label">Title</label>

@@ -12,6 +12,7 @@ export let view = new KWM_Route("/ideas", async function(){
 
 view.rendering = async function(){
   // kwm.templater.changeNavIcon("fa-lightbulb");
+  kwm.templater.changeNavIcon("Idea");
 
   await kwm.templater.renderTemplate("ideas", document.getElementById("kwmJS"));
 
