@@ -41,7 +41,12 @@ view.rendering = async function(){
   }else {
     await kwm.templater.renderTemplate("profile", document.getElementById("kwmJS"));
   }*/
-  await kwm.templater.renderTemplate("profile", document.getElementById("kwmJS"));
+  let partner = kwm.model.getPartner();
+  let profileInfo={
+    "partner": partner.display_name,
+    "myName": localStorage.user_display_name
+  }
+  await kwm.templater.renderTemplate("profile", document.getElementById("kwmJS"), profileInfo);
 
 };
 
