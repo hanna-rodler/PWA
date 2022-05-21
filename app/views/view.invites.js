@@ -17,18 +17,18 @@ view.rendering = async function(){
   await kwm.templater.renderTemplate("invites", document.getElementById("kwmJS"));
 
   let invitations = await kwm.model.getAllInvitations();
-  console.table(invitations);
+  // console.table(invitations);
   for(let invite of invitations){
     let div = document.createElement("div");
     div.classList.add("invitation");
     // div.classList.add("card");
     div.classList.add("container");
     document.querySelector("#invitations").append(div);
-    console.log(invite);
-    console.info(invite.ph);
+    // console.log(invite);
+    // console.info(invite.ph);
     if(kwm.utils.isEmpty(invite.ph) || invite.ph === false){
       invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/love-letter.png";
-      console.log(invite.ph);
+      // console.log(invite.ph);
     }
     kwm.templater.renderTemplate("invites.invitation", div, invite);
   }
