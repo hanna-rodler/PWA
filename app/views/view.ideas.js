@@ -7,7 +7,7 @@ import KWM_Route from '../js/kwm-route.js?v=0.2';
  *******************************************************************************/
 
 export let view = new KWM_Route("/ideas", async function(){
-  await kwm.model.getAllWPDateIdeas();
+  await kwm.model.getAllDateIdeas();
   await this.rendering();
   let myUser = await kwm.model.getOwnUserId();
   let partner = await kwm.model.getPartner();
@@ -19,10 +19,10 @@ export let view = new KWM_Route("/ideas", async function(){
       let idea = fav.parentElement.parentElement.parentElement.parentElement;
       let id = idea.getAttribute("data-id");
       let heart = document.querySelector(".dateIdea[data-id='"+id+"'] .favs");
-      // console.log(idea);
-      // console.log(id);
-      // console.log(heart);
-      // console.log("Me: "+user1+" and my partner: "+user2.id);
+      /*console.log(idea);
+      console.log(id);
+      console.log(heart);
+      console.log("Me: "+user1+" and my partner: "+user2.id);*/
       console.log("Me: ",myUser, " Partner: ", partner.ID, " want to favorite Idea ", id);
 
       if(kwm.model.ideaIsFavorite(id)){

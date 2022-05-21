@@ -14,7 +14,7 @@ export default class KWM_Model {
     this.partnerFavorites = [];
   }
 
-  getAllDateIdeas() {
+  getAllACFDateIdeas() {
     return new Promise(resolve => {
       fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/acf/v3/datingIdea')
       .then(response => response.json())
@@ -31,7 +31,7 @@ export default class KWM_Model {
     })
   }
 
-  getAllWPDateIdeas() {
+  getAllDateIdeas() {
     return new Promise(resolve => {
       fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea')
       .then(response => response.json())
