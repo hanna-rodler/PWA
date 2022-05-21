@@ -49,6 +49,25 @@ export default class KWM_Model {
     })
   }
 
+  getAllWPDateIdeas(){
+    return new Promise(resolve => {
+      fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea')
+      .then(response => response.json())
+      .then(data=>{
+        if(kwm.utils.isEmpty(this.dateIdeas)){
+          // console.table(data);
+          for(let idea of data){
+            // console.log(idea);
+            this.dateIdeas.push(idea);
+          }
+          //console.log("DateIdeas", this.dateIdeas);
+          resolve(this.dateIdeas);
+        }else
+          resolve(this.dateIdeas);
+      })
+    })
+  }
+
   getAllInvitations(){
     return new Promise(resolve => {
       fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/acf/v3/invitation')
@@ -136,6 +155,7 @@ export default class KWM_Model {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("user_display_name");
     window.localStorage.removeItem("partner");
+    window.localStorage.removeItem("favoriteIdeas");
     // form_login.classList.remove("display")
     login_state.classList.add("red");
     user_display_name.innerHTML = " ";
@@ -144,14 +164,44 @@ export default class KWM_Model {
     password.value="";
   }
 
-/*  async getAllPets2(){
-    const response = await fetch('https://api.neuwersch.kwmhgb.at/wp-json/acf/v3/kwm_pet');
-    console.log(response);
-    for(let pet of response){
-      this.pets.push(pet.acf);
-    }
+  /**
+   * Receives an id and returns, whether or not this id is already a favourite.
+   * @param id
+   */
+  ideaIsFavorite(id){
+    if(!kwm.utils.isEmpty(localStorage.favoriteIdeas))
+      return JSON.parse(localStorage.favoriteIdeas).includes(id);
+    return false;
+  }
 
-    console.log("Pets:", this.pets);
-  }*/
+  /**
+   * If the idea is NOT already a favourite, then add it.
+   * @param id
+   */
+  addFavoriteIdea(id){
+    if (kwm.utils.isEmpty(localStorage.favoriteIdeas)) {
+      let favoriteIdeas = [id];
+      localStorage.favoriteIdeas = JSON.stringify(favoriteIdeas);
+    } else {
+      let favIdeas = JSON.parse(localStorage.favoriteIdeas);
+      favIdeas.push(id);
+      localStorage.favoriteIdeas = JSON.stringify(favIdeas);
+    }
+  }
+
+  /**
+   * if the idea is a favourite, change that.
+   * @param id
+   */
+  removeFavouritePet(id) {
+    let favIdeas = JSON.parse(localStorage.favoriteIdeas);
+    // console.log("removing idea " + id);
+    let index = favIdeas.indexOf(id);
+    // console.log(index);
+    favIdeas.splice(index, 1);
+    localStorage.favoriteIdeas = JSON.stringify(favIdeas);
+    console.info(localStorage.favoriteIdeas);
+    // localStorage.favIdeas.
+  }
 
 }

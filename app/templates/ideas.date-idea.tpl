@@ -6,7 +6,11 @@
         <img src="<&>image<&>" alt=""  height="100" class="rounded img-fluid my-2">
     </div>-->
     <div class="col-md-9 col-8 flex-center-start-column">
-        <h2 class="pt-3"><&>title<&></h2>
+        <div class="row d-flex align-items-baseline justify-content-between">
+            <h2 class="pt-3"><&>title<&></h2>
+            <i class="fa-regular fa-heart favs"></i>
+            <!--{*TODO: style*}-->
+        </div>
         <a href="<&>link<&>" target="_blank" class="d-flex mb-2"><&>link<&></a>
         <p><&>description<&></p>
     </div>

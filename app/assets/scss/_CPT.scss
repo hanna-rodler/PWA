@@ -42,3 +42,13 @@
   word-break: break-all;
 }
 
+.favs:hover{
+  color: $pink;
+  cursor: pointer;
+}
+
+.favs.fa-heart.fa-solid{
+  color:$pink;
+
+}
+

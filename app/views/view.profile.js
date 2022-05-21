@@ -31,11 +31,17 @@ export let view = new KWM_Route("/profile", async function(){
 });
 
 view.rendering = async function(){
-  let partner = kwm.model.getPartner();
-  let profileInfo={
-    "partner": partner.display_name
-  }
-  await kwm.templater.renderTemplate("profile", document.getElementById("kwmJS"), profileInfo);
+/*  if(!kwm.utils.isEmpty(localStorage.partner)){
+    let partner = kwm.model.getPartner();
+    let profileInfo={
+      "partner": partner.display_name
+    }
+    await kwm.templater.renderTemplate("profile", document.getElementById("kwmJS"), profileInfo);
+  }else {
+    await kwm.templater.renderTemplate("profile", document.getElementById("kwmJS"));
+  }*/
+  await kwm.templater.renderTemplate("profile", document.getElementById("kwmJS"));
+
 };
 
 view.renderLoginForm = async function(){
