@@ -1,4 +1,4 @@
-.dateIdea{
+.dateIdea, .favorite{
   background-color: white;
   padding: 0.1rem 1rem;
   border-radius: 20px;
@@ -50,5 +50,9 @@
 .favs.fa-heart.fa-solid{
   color:$pink;
 
+}
+
+.favs.fa-solid:hover{
+  color: lighten($pink, 30%);
 }
 

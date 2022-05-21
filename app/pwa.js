@@ -128,6 +128,7 @@ btn_submit_invite.addEventListener("click", async function (e) {
   }).then(response => response.json())
   .then(posts => {
     // renderPosts([posts]);
+    //TODO: render posts?
     invite_title.value = "";
     invite_text.value = "";
   });

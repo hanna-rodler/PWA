@@ -8,12 +8,12 @@ import KWM_Route from '../js/kwm-route.js?v=0.2';
 
 export let view = new KWM_Route("/ideas", async function(){
   await kwm.model.getAllWPDateIdeas();
-  console.log("got date Ideas")
   await this.rendering();
-  console.log("rendered template");
+  let myUser = await kwm.model.getOwnUserId();
+  let partner = await kwm.model.getPartner();
 
   let favs = document.getElementsByClassName("favs");
-  console.log(favs);
+  // console.log(favs);
   for(let fav of favs){
     fav.addEventListener("click", function(){
       let idea = fav.parentElement.parentElement.parentElement.parentElement;
@@ -22,11 +22,17 @@ export let view = new KWM_Route("/ideas", async function(){
       // console.log(idea);
       // console.log(id);
       // console.log(heart);
+      // console.log("Me: "+user1+" and my partner: "+user2.id);
+      console.log("Me: ",myUser, " Partner: ", partner.ID, " want to favorite Idea ", id);
+
       if(kwm.model.ideaIsFavorite(id)){
-        kwm.model.removeFavouritePet(id);
+        kwm.model.deleteIdeaFromFavorites(idea.getAttribute("data-parent"));
+        // TODO: delte idea from favorites but don't delete Idea
+        kwm.model.removeFavouriteIdea(id);
         heart.classList.remove("fa-solid");
         heart.classList.add("fa-regular");
       }else {
+        kwm.model.addIdeaToFavorites(myUser, partner, id);
         kwm.model.addFavoriteIdea(id);
         heart.classList.remove("fa-regular");
         heart.classList.add("fa-solid");
@@ -92,4 +98,6 @@ view.rendering = async function(){
     // TODO: check if values are empty.
     kwm.templater.renderTemplate("ideas.date-idea", ideaBox, idea);
   }*/
+
+
 };
