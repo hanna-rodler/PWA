@@ -34,7 +34,7 @@ export default class KWM_Router{
 
     changeView(){
         if (window.location.hash.length >= 2) {
-            console.log(this.routes);
+            // console.log(this.routes);
 
             for (const route of this.routes) {
                 if (route.isActive()){

@@ -62,7 +62,6 @@ export default class KWM_Templater{
                 this.renderSolidIcon("fa-envelope");
                 break;
             case "Profile":
-                console.log("Profile");
                 this.renderSolidIcon("fa-user");
                 break;
             default:

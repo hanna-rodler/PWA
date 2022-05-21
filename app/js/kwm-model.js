@@ -98,6 +98,52 @@ export default class KWM_Model {
     }
   }
 
+  getPartner(){
+    if(!kwm.utils.isEmpty(localStorage.partner)){
+      return JSON.parse(localStorage.partner);
+    }
+    else{
+      savePartner();
+    }
+  }
+
+  savePartner(){
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer " + window.localStorage.getItem("token"));
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+
+    fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/users/me", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      // console.table(result);
+      console.log(result.acf.partner);
+      console.log(result.acf.partner.ID);
+      let partner = {
+        "ID": result.acf.partner.ID,
+        "display_name": result.acf.partner.display_name,
+        "nickname": result.acf.partner.nickname
+      }
+      window.localStorage.setItem("partner", JSON.stringify(partner));
+    })
+    .catch(error => console.log('error', error));
+  }
+
+  logOut(){
+    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("user_display_name");
+    window.localStorage.removeItem("partner");
+    // form_login.classList.remove("display")
+    login_state.classList.add("red");
+    user_display_name.innerHTML = " ";
+    form_login.style.display = "flex";
+    username.value="";
+    password.value="";
+  }
+
 /*  async getAllPets2(){
     const response = await fetch('https://api.neuwersch.kwmhgb.at/wp-json/acf/v3/kwm_pet');
     console.log(response);

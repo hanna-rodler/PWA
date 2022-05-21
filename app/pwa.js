@@ -21,6 +21,7 @@ if (window.localStorage.getItem("token")) {
   // btn_login.removeEventListener("click");
   btn_login.addEventListener("click", function (e) {
     e.preventDefault(); // prevent Submit of Form
+    console.info("log in");
 
     let credentials = {
       username: username.value,
@@ -45,13 +46,54 @@ if (window.localStorage.getItem("token")) {
         window.localStorage.setItem("token", response.token)
         window.localStorage.setItem("user_display_name", response.user_display_name);
         login_state.classList.remove("red");
+        savePartner();
+        // let partner = getPartner();
+        // console.log(partner);
         user_display_name.innerHTML = "Willkommen zurück, " +
-          window.localStorage.getItem("user_display_name") + "!";
+          window.localStorage.getItem("user_display_name")+"!";
+        /*user_display_name.innerHTML = "Willkommen zurück, " +
+          window.localStorage.getItem("user_display_name") + " with partner " +
+          partner.display_name + "!";*/
         form_login.style.display = "none";
         // frm_submit_post.classList.add("visible");
       }
     )
   });
+}
+
+function getPartner() {
+  if (!kwm.utils.isEmpty(localStorage.partner)) {
+    console.log("partner not empty");
+    // console.log(JSON.parse(localStorage.partner));
+    return JSON.parse(localStorage.partner);
+  } else {
+    savePartner();
+    return JSON.parse(localStorage.partner);
+  }
+}
+
+function savePartner() {
+  let myHeaders = new Headers();
+  myHeaders.append("Authorization", "Bearer " + window.localStorage.getItem("token"));
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/users/me", requestOptions)
+  .then(response => response.json())
+  .then(result => {
+    // console.log(result.acf.partner);
+    // console.log(result.acf.partner.ID);
+    let partner = {
+      "ID": result.acf.partner.ID,
+      "display_name": result.acf.partner.display_name,
+      "nickname": result.acf.partner.nickname
+    }
+    window.localStorage.setItem("partner", JSON.stringify(partner));
+  })
+  .catch(error => console.log('error', error));
 }
 
 /** POST Abschicken**/
@@ -72,10 +114,10 @@ btn_submit_invite.addEventListener("click", async function (e) {
   fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/invitation", {
     method: "POST",
     headers: {
-      "Content-Type" : 'application/json',
-      "Authorization" : "Bearer "+window.localStorage.getItem("token"),
+      "Content-Type": 'application/json',
+      "Authorization": "Bearer " + window.localStorage.getItem("token"),
     },
-    body : JSON.stringify(post)
+    body: JSON.stringify(post)
   }).then(function (response) {
     if (response.status !== 201) {
       alert("Fehlgeschlagen: " + response.status);
@@ -120,8 +162,6 @@ async function uploadMedia() {
   })
 
 }
-
-
 
 
 /*** PAGINATION***/
