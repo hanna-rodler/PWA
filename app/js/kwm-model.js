@@ -137,13 +137,10 @@ export default class KWM_Model {
     window.localStorage.removeItem("user_display_name");
     window.localStorage.removeItem("partner");
     window.localStorage.removeItem("favoriteIdeas");
-    // form_login.classList.remove("display")
-    // login_state.classList.add("red");
     user_display_name.innerHTML = " ";
     form_login.style.display = "flex";
     headerNav.classList.add("hidden");
     document.querySelector("#main_content").remove();
-    // kwmJS.classList.add("hidden");
     username.value = "";
     password.value = "";
   }

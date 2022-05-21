@@ -11,13 +11,11 @@ if ('serviceWorker' in navigator) {
 
 // Hab ich schon einen Token?
 if (window.localStorage.getItem("token")) {
-  // login_state.classList.remove("red");
   user_display_name.innerHTML = "Willkommen zurück, " +
     window.localStorage.getItem("user_display_name") + "!";
   form_login.style.display = "none";
   headerNav.classList.remove("hidden");
   kwmJS.classList.remove("hidden");
-  // frm_submit_post.classList.add("visible");
 } else {
   // Bin leider nicht eingeloggt
   // btn_login.removeEventListener("click");
@@ -47,7 +45,6 @@ if (window.localStorage.getItem("token")) {
     .then(response => {
         window.localStorage.setItem("token", response.token)
         window.localStorage.setItem("user_display_name", response.user_display_name);
-        // login_state.classList.remove("red");
         savePartner();
         // let partner = getPartner();
         // console.log(partner);
@@ -57,7 +54,6 @@ if (window.localStorage.getItem("token")) {
         headerNav.classList.remove("hidden");
         kwmJS.classList.remove("hidden");
         kwm.router.changeView();
-        // frm_submit_post.classList.add("visible");
       }
     )
   });
