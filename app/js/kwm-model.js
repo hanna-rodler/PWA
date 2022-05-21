@@ -77,26 +77,6 @@ export default class KWM_Model {
     })
   }
 
-/*  getAllFavorites() {
-    return new Promise(resolve => {
-      fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/acf/v3/favorite')
-      .then(response => response.json())
-      .then(data => {
-        if (kwm.utils.isEmpty(this.favorites)) {
-          for (let favorite of data) {
-            /!*this.favorites.push(favorite.acf.user_1.ID);
-            this.favorites.push(favorite.acf.user_2.ID);
-            this.favorites.push(favorite.acf.idea);*!/
-            this.favorites.push(favorite.acf);
-          }
-          console.log("Favorites", this.favorites);
-          resolve(this.favorites);
-        } else
-          resolve(this.favorites);
-      })
-    })
-  }*/
-
   getMyFavorites(myUser){
     return new Promise(resolve => {
       fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/favorite')
@@ -117,16 +97,6 @@ export default class KWM_Model {
           resolve(this.favorites);
       })
     })
-  }
-
-  getFavorites() {
-    console.info("getting favorites");
-    for (let fav of this.favorites) {
-      let userId = window.localStorage.getItem("user_display_name");
-      if (fav.user_1 === userId || fav.user_2 === userId) {
-        console.log(fav);
-      }
-    }
   }
 
   getPartner() {
@@ -185,9 +155,6 @@ export default class KWM_Model {
     return false;
   }
 
-  ideaIsFavoriteIdeaM(id){
-    return
-  }
 
   /**
    * If the idea is NOT already a favourite, then add it.
@@ -218,24 +185,6 @@ export default class KWM_Model {
     // console.info(localStorage.favoriteIdeas);
   }
 
-  /*getOwnUserId(){
-    let myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + window.localStorage.getItem("token"));
-    var requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-      redirect: 'follow'
-    };
-
-    fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/users/me", requestOptions)
-    .then(response => response.json())
-    .then(result => {
-      // console.table(result);
-      console.log(result.id);
-      return result.id;
-    })
-    .catch(error => console.log('error', error));
-  }*/
 
   getOwnUserId() {
     let myHeaders = new Headers();
