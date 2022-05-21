@@ -33,6 +33,7 @@ export default class KWM_Router{
     }
 
     changeView(){
+        user_display_name.classList.add("hidden");
         if (window.location.hash.length >= 2) {
             // console.log(this.routes);
 

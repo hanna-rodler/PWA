@@ -11,10 +11,12 @@ if ('serviceWorker' in navigator) {
 
 // Hab ich schon einen Token?
 if (window.localStorage.getItem("token")) {
-  login_state.classList.remove("red");
+  // login_state.classList.remove("red");
   user_display_name.innerHTML = "Willkommen zurück, " +
     window.localStorage.getItem("user_display_name") + "!";
   form_login.style.display = "none";
+  headerNav.classList.remove("hidden");
+  kwmJS.classList.remove("hidden");
   // frm_submit_post.classList.add("visible");
 } else {
   // Bin leider nicht eingeloggt
@@ -45,16 +47,16 @@ if (window.localStorage.getItem("token")) {
     .then(response => {
         window.localStorage.setItem("token", response.token)
         window.localStorage.setItem("user_display_name", response.user_display_name);
-        login_state.classList.remove("red");
+        // login_state.classList.remove("red");
         savePartner();
         // let partner = getPartner();
         // console.log(partner);
         user_display_name.innerHTML = "Willkommen zurück, " +
-          window.localStorage.getItem("user_display_name")+"!";
-        /*user_display_name.innerHTML = "Willkommen zurück, " +
-          window.localStorage.getItem("user_display_name") + " with partner " +
-          partner.display_name + "!";*/
+          window.localStorage.getItem("user_display_name") + "!";
         form_login.style.display = "none";
+        headerNav.classList.remove("hidden");
+        kwmJS.classList.remove("hidden");
+        kwm.router.changeView();
         // frm_submit_post.classList.add("visible");
       }
     )
@@ -63,16 +65,14 @@ if (window.localStorage.getItem("token")) {
 
 function getPartner() {
   if (!kwm.utils.isEmpty(localStorage.partner)) {
-    console.log("partner not empty");
     // console.log(JSON.parse(localStorage.partner));
     return JSON.parse(localStorage.partner);
   } else {
     savePartner();
-    return JSON.parse(localStorage.partner);
   }
 }
 
-function savePartner() {
+async function savePartner() {
   let myHeaders = new Headers();
   myHeaders.append("Authorization", "Bearer " + window.localStorage.getItem("token"));
   var requestOptions = {
@@ -128,7 +128,6 @@ btn_submit_invite.addEventListener("click", async function (e) {
   }).then(response => response.json())
   .then(posts => {
     // renderPosts([posts]);
-    //TODO: render posts?
     invite_title.value = "";
     invite_text.value = "";
   });

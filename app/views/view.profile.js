@@ -8,25 +8,26 @@ import KWM_Route from '../js/kwm-route.js?v=0.2';
  *******************************************************************************/
 
 export let view = new KWM_Route("/profile", async function(){
-  kwm.templater.changeNavIcon("Profile");
+  if(window.localStorage.getItem("token")) {
+    kwm.templater.changeNavIcon("Profile");
 
-
-  await this.rendering();
-  btn_log_out.addEventListener("click", async function(e){
-    kwm.model.logOut();
-    /*window.localStorage.removeItem("token");
-    window.localStorage.removeItem("user_display_name");
-    window.localStorage.removeItem("partner");
-    // form_login.classList.remove("display")
-    login_state.classList.add("red");
-    user_display_name.innerHTML = " ";
-    form_login.style.display = "flex";
-    username.value="";
-    password.value="";*/
-  });
-  /*let p = document.createElement("p");
-  p.innerHTML = "Your partner is: "+partner.display_name;
-  document.getElementById("kwmJS").append(p);*/
+    await this.rendering();
+    btn_log_out.addEventListener("click", async function (e) {
+      kwm.model.logOut();
+      /*window.localStorage.removeItem("token");
+      window.localStorage.removeItem("user_display_name");
+      window.localStorage.removeItem("partner");
+      // form_login.classList.remove("display")
+      login_state.classList.add("red");
+      user_display_name.innerHTML = " ";
+      form_login.style.display = "flex";
+      username.value="";
+      password.value="";*/
+    });
+    /*let p = document.createElement("p");
+    p.innerHTML = "Your partner is: "+partner.display_name;
+    document.getElementById("kwmJS").append(p);*/
+  }
 
 });
 

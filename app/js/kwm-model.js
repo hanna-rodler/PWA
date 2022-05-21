@@ -50,12 +50,12 @@ export default class KWM_Model {
     })
   }
 
-  getDateIdeaById(id){
+  getDateIdeaById(id) {
     return new Promise(resolve => {
-      fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea/'+id)
+      fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea/' + id)
       .then(response => response.json())
       .then(data => {
-          resolve(data);
+        resolve(data);
       })
     })
   }
@@ -77,7 +77,7 @@ export default class KWM_Model {
     })
   }
 
-  getMyFavorites(myUser){
+  getMyFavorites(myUser) {
     return new Promise(resolve => {
       fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/favorite')
       .then(response => response.json())
@@ -87,7 +87,7 @@ export default class KWM_Model {
             /*this.favorites.push(favorite.acf.user_1.ID);
             this.favorites.push(favorite.acf.user_2.ID);
             this.favorites.push(favorite.acf.idea);*/
-            if(favorite.acf.user_1 === myUser || favorite.acf.user_2===myUser){
+            if (favorite.acf.user_1 === myUser || favorite.acf.user_2 === myUser) {
               this.favorites.push(favorite);
             }
           }
@@ -138,9 +138,12 @@ export default class KWM_Model {
     window.localStorage.removeItem("partner");
     window.localStorage.removeItem("favoriteIdeas");
     // form_login.classList.remove("display")
-    login_state.classList.add("red");
+    // login_state.classList.add("red");
     user_display_name.innerHTML = " ";
     form_login.style.display = "flex";
+    headerNav.classList.add("hidden");
+    document.querySelector("#main_content").remove();
+    // kwmJS.classList.add("hidden");
     username.value = "";
     password.value = "";
   }
@@ -205,7 +208,7 @@ export default class KWM_Model {
     })
   }
 
-  addIdeaToFavorites(myUser, partner, ideaID){
+  addIdeaToFavorites(myUser, partner, ideaID) {
     let post = {
       title: ideaID,
       fields: {
@@ -223,26 +226,26 @@ export default class KWM_Model {
         "Authorization": "Bearer " + window.localStorage.getItem("token"),
       },
       body: JSON.stringify(post)
-    }).then(function (response){
-      if(response.status!==201){
-        alert("Fehgeschlagen "+response.status);
+    }).then(function (response) {
+      if (response.status !== 201) {
+        alert("Fehgeschlagen " + response.status);
         console.error(response);
         return false;
       }
       console.log(response);
       return response;
-    }).then(response=>response.json())
+    }).then(response => response.json())
     .then(result => {
-      let el = document.querySelector(".dateIdea[data-id='"+ideaID+"']");
+      let el = document.querySelector(".dateIdea[data-id='" + ideaID + "']");
       console.log(el);
       el.dataset.parent = result.id;
     });
   }
 
-  deleteIdeaFromFavorites(ideaID){
+  deleteIdeaFromFavorites(ideaID) {
     console.log("deleting idea ", ideaID);
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer "+window.localStorage.getItem("token"));
+    myHeaders.append("Authorization", "Bearer " + window.localStorage.getItem("token"));
 
     var requestOptions = {
       method: 'DELETE',
@@ -254,7 +257,8 @@ export default class KWM_Model {
     this.favorites.splice(index, 1);
     // console.table(this.favorites);
 
-    fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/favorite/"+ideaID, requestOptions)
+    fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/favorite/" +
+      ideaID, requestOptions)
     .then(response => response.json())
     .catch(error => console.log('error', error));
   }

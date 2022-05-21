@@ -6,11 +6,13 @@ import KWM_Route from '../js/kwm-route.js?v=0.2';
  *     KWM - 2022-03-26
  *******************************************************************************/
 
-export let view = new KWM_Route("/invites", async function(){
-  await this.rendering();
+export let view = new KWM_Route("/invites", async function () {
+  if (window.localStorage.getItem("token")) {
+    await this.rendering();
+  }
 });
 
-view.rendering = async function(){
+view.rendering = async function () {
   // kwm.templater.changeNavIcon("fa-envelope");
   kwm.templater.changeNavIcon("Invite");
 
@@ -18,7 +20,7 @@ view.rendering = async function(){
 
   let invitations = await kwm.model.getAllInvitations();
   // console.table(invitations);
-  for(let invite of invitations){
+  for (let invite of invitations) {
     let div = document.createElement("div");
     div.classList.add("invitation");
     // div.classList.add("card");
@@ -26,7 +28,7 @@ view.rendering = async function(){
     document.querySelector("#invitations").append(div);
     // console.log(invite);
     // console.info(invite.ph);
-    if(kwm.utils.isEmpty(invite.ph) || invite.ph === false){
+    if (kwm.utils.isEmpty(invite.ph) || invite.ph === false) {
       invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/love-letter.png";
       // console.log(invite.ph);
     }
@@ -50,10 +52,10 @@ view.rendering = async function(){
     fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/invitation", {
       method: "POST",
       headers: {
-        "Content-Type" : 'application/json',
-        "Authorization" : "Bearer "+window.localStorage.getItem("token"),
+        "Content-Type": 'application/json',
+        "Authorization": "Bearer " + window.localStorage.getItem("token"),
       },
-      body : JSON.stringify(post)
+      body: JSON.stringify(post)
     }).then(function (response) {
       if (response.status !== 201) {
         alert("Fehlgeschlagen: " + response.status);
