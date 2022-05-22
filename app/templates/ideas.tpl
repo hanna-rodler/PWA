@@ -20,10 +20,21 @@
         </div>
         <div class="mb-3">
             <label for="idea_link" class="form-label">Link</label>
-            <input type="url" id="idea_link" name="homepage" class="form-control">
+            <input type="text" id="idea_link" name="homepage" class="form-control">
         </div>
         <div class="mb-3">
             <input type="file" value="media" id="post_media" class="form-control">
+        </div>
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+            Default checkbox
+        </label>
+        </div>
+        <div class="mb-3">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+            <label class="form-check-label" for="flexCheckChecked">
+                Checked checkbox
+            </label>
         </div>
         <button type="submit" value="Abschicken" id="btn_submit_idea" class="myBtn-primary">Senden&nbsp;&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
     </form>

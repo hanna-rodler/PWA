@@ -54,10 +54,7 @@ export let view = new KWM_Route("/ideas", async function () {
           title: idea_title.value,
           description: idea_description.value,
           image: img_id,
-          link: {
-            Url:  idea_link.value,
-            Description: idea_link.value
-          }
+          link: idea_link.value
         },
         status: "publish"
       };
@@ -81,9 +78,9 @@ export let view = new KWM_Route("/ideas", async function () {
         idea_title.value = "";
         idea_description.value = "";
         idea_link.value="";
-        kwm.router.changeView();
+        // kwm.router.changeView();
         //TODO: bessere Lösung?
-        // location.reload(true);
+        location.reload(true);
       });
     });
   }
