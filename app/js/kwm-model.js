@@ -120,8 +120,8 @@ export default class KWM_Model {
     .then(response => response.json())
     .then(result => {
       // console.table(result);
-      console.log(result.acf.partner);
-      console.log(result.acf.partner.ID);
+      // console.log(result.acf.partner);
+      // console.log(result.acf.partner.ID);
       let partner = {
         "ID": result.acf.partner.ID,
         "display_name": result.acf.partner.display_name,
@@ -205,6 +205,14 @@ export default class KWM_Model {
     })
   }
 
+  // TODO: write so it finds favorites without local Storage
+  ideaIsFavoritePost(id){
+    if(kwm.utils.isEmpty(this.favorites)){
+      this.getMyFavorites(this.getOwnUserId());
+    }
+
+  }
+
   addIdeaToFavorites(myUser, partner, ideaID) {
     let post = {
       title: ideaID,
@@ -258,5 +266,55 @@ export default class KWM_Model {
       ideaID, requestOptions)
     .then(response => response.json())
     .catch(error => console.log('error', error));
+  }
+
+
+  async uploadMedia() {
+    let img_id = "";
+    return new Promise(async function (resolve, reject) {
+      const media = document.getElementById("post_media");
+      console.warn("Media: ", media);
+      const formData = new FormData();
+      formData.append("file", media.files[0]);
+      await fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/media", {
+        method: "POST",
+        headers: {
+          //when using FormData(), the
+          //'Content-Type' will automatically be set to 'form/multipart'
+          //so there's no need to set it here
+          "Authorization": "Bearer " + window.localStorage.getItem("token")
+        },
+        body: formData
+      }).then(response => response.json())
+      .then(data => {
+        img_id = data.id;
+        resolve(img_id);
+      })
+      .catch(err => {
+        reject(err);
+      });
+      resolve(img_id);
+    })
+
+  }
+
+  async getHeader(){
+    return {
+      "Content-Type": 'application/json',
+      "Authorization": "Bearer " + window.localStorage.getItem("token"),
+    }
+  }
+
+  async getRequestOptions(post){
+    let requestOptions = {
+      method: 'POST',
+      headers: {
+        "Content-Type": 'application/json',
+        "Authorization": "Bearer " + window.localStorage.getItem("token"),
+      },
+      redirect: 'follow',
+      body: JSON.stringify(post)
+    };
+    return requestOptions;
   }
 }

@@ -93,7 +93,7 @@ async function savePartner() {
 }
 
 /** POST Abschicken**/
-btn_submit_invite.addEventListener("click", async function (e) {
+/*btn_submit_invite.addEventListener("click", async function (e) {
   e.preventDefault();
   let img_id = await uploadMedia();
   console.warn("IMG ID:", img_id);
@@ -128,7 +128,7 @@ btn_submit_invite.addEventListener("click", async function (e) {
     invite_text.value = "";
   });
 
-});
+});*/
 
 async function uploadMedia() {
   let img_id = "";

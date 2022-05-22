@@ -8,13 +8,15 @@ import KWM_Route from '../js/kwm-route.js?v=0.2';
 
 export let view = new KWM_Route("/ideas", async function () {
   if (window.localStorage.getItem("token")) {
-    await kwm.model.getAllDateIdeas();
+    // await kwm.model.getAllDateIdeas();
     await this.rendering();
     let myUser = await kwm.model.getOwnUserId();
     let partner = await kwm.model.getPartner();
 
     let favs = document.getElementsByClassName("favs");
     // console.log(favs);
+
+    // event listener for favoriting post.
     for (let fav of favs) {
       fav.addEventListener("click", function () {
         let idea = fav.parentElement.parentElement.parentElement.parentElement;
@@ -40,20 +42,64 @@ export let view = new KWM_Route("/ideas", async function () {
         }
       });
     }
+
+    btn_submit_idea.addEventListener("click", async function (e) {
+      e.preventDefault();
+      let img_id = await kwm.model.uploadMedia();
+      // console.warn("IMG ID: ", img_id);
+      console.log(idea_link.value);
+      let post = {
+        title: idea_title.value,
+        fields: {
+          title: idea_title.value,
+          description: idea_description.value,
+          image: img_id,
+          link: {
+            Url:  idea_link.value,
+            Description: idea_link.value
+          }
+        },
+        status: "publish"
+      };
+      console.log("POST ", post);
+
+      fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea", {
+        method: "POST",
+        headers: await kwm.model.getHeader(),
+        body: JSON.stringify(post)
+      }).then(function (response) {
+        if (response.status !== 201) {
+          alert("Fehlgeschlagen: " + response.status);
+          console.error(response);
+          return false;
+        }
+        return response;
+      }).then(response => response.json())
+      .then(posts => {
+        console.log(posts);
+        kwm.model.dateIdeas.push(posts);
+        idea_title.value = "";
+        idea_description.value = "";
+        idea_link.value="";
+        kwm.router.changeView();
+        //TODO: bessere Lösung?
+        // location.reload(true);
+      });
+    });
   }
 
 });
 
 view.rendering = async function () {
-  // kwm.templater.changeNavIcon("fa-lightbulb");
   kwm.templater.changeNavIcon("Idea");
 
   await kwm.templater.renderTemplate("ideas", document.getElementById("kwmJS"));
-
+  // await kwm.model.getAllDateIdeas();
+  await kwm.model.getAllDateIdeas();
   let ideas = kwm.model.dateIdeas;
   // console.table(ideas);
   for (let idea of ideas) {
-    let ideaBox = document.createElement("div");
+    /*let ideaBox = document.createElement("div");
     ideaBox.classList.add("dateIdea");
     ideaBox.dataset.id = idea.id;
     // ideaBox.classList.add("card");
@@ -68,7 +114,8 @@ view.rendering = async function () {
     if (kwm.utils.isEmpty(idea.link)) {
       idea.link = "";
     }
-    await kwm.templater.renderTemplate("ideas.date-idea", ideaBox, idea);
+    await kwm.templater.renderTemplate("ideas.date-idea", ideaBox, idea);*/
+    await this.renderPost(idea);
   }
 
   if (!kwm.utils.isEmpty(localStorage.favoriteIdeas)) {
@@ -103,3 +150,24 @@ view.rendering = async function () {
 
 
 };
+
+view.renderPost = async function(idea){
+  console.log(idea);
+  // console.log("RENDERING POST");
+  let ideaBox = document.createElement("div");
+  ideaBox.classList.add("dateIdea");
+  ideaBox.dataset.id = idea.id;
+  // ideaBox.classList.add("card");
+  ideaBox.classList.add("container");
+  document.querySelector("#dateIdeas").append(ideaBox);
+  // console.log("Idea: ", idea);
+  idea = idea.acf;
+  // console.log("ACF idea: ", idea);
+  if (idea.image === false || kwm.utils.isEmpty(idea.image)) {
+    idea.image = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/anastasia-lysiak-3EY-p8uyNTg-unsplash_squareMini.jpg";
+  }
+  if (kwm.utils.isEmpty(idea.link)) {
+    idea.link = "";
+  }
+  await kwm.templater.renderTemplate("ideas.date-idea", ideaBox, idea);
+}
