@@ -65,18 +65,25 @@ export let view = new KWM_Route("/ideas", async function () {
       console.log(checkboxes);
       let checkboxArr = [];
       for (let checkbox of checkboxes) {
-        console.log(checkbox.value);
         checkboxArr.push(checkbox.value);
       }
-      console.log(checkboxArr);
+      // console.log(checkboxArr);
       // TODO: check if link contains https://
+      let linkUrl = ""
+      if(idea_link.value!==""||!kwm.utils.isEmpty(idea_link.value)){
+        if(idea_link.value.search("^https://")===-1){
+          console.log("no https//");
+          linkUrl="https://"+idea_link.value;
+          linkUrl = linkUrl.split(" ").join("");
+        }
+      }
       let post = {
         title: idea_title.value,
         fields: {
           title: idea_title.value,
           description: idea_description.value,
           image: img_id,
-          link: idea_link.value
+          link: linkUrl
         },
         status: "publish",
         categories: checkboxArr
@@ -103,7 +110,7 @@ export let view = new KWM_Route("/ideas", async function () {
         idea_link.value = "";
         // kwm.router.changeView();
         //TODO: bessere Lösung?
-        location.reload(true);
+        // location.reload(true);
       });
     });
 
