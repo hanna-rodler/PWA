@@ -87,4 +87,6 @@ export default class KWM_Templater{
             icon.classList.add("active");
         }
     }
+
+
 }

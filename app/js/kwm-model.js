@@ -305,7 +305,7 @@ export default class KWM_Model {
     }
   }
 
-  async getRequestOptions(post){
+/*  async getRequestOptions(post){
     let requestOptions = {
       method: 'POST',
       headers: {
@@ -316,5 +316,23 @@ export default class KWM_Model {
       body: JSON.stringify(post)
     };
     return requestOptions;
+  }*/
+
+  getCategoryName(id){
+    return new Promise(async function (resolve){
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+
+      fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/categories/"+id, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        // console.log("Category", data);
+        // console.log(data.name);
+        resolve(data.name);
+      })
+      .catch(error => console.log('error', error));
+    })
   }
 }

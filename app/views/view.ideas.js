@@ -43,11 +43,20 @@ export let view = new KWM_Route("/ideas", async function () {
       });
     }
 
+    /* POST idea*/
     btn_submit_idea.addEventListener("click", async function (e) {
       e.preventDefault();
       let img_id = await kwm.model.uploadMedia();
       // console.warn("IMG ID: ", img_id);
-      console.log(idea_link.value);
+      // console.log(idea_link.value);
+      let checkboxes = document.querySelectorAll("input[type='checkbox']");
+      console.log(checkboxes);
+      let checkboxArr = [];
+      for (let checkbox of checkboxes) {
+        console.log(checkbox.value);
+        checkboxArr.push(checkbox.value);
+      }
+      console.log(checkboxArr);
       let post = {
         title: idea_title.value,
         fields: {
@@ -56,7 +65,8 @@ export let view = new KWM_Route("/ideas", async function () {
           image: img_id,
           link: idea_link.value
         },
-        status: "publish"
+        status: "publish",
+        categories: checkboxArr
       };
       console.log("POST ", post);
 
@@ -77,7 +87,7 @@ export let view = new KWM_Route("/ideas", async function () {
         kwm.model.dateIdeas.push(posts);
         idea_title.value = "";
         idea_description.value = "";
-        idea_link.value="";
+        idea_link.value = "";
         // kwm.router.changeView();
         //TODO: bessere Lösung?
         location.reload(true);
@@ -148,13 +158,23 @@ view.rendering = async function () {
 
 };
 
-view.renderPost = async function(idea){
-  console.log(idea);
+view.renderPost = async function (idea) {
   // console.log("RENDERING POST");
   let ideaBox = document.createElement("div");
   ideaBox.classList.add("dateIdea");
+  // ideaBox.classList.add(categoryNames);
   ideaBox.dataset.id = idea.id;
   // ideaBox.classList.add("card");
+  let categoryNames = " ";
+  if (!kwm.utils.isEmpty(idea.categories)) {
+    // console.log(idea);
+    // console.info(idea.categories);
+    for (let categorie of idea.categories) {
+      ideaBox.classList.add(await kwm.model.getCategoryName(categorie));
+      categoryNames += await kwm.model.getCategoryName(categorie) + "  ";
+    }
+    console.log(categoryNames);
+  }
   ideaBox.classList.add("container");
   document.querySelector("#dateIdeas").append(ideaBox);
   // console.log("Idea: ", idea);
@@ -165,6 +185,17 @@ view.renderPost = async function(idea){
   }
   if (kwm.utils.isEmpty(idea.link)) {
     idea.link = "";
+  }
+  console.log("Idea: ", idea);
+  if (!kwm.utils.isEmpty(categoryNames)){
+    let i = document.createElement("i");
+    // i.classList.add("fa-solid");
+    // i.classList.add("fa-tags");
+    // idea.categories= i + categoryNames;
+    idea.categories= categoryNames;
+    // console.log("Idea with Categories: ", idea);
+  } else {
+    idea.categories="";
   }
   await kwm.templater.renderTemplate("ideas.date-idea", ideaBox, idea);
 }

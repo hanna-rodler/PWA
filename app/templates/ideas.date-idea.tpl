@@ -13,5 +13,6 @@
         </div>
         <a href="<&>link<&>" target="_blank" class="d-flex mb-2"><&>link<&></a>
         <p><&>description<&></p>
+        <p class="categories"><i class="fa-solid fa-tags me-1"></i><&>categories<&></p>
     </div>
 </div>

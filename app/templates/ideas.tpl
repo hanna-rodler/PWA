@@ -25,18 +25,29 @@
         <div class="mb-3">
             <input type="file" value="media" id="post_media" class="form-control">
         </div>
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-        <label class="form-check-label" for="flexCheckDefault">
-            Default checkbox
-        </label>
-        </div>
-        <div class="mb-3">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-            <label class="form-check-label" for="flexCheckChecked">
-                Checked checkbox
+        <div class="mb-1">
+            <p class="mb-1">Categories:</p>
+            <input class="form-check-input" type="checkbox" name="categories[]" value="6" id="flexCheckDefault">
+            <label class="form-check-label me-2" name="categories[]" for="flexCheckDefault">
+                art
+            </label>
+            <input class="form-check-input" type="checkbox" name="categories[]" value="4" id="flexCheckChecked">
+            <label class="form-check-label me-2" for="flexCheckChecked">
+                games
             </label>
         </div>
-        <button type="submit" value="Abschicken" id="btn_submit_idea" class="myBtn-primary">Senden&nbsp;&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
+        <div class="mb-3">
+            <input class="form-check-input" type="checkbox" name="categories[]" value="5" id="flexCheckChecked">
+            <label class="form-check-label me-2" for="flexCheckChecked">
+                getting to know each other
+            </label>
+            <input class="form-check-input" type="checkbox" name="categories[]" value="7" id="flexCheckChecked">
+            <label class="form-check-label" for="flexCheckChecked">
+                movies
+            </label>
+        </div>
+        <button type="submit" value="Abschicken" id="btn_submit_idea" class="myBtn-primary">Senden&nbsp;&nbsp;<i
+                    class="fa-solid fa-paper-plane"></i></button>
     </form>
 
 
