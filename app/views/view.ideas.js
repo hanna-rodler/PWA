@@ -98,18 +98,53 @@ export let view = new KWM_Route("/ideas", async function () {
     addIdea.addEventListener("click", showIdeaForm);
     addIdea.addEventListener("touch", showIdeaForm);
 
-
+    document.querySelector("#categorySelect").addEventListener("change", function () {
+      console.log(this.value);
+      if (this.value === "no categories") {
+        showAllPosts();
+      } else {
+        filterByCategory(this.value);
+      }
+    })
   }
 
-  function showIdeaForm(){
+  function showIdeaForm() {
     ideaForm.classList.remove("hidden");
-    // addIdea.classList.remove("fa-plus");
-    // addIdea.classList.add("fa-minus");
-    addIdea.addEventListener("click", function (){
+    addIdea.addEventListener("click", function () {
       ideaForm.classList.add("hidden");
-      // addIdea.classList.add("fa-plus");
-      // addIdea.classList.remove("fa-minus");
     })
+  }
+
+  function filterByCategory(category) {
+    let filteredPosts = document.querySelectorAll("." + category);
+    // console.log(filteredPosts);
+    let noFound = document.querySelector("#noFound");
+    if (noFound !== null)
+      noFound.remove();
+    if (filteredPosts.length === 0) {
+      console.info("Sorry, no posts with category " + category + " found");
+      let p = document.createElement("p");
+      let text = document.createTextNode("Sorry, no posts with category " + category +
+        " found");
+      p.classList.add("mt-3");
+      p.id = "noFound";
+      p.appendChild(text);
+      dateIdeas.append(p);
+    }
+    let allPosts = document.querySelectorAll(".dateIdea");
+    for (let post of allPosts) {
+      post.classList.add("hidden");
+    }
+    for (let filteredPost of filteredPosts) {
+      filteredPost.classList.remove("hidden");
+    }
+  }
+
+  function showAllPosts() {
+    let allPosts = document.querySelectorAll(".dateIdea");
+    for (let post of allPosts) {
+      post.classList.remove("hidden");
+    }
   }
 
 });
@@ -193,7 +228,7 @@ view.renderPost = async function (idea) {
       // console.log(categoryName," has no white spcaes");
       ideaBox.classList.add(categoryName);
     }
-    console.log(categoryNames);
+    // console.log(categoryNames);
   }
   ideaBox.classList.add("container");
   document.querySelector("#dateIdeas").append(ideaBox);
@@ -206,16 +241,16 @@ view.renderPost = async function (idea) {
   if (kwm.utils.isEmpty(idea.link)) {
     idea.link = "";
   }
-  console.log("Idea: ", idea);
-  if (!kwm.utils.isEmpty(categoryNames)){
+  // console.log("Idea: ", idea);
+  if (!kwm.utils.isEmpty(categoryNames)) {
     /*let i = document.createElement("i");
     i.classList.add("fa-solid");
     i.classList.add("fa-tags");
     idea.categories= i + categoryNames;*/
-    idea.categories= categoryNames;
+    idea.categories = categoryNames;
     // console.log("Idea with Categories: ", idea);
   } else {
-    idea.categories="";
+    idea.categories = "";
   }
   await kwm.templater.renderTemplate("ideas.date-idea", ideaBox, idea);
 }

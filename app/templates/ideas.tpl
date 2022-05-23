@@ -1,17 +1,16 @@
 <section id="main_content">
-    <div class="ideaBar d-flex justify-content-evenly align-items-baseline">
-        <button class="myBtn-secondary">Filter Ideas</button>
+    <div class="ideaBar d-flex justify-content-between align-items-baseline">
         <!--{*        // TODO: align button right*}-->
-        <i class="fa-solid fa-plus d-flex ms-2" id="addIdea"></i>
-    </div>
-    <div class="filterBar hidden">
-        <select class="form-select" aria-label="Default select example">
-            <option selected>no categories</option>
-            <option value="art">art</option>
-            <option value="games">games</option>
-            <option value="gettingtoknoweachother">getting to know each other</option>
-            <option value="movies">movies</option>
-        </select>
+        <div class="filterBar" id="filterBar">
+            <select class="form-select" aria-label="Default select example" id="categorySelect">
+                <option selected value="no categories">no categories</option>
+                <option value="art">art</option>
+                <option value="games">games</option>
+                <option value="gettingtoknoweachother">getting to know each other</option>
+                <option value="movies">movies</option>
+            </select>
+        </div>
+        <i class="fa-solid fa-plus d-flex me-3" id="addIdea"></i>
     </div>
     <form action="" class="hidden" id="ideaForm">
         <div class="mb-3">
