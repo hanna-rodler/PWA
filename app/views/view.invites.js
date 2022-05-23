@@ -29,7 +29,8 @@ view.rendering = async function () {
     // console.log(invite);
     // console.info(invite.ph);
     if (kwm.utils.isEmpty(invite.ph) || invite.ph === false) {
-      invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/love-letter.png";
+      // invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/love-letter.png";
+      invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/closed-letter.png";
       // console.log(invite.ph);
     }
     kwm.templater.renderTemplate("invites.invitation", div, invite);
