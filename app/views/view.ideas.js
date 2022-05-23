@@ -49,7 +49,7 @@ export let view = new KWM_Route("/ideas", async function () {
       let img_id = await kwm.model.uploadMedia();
       // console.warn("IMG ID: ", img_id);
       // console.log(idea_link.value);
-      let checkboxes = document.querySelectorAll("input[type='checkbox']");
+      let checkboxes = document.querySelectorAll("input[type='checkbox']:checked");
       console.log(checkboxes);
       let checkboxArr = [];
       for (let checkbox of checkboxes) {
@@ -93,6 +93,23 @@ export let view = new KWM_Route("/ideas", async function () {
         location.reload(true);
       });
     });
+
+    // addIdea.removeEventListener("click");
+    addIdea.addEventListener("click", showIdeaForm);
+    addIdea.addEventListener("touch", showIdeaForm);
+
+
+  }
+
+  function showIdeaForm(){
+    ideaForm.classList.remove("hidden");
+    // addIdea.classList.remove("fa-plus");
+    // addIdea.classList.add("fa-minus");
+    addIdea.addEventListener("click", function (){
+      ideaForm.classList.add("hidden");
+      // addIdea.classList.add("fa-plus");
+      // addIdea.classList.remove("fa-minus");
+    })
   }
 
 });
@@ -165,13 +182,16 @@ view.renderPost = async function (idea) {
   // ideaBox.classList.add(categoryNames);
   ideaBox.dataset.id = idea.id;
   // ideaBox.classList.add("card");
-  let categoryNames = " ";
+  let categoryNames = "";
   if (!kwm.utils.isEmpty(idea.categories)) {
     // console.log(idea);
     // console.info(idea.categories);
-    for (let categorie of idea.categories) {
-      ideaBox.classList.add(await kwm.model.getCategoryName(categorie));
-      categoryNames += await kwm.model.getCategoryName(categorie) + "  ";
+    for (let categoryID of idea.categories) {
+      let categoryName = await kwm.model.getCategoryName(categoryID);
+      categoryNames += categoryName + ",  ";
+      categoryName = categoryName.split(" ").join("");
+      // console.log(categoryName," has no white spcaes");
+      ideaBox.classList.add(categoryName);
     }
     console.log(categoryNames);
   }
@@ -188,10 +208,10 @@ view.renderPost = async function (idea) {
   }
   console.log("Idea: ", idea);
   if (!kwm.utils.isEmpty(categoryNames)){
-    let i = document.createElement("i");
-    // i.classList.add("fa-solid");
-    // i.classList.add("fa-tags");
-    // idea.categories= i + categoryNames;
+    /*let i = document.createElement("i");
+    i.classList.add("fa-solid");
+    i.classList.add("fa-tags");
+    idea.categories= i + categoryNames;*/
     idea.categories= categoryNames;
     // console.log("Idea with Categories: ", idea);
   } else {

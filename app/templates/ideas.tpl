@@ -1,15 +1,19 @@
 <section id="main_content">
-    <!--<form action="">
-        <label for="idea_title">Titel</label>
-        <input type="text" id="idea_title"><br>
-        <label for="idea_description">Invite text:</label>
-        <textarea name="inviteText" id="idea_description" rows="5" cols="35"></textarea><br>
-        <label for="idea_link" class="form-label">Link</label>
-        <input type="url" id="idea_link" name="homepage" class="form-control"><br>
-        <label><input type="file" value="media" id="post_media"></label><br>
-        <button type="submit" value="Abschicken" id="btn_submit_invite" class="myBtn myBtn-primary">Senden&nbsp;&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
-    </form>-->
-    <form action="">
+    <div class="ideaBar d-flex justify-content-evenly align-items-baseline">
+        <button class="myBtn-secondary">Filter Ideas</button>
+        <!--{*        // TODO: align button right*}-->
+        <i class="fa-solid fa-plus d-flex ms-2" id="addIdea"></i>
+    </div>
+    <div class="filterBar hidden">
+        <select class="form-select" aria-label="Default select example">
+            <option selected>no categories</option>
+            <option value="art">art</option>
+            <option value="games">games</option>
+            <option value="gettingtoknoweachother">getting to know each other</option>
+            <option value="movies">movies</option>
+        </select>
+    </div>
+    <form action="" class="hidden" id="ideaForm">
         <div class="mb-3">
             <label for="idea_title" class="form-label">Title</label>
             <input type="text" class="form-control" id="idea_title">
@@ -46,8 +50,10 @@
                 movies
             </label>
         </div>
-        <button type="submit" value="Abschicken" id="btn_submit_idea" class="myBtn-primary">Senden&nbsp;&nbsp;<i
+        <button type="submit" value="Abschicken" id="btn_submit_idea" class="myBtn-primary">Send&nbsp;&nbsp;<i
                     class="fa-solid fa-paper-plane"></i></button>
+<!--{*        // TODO: align button right*}-->
+        <button value="Cancel" id="btn_cancel" class="myBtn">Cancel</button>
     </form>
 
 
