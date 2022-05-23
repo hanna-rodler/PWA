@@ -9,9 +9,19 @@ import KWM_Route from '../js/kwm-route.js?v=0.2';
 export let view = new KWM_Route("/ideas", async function () {
   if (window.localStorage.getItem("token")) {
     // await kwm.model.getAllDateIdeas();
-    await this.rendering();
     let myUser = await kwm.model.getOwnUserId();
+    await kwm.model.getMyFavorites(myUser);
     let partner = await kwm.model.getPartner();
+    await this.rendering();
+
+    // add hearts to ideas that are favorites
+    for(let idea of kwm.model.dateIdeas){
+      if(kwm.model.ideaIsFavorite(idea.id)){
+        let heart = document.querySelector(".dateIdea[data-id='" + idea.id + "'] .favs");
+        heart.classList.add("fa-solid");
+        heart.classList.remove("fa-regular");
+      }
+    }
 
     let favs = document.getElementsByClassName("favs");
     // console.log(favs);
@@ -22,21 +32,23 @@ export let view = new KWM_Route("/ideas", async function () {
         let idea = fav.parentElement.parentElement.parentElement.parentElement;
         let id = idea.getAttribute("data-id");
         let heart = document.querySelector(".dateIdea[data-id='" + id + "'] .favs");
-        /*console.log(idea);
-        console.log(id);
+        // console.log(idea);
+        /*console.log(id);
         console.log(heart);
         console.log("Me: "+user1+" and my partner: "+user2.id);*/
-        console.log("Me: ", myUser, " Partner: ", partner.ID, " want to favorite Idea ", id);
+        // console.log("Me: ", myUser, " Partner: ", partner.ID, " want to favorite Idea ", id);
 
         if (kwm.model.ideaIsFavorite(id)) {
-          kwm.model.deleteIdeaFromFavorites(idea.getAttribute("data-parent"));
-          // TODO: delte idea from favorites but don't delete Idea
-          kwm.model.removeFavouriteIdea(id);
+          console.log("Idea is favorite");
+          let favoriteID = idea.getAttribute("data-parent");
+          // console.log("Related to favorite ID: ",favoriteID);
+          kwm.model.deleteIdeaFromFavorites(favoriteID);
+          // kwm.model.removeFavouriteIdea(id);
           heart.classList.remove("fa-solid");
           heart.classList.add("fa-regular");
         } else {
           kwm.model.addIdeaToFavorites(myUser, partner, id);
-          kwm.model.addFavoriteIdea(id);
+          // kwm.model.addFavoriteIdea(id);
           heart.classList.remove("fa-regular");
           heart.classList.add("fa-solid");
         }
@@ -57,6 +69,7 @@ export let view = new KWM_Route("/ideas", async function () {
         checkboxArr.push(checkbox.value);
       }
       console.log(checkboxArr);
+      // TODO: check if link contains https://
       let post = {
         title: idea_title.value,
         fields: {
@@ -156,13 +169,14 @@ view.rendering = async function () {
   kwm.templater.changeNavIcon("Idea");
 
   await kwm.templater.renderTemplate("ideas", document.getElementById("kwmJS"));
-/*  await kwm.model.getAllDateIdeas();
+  await kwm.model.getAllDateIdeas();
   let ideas = kwm.model.dateIdeas;
   for (let idea of ideas) {
     await this.renderPost(idea);
-  }*/
+  }
 
-  await this.fetchPosts();
+  // FETCH POSTS WITH PAGINATE
+  // await this.fetchPosts();
 
 
   if (!kwm.utils.isEmpty(localStorage.favoriteIdeas)) {
@@ -222,19 +236,19 @@ view.renderPost = async function (idea) {
   ideaBox.classList.add("dateIdea");
   // ideaBox.classList.add(categoryNames);
   ideaBox.dataset.id = idea.id;
-  // ideaBox.classList.add("card");
+  // console.log(idea.date);
+  ideaBox.dataset.published = idea.date;
+  if(kwm.model.ideaIsFavorite(idea.id)){
+    ideaBox.dataset.parent = kwm.model.getRelatedFavoriteID(idea.id);
+  }
   let categoryNames = "";
   if (!kwm.utils.isEmpty(idea.categories)) {
-    // console.log(idea);
-    // console.info(idea.categories);
     for (let categoryID of idea.categories) {
       let categoryName = await kwm.model.getCategoryName(categoryID);
       categoryNames += categoryName + ",  ";
       categoryName = categoryName.split(" ").join("");
-      // console.log(categoryName," has no white spcaes");
       ideaBox.classList.add(categoryName);
     }
-    // console.log(categoryNames);
   }
   ideaBox.classList.add("container");
   document.querySelector("#dateIdeas").append(ideaBox);

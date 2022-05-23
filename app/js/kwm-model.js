@@ -150,9 +150,31 @@ export default class KWM_Model {
    * @param id
    */
   ideaIsFavorite(id) {
-    if (!kwm.utils.isEmpty(localStorage.favoriteIdeas))
-      return JSON.parse(localStorage.favoriteIdeas).includes(id);
+    /*if (!kwm.utils.isEmpty(localStorage.favoriteIdeas))
+      return JSON.parse(localStorage.favoriteIdeas).includes(id);*/
+    // console.log("checking if idea is favorite");
+    let myUserId = kwm.model.getOwnUserId()
+    this.getMyFavorites(myUserId);
+    if(!kwm.utils.isEmpty(this.favorites)){
+      for(let idea of this.favorites){
+        // console.log(idea.acf);
+        // console.log(idea.acf.idea);
+        // console.log("id", id);
+        if(id == idea.acf.idea){
+          return true;
+        }
+      }
+      // console.log(this.favorites);
+    }
     return false;
+  }
+
+  getRelatedFavoriteID(id){
+    for(let idea of this.favorites){
+      if(id == idea.acf.idea){
+        return idea.id;
+      }
+    }
   }
 
 
@@ -237,10 +259,12 @@ export default class KWM_Model {
         console.error(response);
         return false;
       }
-      console.log(response);
+      // console.log(response);
       return response;
     }).then(response => response.json())
     .then(result => {
+      this.favorites.push(result);
+      console.log("New Favorites", this.favorites);
       let el = document.querySelector(".dateIdea[data-id='" + ideaID + "']");
       console.log(el);
       el.dataset.parent = result.id;

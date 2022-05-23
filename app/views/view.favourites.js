@@ -44,7 +44,7 @@ export let view = new KWM_Route("/", async function () {
         heart.classList.remove("fa-solid");
         heart.classList.add("fa-regular");
         kwm.model.deleteIdeaFromFavorites(id);
-        kwm.model.removeFavouriteIdea(favIdea.getAttribute("data-parent"));
+        // kwm.model.removeFavouriteIdea(favIdea.getAttribute("data-parent"));
 
         let favPost = document.querySelector(".favorite[data-id='"+id+"']");
         console.log(favPost);
@@ -72,7 +72,7 @@ view.rendering = async function () {
     // console.log(favorite.idea);
     let idea = await kwm.model.getDateIdeaById(favorite.acf.idea);
     favBox.dataset.parent=idea.id;
-    console.log(idea);
+    // console.log(idea);
     idea = idea.acf
     if(idea.image === false || kwm.utils.isEmpty(idea.image)){
       idea.image = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/anastasia-lysiak-3EY-p8uyNTg-unsplash_squareMini.jpg";
