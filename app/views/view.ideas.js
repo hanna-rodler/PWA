@@ -94,9 +94,12 @@ export let view = new KWM_Route("/ideas", async function () {
       });
     });
 
-    // addIdea.removeEventListener("click");
     addIdea.addEventListener("click", showIdeaForm);
     addIdea.addEventListener("touch", showIdeaForm);
+
+    btn_cancel.addEventListener("click", function (){
+      ideaForm.classList.add("hidden");
+    })
 
     document.querySelector("#categorySelect").addEventListener("change", function () {
       console.log(this.value);
@@ -110,9 +113,9 @@ export let view = new KWM_Route("/ideas", async function () {
 
   function showIdeaForm() {
     ideaForm.classList.remove("hidden");
-    addIdea.addEventListener("click", function () {
+/*    btn_cancel.addEventListener("click", function () {
       ideaForm.classList.add("hidden");
-    })
+    })*/
   }
 
   function filterByCategory(category) {
