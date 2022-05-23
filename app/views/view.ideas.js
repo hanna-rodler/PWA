@@ -156,29 +156,14 @@ view.rendering = async function () {
   kwm.templater.changeNavIcon("Idea");
 
   await kwm.templater.renderTemplate("ideas", document.getElementById("kwmJS"));
-  // await kwm.model.getAllDateIdeas();
-  await kwm.model.getAllDateIdeas();
+/*  await kwm.model.getAllDateIdeas();
   let ideas = kwm.model.dateIdeas;
-  // console.table(ideas);
   for (let idea of ideas) {
-    /*let ideaBox = document.createElement("div");
-    ideaBox.classList.add("dateIdea");
-    ideaBox.dataset.id = idea.id;
-    // ideaBox.classList.add("card");
-    ideaBox.classList.add("container");
-    document.querySelector("#dateIdeas").append(ideaBox);
-    // console.log("Idea: ", idea);
-    idea = idea.acf;
-    // console.log("ACF idea: ", idea);
-    if (idea.image === false || kwm.utils.isEmpty(idea.image)) {
-      idea.image = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/anastasia-lysiak-3EY-p8uyNTg-unsplash_squareMini.jpg";
-    }
-    if (kwm.utils.isEmpty(idea.link)) {
-      idea.link = "";
-    }
-    await kwm.templater.renderTemplate("ideas.date-idea", ideaBox, idea);*/
     await this.renderPost(idea);
-  }
+  }*/
+
+  await this.fetchPosts();
+
 
   if (!kwm.utils.isEmpty(localStorage.favoriteIdeas)) {
     let favIdea = JSON.parse(localStorage.favoriteIdeas);
@@ -189,29 +174,47 @@ view.rendering = async function () {
     }
   }
 
-  //ACF
-  /*console.table(ideas);
-  for(let idea of ideas){
-    let ideaBox = document.createElement("div");
-    ideaBox.classList.add("dateIdea");
-    console.warn("Id", idea.id);
-    ideaBox.dataset.id = idea.id;
-    // ideaBox.classList.add("card");
-    ideaBox.classList.add("container");
-    document.querySelector("#dateIdeas").append(ideaBox);
-   // console.log(idea);
-   if(idea.image === false || kwm.utils.isEmpty(idea.image)){
-     idea.image = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/anastasia-lysiak-3EY-p8uyNTg-unsplash_squareMini.jpg";
-   }
-   if(kwm.utils.isEmpty(idea.link)){
-      idea.link = "";
-   }
-    // TODO: check if values are empty.
-    kwm.templater.renderTemplate("ideas.date-idea", ideaBox, idea);
-  }*/
-
-
 };
+
+view.fetchPosts = async function(){
+  console.log("fetching posts");
+  fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=5")
+  .then(
+    function (response) {
+      console.log("total Pages: ",response.headers.get("X-WP-TotalPages"));
+      view.paginate(response.headers.get("X-WP-TotalPages"));
+      return response;
+    }
+  ).then(response => response.json())
+  .then(posts => {
+    for(let post of posts){
+      this.renderPost(post)
+    }
+  });
+}
+
+view.paginate = function (totalPages){
+  if (totalPages > 1) {
+    let button = document.createElement("button");
+    button.innerHTML = "Mehr laden!";
+    button.id = "load_more_posts";
+    button.dataset.totalPages = totalPages;
+    button.dataset.nextPage = 2;
+    // button.removeEventListener("click");
+    button.addEventListener("click", function () {
+      fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=5&page=" +
+        this.dataset.nextPage).then(response => response.json())
+      .then(posts => {
+        console.log("rendering posts after btn click");
+        for(let post of posts){
+          view.renderPost(post);
+        }
+        button.dataset.nextPage++;
+      })
+    });
+    document.getElementById("main_content").append(button);
+  }
+}
 
 view.renderPost = async function (idea) {
   // console.log("RENDERING POST");
