@@ -10,6 +10,7 @@
                 <option value="movies">movies</option>
             </select>
         </div>
+        <button id="sortReverse" class="myBtn-secondary">Sort Reverse</button>
         <i class="fa-solid fa-plus d-flex me-3" id="addIdea"></i>
     </div>
     <form action="" class="hidden" id="ideaForm">
