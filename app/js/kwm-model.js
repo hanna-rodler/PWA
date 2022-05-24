@@ -401,4 +401,17 @@ export default class KWM_Model {
       .catch(error => console.log('error', error));
     })
   }
+
+  closedDateInvitation(myUser, partner){
+    for(let invite of this.invitations){
+      if(invite.acf.invited == myUser && !invite.acf.opened){
+        const title = "New Date Invitation";
+        const options = {
+          body: partner.display_name+" is inviting you on the date "+invite.acf.title,
+          vibrate: [200, 100, 200]
+        }
+        new Notification(title, options);
+      }
+    }
+  }
 }

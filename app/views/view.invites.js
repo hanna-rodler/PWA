@@ -12,6 +12,9 @@ export let view = new KWM_Route("/invites", async function () {
     let partner = await kwm.model.getPartner();
     await kwm.model.getMyInvitations(myUser);
     await this.rendering(myUser);
+    if(kwm.model.closedDateInvitation(myUser, partner)){
+
+    }
 
 
     test_notification.addEventListener("click", function () {
@@ -86,6 +89,7 @@ export let view = new KWM_Route("/invites", async function () {
 
     let acceptionChecks = document.getElementsByClassName("acceptCheck");
     console.log("found", acceptionChecks);
+    console.log("why?");
     for(let check of acceptionChecks){
       console.log("in loop");
       console.log("to", check);
@@ -112,83 +116,17 @@ view.rendering = async function (myUser) {
     document.querySelector("#invitations").append(div);
     // console.log(invite);
     invite = invite.acf
-    // console.info(invite.ph);
-    if (kwm.utils.isEmpty(invite.ph) || invite.ph === false) {
-      // invite.ph =
-      // "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/love-letter.png";
+    if(invite.opened){
+      invite.ph="http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/opened-letter.png"
+    }else{
       invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/closed-letter.png";
-      // console.log(invite.ph);
     }
+
+
     if (invite.invited === myUser) {
       kwm.templater.renderTemplate("invites.invitation-invited", div, invite);
     } else
       kwm.templater.renderTemplate("invites.invitation", div, invite);
-  }
-
-  /*btn_submit_invite.addEventListener("click", async function (e) {
-    e.preventDefault();
-    let img_id = await uploadMedia();
-    console.warn("IMG ID:", img_id);
-    let post = {
-      title: invite_title.value,
-      fields: {
-        title: invite_title.value,
-        text: invite_text.value,
-        ph: img_id
-      },
-      status: "publish"
-    };
-    console.log("POST", post);
-    fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/invitation", {
-      method: "POST",
-      headers: {
-        "Content-Type": 'application/json',
-        "Authorization": "Bearer " + window.localStorage.getItem("token"),
-      },
-      body: JSON.stringify(post)
-    }).then(function (response) {
-      if (response.status !== 201) {
-        alert("Fehlgeschlagen: " + response.status);
-        console.error(response);
-        return false;
-      }
-      return response;
-    }).then(response => response.json())
-    .then(posts => {
-      // renderPosts([posts]);
-      invite_title.value = "";
-      invite_text.value = "";
-    });
-
-  });*/
-
-  async function uploadMedia() {
-    let img_id = "";
-    return new Promise(async function (resolve, reject) {
-      const media = document.getElementById("post_media");
-      console.warn("Media: ", media);
-      const formData = new FormData();
-      formData.append("file", media.files[0]);
-      await fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/media", {
-        method: "POST",
-        headers: {
-          //when using FormData(), the
-          //'Content-Type' will automatically be set to 'form/multipart'
-          //so there's no need to set it here
-          "Authorization": "Bearer " + window.localStorage.getItem("token")
-        },
-        body: formData
-      }).then(response => response.json())
-      .then(data => {
-        img_id = data.id;
-        resolve(img_id);
-      })
-      .catch(err => {
-        reject(err);
-      });
-      resolve(img_id);
-    })
-
   }
 
 };
