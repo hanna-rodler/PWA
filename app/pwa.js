@@ -2,6 +2,7 @@
 
 // console.log("Hello, I am PWA");
 
+Notification.requestPermission();
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('serviceworker.js')
   .then(function () {
@@ -43,17 +44,18 @@ if (window.localStorage.getItem("token")) {
       return response;
     }).then(response => response.json())
     .then(response => {
-        window.localStorage.setItem("token", response.token)
-        window.localStorage.setItem("user_display_name", response.user_display_name);
-        savePartner();
-        // let partner = getPartner();
+      window.localStorage.setItem("token", response.token)
+      window.localStorage.setItem("user_display_name", response.user_display_name);
+      savePartner();
+      location.reload(true);
+      // let partner = getPartner();
         // console.log(partner);
         user_display_name.innerHTML = "Willkommen zurück, " +
           window.localStorage.getItem("user_display_name") + "!";
         form_login.style.display = "none";
         headerNav.classList.remove("hidden");
         kwmJS.classList.remove("hidden");
-        kwm.router.changeView();
+        this.changeView();
       }
     )
   });

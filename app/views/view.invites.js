@@ -10,6 +10,15 @@ export let view = new KWM_Route("/invites", async function () {
   if (window.localStorage.getItem("token")) {
     await this.rendering();
   }
+
+  test_notification.addEventListener("click", function (){
+    const title = "Date Invitation";
+    const options = {
+      body: "Hanna is inviting you on a date",
+      vibrate: [200, 100, 200]
+    }
+    new Notification(title, options);
+  });
 });
 
 view.rendering = async function () {

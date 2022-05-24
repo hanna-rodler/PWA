@@ -165,6 +165,7 @@ export default class KWM_Model {
     document.querySelector("#main_content").remove();
     username.value = "";
     password.value = "";
+    location.reload(true);
   }
 
   /**

@@ -8,6 +8,7 @@
             <label><input type="file" value="media" id="post_media"></label><br>
             <button type="submit" value="Abschicken" id="btn_submit_invite" class="myBtn myBtn-primary">Senden&nbsp;&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
         </form>
+        <button id="test_notification">Test</button>
         <!--<form>
             <div class="mb-3">
                 <label for="invite_title" class="form-label">Title</label>

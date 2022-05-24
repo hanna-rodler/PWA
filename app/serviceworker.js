@@ -22,4 +22,11 @@ self.addEventListener('fetch', function(event) {
  // console.log("fetch", event.request);
 });
 
+self.addEventListener("push", event => {
+  const title = 'New Date Invitation';
+  const options = {
+    body: event.data.text()
+  }
+  event.waitUntil(self.registration.showNotification(title, options));
+})
 
