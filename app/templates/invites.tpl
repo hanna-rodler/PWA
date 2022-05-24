@@ -27,7 +27,7 @@
             </div>
             <button type="submit" class="myBtn-primary" id="send_invite">Invite&nbsp;&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
         </form>
-        <button id="test_notification">Test</button>
+        <!--<button id="test_notification">Test</button>-->
         <!--<form>
             <div class="mb-3">
                 <label for="invite_title" class="form-label">Title</label>

@@ -32,7 +32,8 @@ export let view = new KWM_Route("/ideas", async function () {
     }
 
     let favs = document.getElementsByClassName("favs");
-    // console.log("Favs", favs);
+    console.log("Favs", favs);
+    console.log("Favs", favs.length);
 
     // event listener for favoriting post.
     for (let fav of favs) {
@@ -269,7 +270,7 @@ view.paginate = function (totalPages) {
 }
 
 view.renderPost = async function (idea) {
-  console.log("RENDERING POST");
+  // console.log("RENDERING POST");
   let ideaBox = document.createElement("div");
   ideaBox.classList.add("dateIdea");
   // ideaBox.classList.add(categoryNames);

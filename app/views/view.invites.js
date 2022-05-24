@@ -12,19 +12,29 @@ export let view = new KWM_Route("/invites", async function () {
     let partner = await kwm.model.getPartner();
     await kwm.model.getMyInvitations(myUser);
     await this.rendering(myUser);
-    if(kwm.model.closedDateInvitation(myUser, partner)){
+    console.log("finished with rendering");
+    console.table(kwm.model.invitations);
 
+    let inviteImgs = document.getElementsByClassName("letter");
+    console.log("Letters", inviteImgs);
+    console.log("Letters", inviteImgs);
+    console.log("Letters", inviteImgs.length);
+    for(let img of inviteImgs){
+      console.log("I am dumb");
+      img.addEventListener("click", function (){
+        console.log("clicked letter");
+      })
     }
 
 
-    test_notification.addEventListener("click", function () {
+    /*test_notification.addEventListener("click", function () {
       const title = "Date Invitation";
       const options = {
         body: "Hanna is inviting you on a date",
         vibrate: [200, 100, 200]
       }
       new Notification(title, options);
-    });
+    });*/
 
     send_invite.addEventListener("click", async function (e) {
       e.preventDefault();
@@ -115,18 +125,27 @@ view.rendering = async function (myUser) {
     div.dataset.id = invite.id;
     document.querySelector("#invitations").append(div);
     // console.log(invite);
-    invite = invite.acf
-    if(invite.opened){
-      invite.ph="http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/opened-letter.png"
-    }else{
-      invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/closed-letter.png";
+    invite = invite.acf;
+    if(invite.opened && invite.invitor === myUser){
+      // I invited other person & it was opened
+      invite.ph="http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/sent_opened-letter.png"
+    }else if (invite.opened && invite.invited === myUser){
+      // letter opened but I didn't invite
+      invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png";
+    } else if(!invite.opened  && invite.invitor === myUser){
+      // closed and I invited
+      invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/sent_closed-letter.png";
+    } else{
+      // closed and I got invited
+      invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_closed-letter.png";
     }
 
+    kwm.templater.renderTemplate("invites.invitation-invited", div, invite);
 
-    if (invite.invited === myUser) {
+    /*if (invite.invited === myUser) {
       kwm.templater.renderTemplate("invites.invitation-invited", div, invite);
     } else
-      kwm.templater.renderTemplate("invites.invitation", div, invite);
+      kwm.templater.renderTemplate("invites.invitation", div, invite);*/
   }
 
 };

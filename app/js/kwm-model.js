@@ -414,4 +414,12 @@ export default class KWM_Model {
       }
     }
   }
+
+  setOpened(id, opened){
+    for(let invite of this.invitations){
+      if(invite.id = id){
+        invite.acf.opened = opened;
+      }
+    }
+  }
 }
