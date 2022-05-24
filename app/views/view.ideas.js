@@ -11,20 +11,28 @@ export let view = new KWM_Route("/ideas", async function () {
     // await kwm.model.getAllDateIdeas();
     let myUser = await kwm.model.getOwnUserId();
     await kwm.model.getMyFavorites(myUser);
+    // await kwm.model.getReverseDateIdeas();
     let partner = await kwm.model.getPartner();
     await this.rendering();
+    // console.log(document.querySelectorAll(".dateIdea"));
+    console.table(kwm.model.dateIdeas);
+    console.log(kwm.model.dateIdeas.length);
 
     // add hearts to ideas that are favorites
-    for(let idea of kwm.model.dateIdeas){
-      if(kwm.model.ideaIsFavorite(idea.id)){
+    for (let idea of kwm.model.dateIdeas) {
+      // console.log(idea.id);
+      if (kwm.model.ideaIsFavorite(idea.id)) {
+        // console.log(idea.id, " is Favorite");
+        // console.log(document.querySelector(".dateIdea[data-id='" + idea.id + "']"));
         let heart = document.querySelector(".dateIdea[data-id='" + idea.id + "'] .favs");
+        // console.log(heart);
         heart.classList.add("fa-solid");
         heart.classList.remove("fa-regular");
       }
     }
 
     let favs = document.getElementsByClassName("favs");
-    // console.log(favs);
+    // console.log("Favs", favs);
 
     // event listener for favoriting post.
     for (let fav of favs) {
@@ -36,7 +44,8 @@ export let view = new KWM_Route("/ideas", async function () {
         /*console.log(id);
         console.log(heart);
         console.log("Me: "+user1+" and my partner: "+user2.id);*/
-        // console.log("Me: ", myUser, " Partner: ", partner.ID, " want to favorite Idea ", id);
+        // console.log("Me: ", myUser, " Partner: ", partner.ID, " want to favorite Idea
+        // ", id);
 
         if (kwm.model.ideaIsFavorite(id)) {
           console.log("Idea is favorite");
@@ -68,12 +77,11 @@ export let view = new KWM_Route("/ideas", async function () {
         checkboxArr.push(checkbox.value);
       }
       // console.log(checkboxArr);
-      // TODO: check if link contains https://
       let linkUrl = ""
-      if(idea_link.value!==""||!kwm.utils.isEmpty(idea_link.value)){
-        if(idea_link.value.search("^https://")===-1){
+      if (idea_link.value !== "" || !kwm.utils.isEmpty(idea_link.value)) {
+        if (idea_link.value.search("^https://") === -1) {
           console.log("no https//");
-          linkUrl="https://"+idea_link.value;
+          linkUrl = "https://" + idea_link.value;
           linkUrl = linkUrl.split(" ").join("");
         }
       }
@@ -117,9 +125,29 @@ export let view = new KWM_Route("/ideas", async function () {
     addIdea.addEventListener("click", showIdeaForm);
     addIdea.addEventListener("touch", showIdeaForm);
 
-    btn_cancel.addEventListener("click", function (){
+    btn_cancel.addEventListener("click", function () {
       ideaForm.classList.add("hidden");
     })
+    sortReverse.addEventListener("click", async function () {
+      await kwm.model.getReverseDateIdeas()
+      console.log("clicked sort reverse");
+      let ideaContainer = document.getElementById("dateIdeas");
+      // ideaContainer.classList.add("hidden");
+      while (ideaContainer.hasChildNodes()){
+        ideaContainer.removeChild(ideaContainer.firstChild);
+      }
+      let ideas = document.querySelectorAll(".dateIdea");
+      for(let idea of ideas){
+        idea.classList.add("hidden");
+      }
+
+      let reverseIdeas = kwm.model.reversedIdeas;
+      for (let post of reverseIdeas) {
+        console.log(post);
+        view.renderPost(post);
+      }
+
+    });
 
     document.querySelector("#categorySelect").addEventListener("change", function () {
       console.log(this.value);
@@ -133,9 +161,6 @@ export let view = new KWM_Route("/ideas", async function () {
 
   function showIdeaForm() {
     ideaForm.classList.remove("hidden");
-/*    btn_cancel.addEventListener("click", function () {
-      ideaForm.classList.add("hidden");
-    })*/
   }
 
   function filterByCategory(category) {
@@ -197,24 +222,29 @@ view.rendering = async function () {
 
 };
 
-view.fetchPosts = async function(){
-  console.log("fetching posts");
-  fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=5")
-  .then(
-    function (response) {
-      console.log("total Pages: ",response.headers.get("X-WP-TotalPages"));
-      view.paginate(response.headers.get("X-WP-TotalPages"));
-      return response;
-    }
-  ).then(response => response.json())
-  .then(posts => {
-    for(let post of posts){
-      this.renderPost(post)
-    }
+view.fetchPosts = async function () {
+  return new Promise(resolve => {
+    console.log("fetching posts");
+    fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=5")
+    .then(
+      function (response) {
+        console.log("total Pages: ", response.headers.get("X-WP-TotalPages"));
+        view.paginate(response.headers.get("X-WP-TotalPages"));
+        return response;
+      }
+    ).then(response => response.json())
+    .then(posts => {
+      for (let post of posts) {
+        kwm.model.dateIdeas.push(post);
+        view.renderPost(post)
+      }
+      console.log("Date Ideas", kwm.model.dateIdeas);
+      resolve(posts);
+    });
   });
 }
 
-view.paginate = function (totalPages){
+view.paginate = function (totalPages) {
   if (totalPages > 1) {
     let button = document.createElement("button");
     button.innerHTML = "Mehr laden!";
@@ -227,7 +257,8 @@ view.paginate = function (totalPages){
         this.dataset.nextPage).then(response => response.json())
       .then(posts => {
         console.log("rendering posts after btn click");
-        for(let post of posts){
+        for (let post of posts) {
+          kwm.model.dateIdeas.push(post);
           view.renderPost(post);
         }
         button.dataset.nextPage++;
@@ -238,14 +269,14 @@ view.paginate = function (totalPages){
 }
 
 view.renderPost = async function (idea) {
-  // console.log("RENDERING POST");
+  console.log("RENDERING POST");
   let ideaBox = document.createElement("div");
   ideaBox.classList.add("dateIdea");
   // ideaBox.classList.add(categoryNames);
   ideaBox.dataset.id = idea.id;
   // console.log(idea.date);
   ideaBox.dataset.published = idea.date;
-  if(kwm.model.ideaIsFavorite(idea.id)){
+  if (kwm.model.ideaIsFavorite(idea.id)) {
     ideaBox.dataset.parent = kwm.model.getRelatedFavoriteID(idea.id);
   }
   let categoryNames = "";

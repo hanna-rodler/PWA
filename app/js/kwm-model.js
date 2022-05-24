@@ -12,6 +12,7 @@ export default class KWM_Model {
     this.invitations = [];
     this.favorites = [];
     this.partnerFavorites = [];
+    this.reversedIdeas=[];
   }
 
   getAllACFDateIdeas() {
@@ -48,6 +49,27 @@ export default class KWM_Model {
           resolve(this.dateIdeas);
       })
     })
+  }
+
+  getReverseDateIdeas(){
+    return new Promise(resolve => {
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+      fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?oderBy=date&order=asc", requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        console.table(data);
+        for(let idea of data){
+          this.reversedIdeas.push(idea);
+        }
+        console.log(this.reversedIdeas);
+        resolve(this.reversedIdeas);
+
+      })
+      .catch(error => console.log('error', error));
+    });
   }
 
   getDateIdeaById(id) {
