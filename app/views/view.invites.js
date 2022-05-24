@@ -9,16 +9,66 @@ import KWM_Route from '../js/kwm-route.js?v=0.2';
 export let view = new KWM_Route("/invites", async function () {
   if (window.localStorage.getItem("token")) {
     await this.rendering();
-  }
 
-  test_notification.addEventListener("click", function (){
-    const title = "Date Invitation";
-    const options = {
-      body: "Hanna is inviting you on a date",
-      vibrate: [200, 100, 200]
-    }
-    new Notification(title, options);
-  });
+
+    test_notification.addEventListener("click", function () {
+      const title = "Date Invitation";
+      const options = {
+        body: "Hanna is inviting you on a date",
+        vibrate: [200, 100, 200]
+      }
+      new Notification(title, options);
+    });
+
+    send_invite.addEventListener("click", async function (e) {
+      e.preventDefault();
+      console.log(invite_dateTime.value);
+      let linkUrl = ""
+      if (meeting_link.value !== "" || !kwm.utils.isEmpty(meeting_link.value)) {
+        if (meeting_link.value.search("^https://") === -1) {
+          console.log("no https//");
+          linkUrl = "https://" + meeting_link.value;
+          linkUrl = linkUrl.split(" ").join("");
+        }
+      }
+      let post = {
+        title: invite_title.value,
+        fields: {
+          title: invite_title.value,
+          text: invite_description.value,
+          ph: "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/closed-letter.png",
+          link: linkUrl,
+          date: invite_dateTime.value
+        },
+        status: "publish"
+      };
+      console.log("POST", post);
+      fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/invitation", {
+        method: "POST",
+        headers: {
+          "Content-Type": 'application/json',
+          "Authorization": "Bearer " + window.localStorage.getItem("token"),
+        },
+        body: JSON.stringify(post)
+      }).then(function (response) {
+        if (response.status !== 201) {
+          alert("Fehlgeschlagen: " + response.status);
+          console.error(response);
+          return false;
+        }
+        return response;
+      }).then(response => response.json())
+      .then(posts => {
+        // renderPosts([posts]);
+        invite_title.value = "";
+        invite_description.value = "";
+        meeting_link.value = "";
+        invite_dateTime.value="";
+        // location.reload(true);
+      });
+
+    });
+  }
 });
 
 view.rendering = async function () {
@@ -35,17 +85,18 @@ view.rendering = async function () {
     // div.classList.add("card");
     div.classList.add("container");
     document.querySelector("#invitations").append(div);
-    // console.log(invite);
+    console.log(invite);
     // console.info(invite.ph);
     if (kwm.utils.isEmpty(invite.ph) || invite.ph === false) {
-      // invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/love-letter.png";
+      // invite.ph =
+      // "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/love-letter.png";
       invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/closed-letter.png";
       // console.log(invite.ph);
     }
     kwm.templater.renderTemplate("invites.invitation", div, invite);
   }
 
-  btn_submit_invite.addEventListener("click", async function (e) {
+  /*btn_submit_invite.addEventListener("click", async function (e) {
     e.preventDefault();
     let img_id = await uploadMedia();
     console.warn("IMG ID:", img_id);
@@ -80,7 +131,7 @@ view.rendering = async function () {
       invite_text.value = "";
     });
 
-  });
+  });*/
 
   async function uploadMedia() {
     let img_id = "";
