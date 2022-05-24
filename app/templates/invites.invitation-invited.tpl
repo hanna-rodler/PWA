@@ -4,6 +4,7 @@
     </div>
     <div class="col-md-9 col-8 flex-center-start-column">
         <h2 class="pt-3"><&>title<&></h2>
+        <i class="fa-regular fa-circle-check acceptCheck"></i>
         <div><&>text<&></div>
         <!--<a href="<&>link<&>" class="d-flex mb-2"><&>link<&></a>-->
         <p><&>date<&></p>

@@ -12,7 +12,7 @@ export default class KWM_Model {
     this.invitations = [];
     this.favorites = [];
     this.partnerFavorites = [];
-    this.reversedIdeas=[];
+    this.reversedIdeas = [];
   }
 
   getAllACFDateIdeas() {
@@ -51,7 +51,7 @@ export default class KWM_Model {
     })
   }
 
-  getReverseDateIdeas(){
+  getReverseDateIdeas() {
     return new Promise(resolve => {
       var requestOptions = {
         method: 'GET',
@@ -61,7 +61,7 @@ export default class KWM_Model {
       .then(response => response.json())
       .then(data => {
         console.table(data);
-        for(let idea of data){
+        for (let idea of data) {
           this.reversedIdeas.push(idea);
         }
         console.log(this.reversedIdeas);
@@ -89,7 +89,25 @@ export default class KWM_Model {
       .then(data => {
         if (kwm.utils.isEmpty(this.invitations)) {
           for (let invitation of data) {
-            this.invitations.push(invitation.acf);
+            this.invitations.push(invitation);
+          }
+          // console.log("Invitations", this.invitations);
+          resolve(this.invitations);
+        } else
+          resolve(this.invitations);
+      })
+    })
+  }
+
+  getMyInvitations(myUser) {
+    return new Promise(resolve => {
+      fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/acf/v3/invitation')
+      .then(response => response.json())
+      .then(data => {
+        if (kwm.utils.isEmpty(this.invitations)) {
+          for (let invitation of data) {
+            if (invitation.acf.invited === myUser || invitation.acf.invitor === myUser)
+              this.invitations.push(invitation);
           }
           // console.log("Invitations", this.invitations);
           resolve(this.invitations);
@@ -178,12 +196,12 @@ export default class KWM_Model {
     // console.log("checking if idea is favorite");
     let myUserId = kwm.model.getOwnUserId()
     this.getMyFavorites(myUserId);
-    if(!kwm.utils.isEmpty(this.favorites)){
-      for(let idea of this.favorites){
+    if (!kwm.utils.isEmpty(this.favorites)) {
+      for (let idea of this.favorites) {
         // console.log(idea.acf);
         // console.log(idea.acf.idea);
         // console.log("id", id);
-        if(id == idea.acf.idea){
+        if (id == idea.acf.idea) {
           return true;
         }
       }
@@ -192,9 +210,9 @@ export default class KWM_Model {
     return false;
   }
 
-  getRelatedFavoriteID(id){
-    for(let idea of this.favorites){
-      if(id == idea.acf.idea){
+  getRelatedFavoriteID(id) {
+    for (let idea of this.favorites) {
+      if (id == idea.acf.idea) {
         return idea.id;
       }
     }
@@ -251,8 +269,8 @@ export default class KWM_Model {
   }
 
   // TODO: write so it finds favorites without local Storage
-  ideaIsFavoritePost(id){
-    if(kwm.utils.isEmpty(this.favorites)){
+  ideaIsFavoritePost(id) {
+    if (kwm.utils.isEmpty(this.favorites)) {
       this.getMyFavorites(this.getOwnUserId());
     }
 
@@ -345,34 +363,35 @@ export default class KWM_Model {
 
   }
 
-  async getHeader(){
+  async getHeader() {
     return {
       "Content-Type": 'application/json',
       "Authorization": "Bearer " + window.localStorage.getItem("token"),
     }
   }
 
-/*  async getRequestOptions(post){
-    let requestOptions = {
-      method: 'POST',
-      headers: {
-        "Content-Type": 'application/json',
-        "Authorization": "Bearer " + window.localStorage.getItem("token"),
-      },
-      redirect: 'follow',
-      body: JSON.stringify(post)
-    };
-    return requestOptions;
-  }*/
+  /*  async getRequestOptions(post){
+      let requestOptions = {
+        method: 'POST',
+        headers: {
+          "Content-Type": 'application/json',
+          "Authorization": "Bearer " + window.localStorage.getItem("token"),
+        },
+        redirect: 'follow',
+        body: JSON.stringify(post)
+      };
+      return requestOptions;
+    }*/
 
-  getCategoryName(id){
-    return new Promise(async function (resolve){
+  getCategoryName(id) {
+    return new Promise(async function (resolve) {
       var requestOptions = {
         method: 'GET',
         redirect: 'follow'
       };
 
-      fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/categories/"+id, requestOptions)
+      fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/categories/" +
+        id, requestOptions)
       .then(response => response.json())
       .then(data => {
         // console.log("Category", data);

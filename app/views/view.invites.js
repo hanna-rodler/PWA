@@ -8,7 +8,10 @@ import KWM_Route from '../js/kwm-route.js?v=0.2';
 
 export let view = new KWM_Route("/invites", async function () {
   if (window.localStorage.getItem("token")) {
-    await this.rendering();
+    let myUser = await kwm.model.getOwnUserId();
+    let partner = await kwm.model.getPartner();
+    await kwm.model.getMyInvitations(myUser);
+    await this.rendering(myUser);
 
 
     test_notification.addEventListener("click", function () {
@@ -38,7 +41,9 @@ export let view = new KWM_Route("/invites", async function () {
           text: invite_description.value,
           ph: "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/closed-letter.png",
           link: linkUrl,
-          date: invite_dateTime.value
+          date: invite_dateTime.value,
+          invitor: myUser,
+          invited: partner.ID
         },
         status: "publish"
       };
@@ -63,15 +68,35 @@ export let view = new KWM_Route("/invites", async function () {
         invite_title.value = "";
         invite_description.value = "";
         meeting_link.value = "";
-        invite_dateTime.value="";
+        invite_dateTime.value = "";
         // location.reload(true);
       });
 
     });
+
+    /*let invitations = document.querySelectorAll(".invitation");
+    for(let invite of invitations){
+      invite.addEventListener("click", function (e){
+        console.log(e.target);
+        let invitationCard = e.target.closest(".invitation");
+        console.log(invitationCard.getAttribute("data-id"));
+      //  TODO detail View?
+      })
+    }*/
+
+    let acceptionChecks = document.getElementsByClassName("acceptCheck");
+    console.log("found", acceptionChecks);
+    for(let check of acceptionChecks){
+      console.log("in loop");
+      console.log("to", check);
+      check.addEventListener("click", function (){
+        console.log("clicked on accept");
+      })
+    }
   }
 });
 
-view.rendering = async function () {
+view.rendering = async function (myUser) {
   // kwm.templater.changeNavIcon("fa-envelope");
   kwm.templater.changeNavIcon("Invite");
 
@@ -82,10 +107,11 @@ view.rendering = async function () {
   for (let invite of invitations) {
     let div = document.createElement("div");
     div.classList.add("invitation");
-    // div.classList.add("card");
     div.classList.add("container");
+    div.dataset.id = invite.id;
     document.querySelector("#invitations").append(div);
-    console.log(invite);
+    // console.log(invite);
+    invite = invite.acf
     // console.info(invite.ph);
     if (kwm.utils.isEmpty(invite.ph) || invite.ph === false) {
       // invite.ph =
@@ -93,7 +119,10 @@ view.rendering = async function () {
       invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/closed-letter.png";
       // console.log(invite.ph);
     }
-    kwm.templater.renderTemplate("invites.invitation", div, invite);
+    if (invite.invited === myUser) {
+      kwm.templater.renderTemplate("invites.invitation-invited", div, invite);
+    } else
+      kwm.templater.renderTemplate("invites.invitation", div, invite);
   }
 
   /*btn_submit_invite.addEventListener("click", async function (e) {
