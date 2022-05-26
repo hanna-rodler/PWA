@@ -33,7 +33,6 @@ export default class KWM_Model {
   }
 
   getAllDateIdeas() {
-
     return new Promise(resolve => {
       fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=100')
       .then(response => response.json())
@@ -44,8 +43,8 @@ export default class KWM_Model {
             // console.log(idea);
             this.dateIdeas.push(idea);
           }
-          console.log("DateIdeas", this.dateIdeas);
-          console.info("Lenght: ", this.dateIdeas.length);
+          // console.log("DateIdeas", this.dateIdeas);
+          // console.info("Lenght: ", this.dateIdeas.length);
           resolve(this.dateIdeas);
         } else
           console.log("DateIdeas", this.dateIdeas);
@@ -64,13 +63,11 @@ export default class KWM_Model {
       fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=100&oderBy=date&order=asc", requestOptions)
       .then(response => response.json())
       .then(data => {
-        console.table(data);
         for (let idea of data) {
           this.reversedIdeas.push(idea);
         }
-        console.log(this.reversedIdeas);
+        // console.log(this.reversedIdeas);
         resolve(this.reversedIdeas);
-
       })
       .catch(error => console.log('error', error));
     });

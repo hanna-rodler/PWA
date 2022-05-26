@@ -15,55 +15,9 @@ export let view = new KWM_Route("/ideas", async function () {
     let partner = await kwm.model.getPartner();
     await this.rendering();
     // console.log(document.querySelectorAll(".dateIdea"));
-    console.table(kwm.model.dateIdeas);
-    console.log(kwm.model.dateIdeas.length);
+    // console.table(kwm.model.dateIdeas);
+    // console.log(kwm.model.dateIdeas.length);
 
-    // add hearts to ideas that are favorites
-    for (let idea of kwm.model.dateIdeas) {
-      // console.log(idea.id);
-      if (kwm.model.ideaIsFavorite(idea.id)) {
-        // console.log(idea.id, " is Favorite");
-        // console.log(document.querySelector(".dateIdea[data-id='" + idea.id + "']"));
-        let heart = document.querySelector(".dateIdea[data-id='" + idea.id + "'] .favs");
-        // console.log(heart);
-        heart.classList.add("fa-solid");
-        heart.classList.remove("fa-regular");
-      }
-    }
-
-    let favs = document.getElementsByClassName("favs");
-    console.log("Favs", favs);
-    console.log("Favs", favs.length);
-
-    // event listener for favoriting post.
-    for (let fav of favs) {
-      fav.addEventListener("click", function () {
-        let idea = fav.parentElement.parentElement.parentElement.parentElement;
-        let id = idea.getAttribute("data-id");
-        let heart = document.querySelector(".dateIdea[data-id='" + id + "'] .favs");
-        // console.log(idea);
-        /*console.log(id);
-        console.log(heart);
-        console.log("Me: "+user1+" and my partner: "+user2.id);*/
-        // console.log("Me: ", myUser, " Partner: ", partner.ID, " want to favorite Idea
-        // ", id);
-
-        if (kwm.model.ideaIsFavorite(id)) {
-          console.log("Idea is favorite");
-          let favoriteID = idea.getAttribute("data-parent");
-          // console.log("Related to favorite ID: ",favoriteID);
-          kwm.model.deleteIdeaFromFavorites(favoriteID);
-          // kwm.model.removeFavouriteIdea(id);
-          heart.classList.remove("fa-solid");
-          heart.classList.add("fa-regular");
-        } else {
-          kwm.model.addIdeaToFavorites(myUser, partner, id);
-          // kwm.model.addFavoriteIdea(id);
-          heart.classList.remove("fa-regular");
-          heart.classList.add("fa-solid");
-        }
-      });
-    }
 
     /* POST idea*/
     btn_submit_idea.addEventListener("click", async function (e) {
@@ -148,7 +102,8 @@ export let view = new KWM_Route("/ideas", async function () {
         // console.log(post.id, post.acf.title, post.date);
         await view.renderPost(post);
       }
-
+      addHeartsToFavoritePosts();
+      addEventListerToHeart(myUser, partner);
     });
 
     document.querySelector("#categorySelect").addEventListener("change", function () {
@@ -159,7 +114,12 @@ export let view = new KWM_Route("/ideas", async function () {
         filterByCategory(this.value);
       }
     })
+
+    addEventListerToHeart(myUser, partner);
+
   }
+
+  addHeartsToFavoritePosts();
 
   function showIdeaForm() {
     ideaForm.classList.remove("hidden");
@@ -194,6 +154,58 @@ export let view = new KWM_Route("/ideas", async function () {
     let allPosts = document.querySelectorAll(".dateIdea");
     for (let post of allPosts) {
       post.classList.remove("hidden");
+    }
+  }
+
+  function addEventListerToHeart(myUser, partner){
+    let favs = document.getElementsByClassName("favs");
+    // console.log("Favs", favs);
+    // console.log("Favs", favs.length);
+
+    // event listener for favoriting post.
+    for (let fav of favs) {
+      fav.addEventListener("click", function () {
+        let idea = fav.parentElement.parentElement.parentElement.parentElement;
+        let id = idea.getAttribute("data-id");
+        let heart = document.querySelector(".dateIdea[data-id='" + id + "'] .favs");
+        // console.log(idea);
+        /*console.log(id);
+        console.log(heart);
+        console.log("Me: "+user1+" and my partner: "+user2.id);*/
+        // console.log("Me: ", myUser, " Partner: ", partner.ID, " want to favorite Idea
+        // ", id);
+
+        if (kwm.model.ideaIsFavorite(id)) {
+          console.log("Idea is favorite");
+          let favoriteID = idea.getAttribute("data-parent");
+          // console.log("Related to favorite ID: ",favoriteID);
+          kwm.model.deleteIdeaFromFavorites(favoriteID);
+          // kwm.model.removeFavouriteIdea(id);
+          heart.classList.remove("fa-solid");
+          heart.classList.add("fa-regular");
+        } else {
+          kwm.model.addIdeaToFavorites(myUser, partner, id);
+          // kwm.model.addFavoriteIdea(id);
+          heart.classList.remove("fa-regular");
+          heart.classList.add("fa-solid");
+        }
+      });
+    }
+
+  }
+
+  function addHeartsToFavoritePosts(){
+    // add hearts to ideas that are favorites
+    for (let idea of kwm.model.dateIdeas) {
+      // console.log(idea.id);
+      if (kwm.model.ideaIsFavorite(idea.id)) {
+        // console.log(idea.id, " is Favorite");
+        // console.log(document.querySelector(".dateIdea[data-id='" + idea.id + "']"));
+        let heart = document.querySelector(".dateIdea[data-id='" + idea.id + "'] .favs");
+        // console.log(heart);
+        heart.classList.add("fa-solid");
+        heart.classList.remove("fa-regular");
+      }
     }
   }
 
