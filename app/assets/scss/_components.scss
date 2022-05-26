@@ -38,6 +38,11 @@
     color: black;
     border: 1px solid darken($green, 60%);
   }
+
+  &-filterActive{
+    @extend .myBtn-secondary;
+    background-color: $green;
+  }
 }
 
 .form-control{

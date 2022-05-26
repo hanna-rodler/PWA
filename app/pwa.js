@@ -2,7 +2,6 @@
 
 // console.log("Hello, I am PWA");
 
-Notification.requestPermission();
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('serviceworker.js')
   .then(function () {
@@ -17,6 +16,7 @@ if (window.localStorage.getItem("token")) {
   form_login.style.display = "none";
   headerNav.classList.remove("hidden");
   kwmJS.classList.remove("hidden");
+  Notification.requestPermission();
 } else {
   // Bin leider nicht eingeloggt
   // btn_login.removeEventListener("click");
@@ -55,7 +55,8 @@ if (window.localStorage.getItem("token")) {
         form_login.style.display = "none";
         headerNav.classList.remove("hidden");
         kwmJS.classList.remove("hidden");
-        this.changeView();
+      Notification.requestPermission();
+      this.changeView();
       }
     )
   });
@@ -93,119 +94,3 @@ async function savePartner() {
   })
   .catch(error => console.log('error', error));
 }
-
-/** POST Abschicken**/
-/*btn_submit_invite.addEventListener("click", async function (e) {
-  e.preventDefault();
-  let img_id = await uploadMedia();
-  console.warn("IMG ID:", img_id);
-  let post = {
-    title: invite_title.value,
-    fields: {
-      title: invite_title.value,
-      text: invite_text.value,
-      ph: img_id
-    },
-    status: "publish"
-  };
-  console.log("POST", post);
-  fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/invitation", {
-    method: "POST",
-    headers: {
-      "Content-Type": 'application/json',
-      "Authorization": "Bearer " + window.localStorage.getItem("token"),
-    },
-    body: JSON.stringify(post)
-  }).then(function (response) {
-    if (response.status !== 201) {
-      alert("Fehlgeschlagen: " + response.status);
-      console.error(response);
-      return false;
-    }
-    return response;
-  }).then(response => response.json())
-  .then(posts => {
-    // renderPosts([posts]);
-    invite_title.value = "";
-    invite_text.value = "";
-  });
-
-});*/
-
-async function uploadMedia() {
-  let img_id = "";
-  return new Promise(async function (resolve, reject) {
-    const media = document.getElementById("post_media");
-    console.warn("Media: ", media);
-    const formData = new FormData();
-    formData.append("file", media.files[0]);
-    await fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/media", {
-      method: "POST",
-      headers: {
-        //when using FormData(), the
-        //'Content-Type' will automatically be set to 'form/multipart'
-        //so there's no need to set it here
-        "Authorization": "Bearer " + window.localStorage.getItem("token")
-      },
-      body: formData
-    }).then(response => response.json())
-    .then(data => {
-      img_id = data.id;
-      resolve(img_id);
-    })
-    .catch(err => {
-      reject(err);
-    });
-    resolve(img_id);
-  })
-
-}
-
-
-/*** PAGINATION***/
-
-/*
-fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/posts?per_page=3")
-.then(function (response) {
-  paginate(response.headers.get("X-WP-TotalPages"));
-  return response;
-}).then(response => response.json())
-.then(posts => renderPosts(posts));
-
-function renderPosts(posts) {
-  // TODO: render posts like I want them to be rendered.
-  let posts_container = document.getElementById("posts");
-  for (let post of posts) {
-    let post_container = document.createElement("div");
-    post_container.classList.add("post");
-    post_container.dataset.resourceid = post.id;
-    let post_h3 = document.createElement("h3");
-    post_h3.innerHTML = post.title.rendered;
-    posts_container.append(post_h3);
-    let post_content = document.createElement("p");
-    post_content.innerHTML = post.content.rendered;
-    post_container.append(post_content);
-    posts_container.append(post_container);
-  }
-}
-
-function paginate(totalPages) {
-  //TODO: change Pagination a little bit.
-  if (totalPages > 1) {
-    let button = document.createElement("button");
-    button.innerHTML = "Mehr laden!";
-    button.id = "load_more_posts";
-    button.dataset.totalPages = totalPages;
-    button.dataset.nextPage = 2;
-    // button.removeEventListener("click");
-    button.addEventListener("click", function () {
-      fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/posts?per_page=3&page=" +
-        this.dataset.nextPage).then(response => response.json())
-      .then(posts => {
-        renderPosts(posts);
-        button.dataset.nextPage++;
-      })
-    });
-    resources.append(button);
-  }
-}*/

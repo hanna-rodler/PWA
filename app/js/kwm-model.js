@@ -47,11 +47,15 @@ export default class KWM_Model {
           // console.info("Lenght: ", this.dateIdeas.length);
           resolve(this.dateIdeas);
         } else
-          console.log("DateIdeas", this.dateIdeas);
-        console.info("Lenght: ", this.dateIdeas.length);
+          // console.log("DateIdeas", this.dateIdeas);
+        // console.info("Lenght: ", this.dateIdeas.length);
           resolve(this.dateIdeas);
       })
     })
+  }
+
+  getFirstPaginatedPosts(){
+
   }
 
   getReverseDateIdeas() {
@@ -179,6 +183,7 @@ export default class KWM_Model {
     window.localStorage.removeItem("user_display_name");
     window.localStorage.removeItem("partner");
     window.localStorage.removeItem("favoriteIdeas");
+    window.localStorage.removeItem("reverseIsActive");
     user_display_name.innerHTML = " ";
     form_login.style.display = "flex";
     headerNav.classList.add("hidden");
@@ -270,7 +275,6 @@ export default class KWM_Model {
     })
   }
 
-  // TODO: write so it finds favorites without local Storage
   ideaIsFavoritePost(id) {
     if (kwm.utils.isEmpty(this.favorites)) {
       this.getMyFavorites(this.getOwnUserId());
@@ -306,7 +310,8 @@ export default class KWM_Model {
       return response;
     }).then(response => response.json())
     .then(result => {
-      this.favorites.push(result);
+      // this.favorites.push(result);
+      this.favorites.unshift(result);
       console.log("New Favorites", this.favorites);
       let el = document.querySelector(".dateIdea[data-id='" + ideaID + "']");
       console.log(el);
@@ -423,5 +428,13 @@ export default class KWM_Model {
         invite.acf.opened = opened;
       }
     }
+  }
+
+  isSortReverseActive(){
+      if(!kwm.utils.isEmpty(localStorage.reverseIsActive)){
+        return localStorage.reverseIsActive === "active"
+      } else{
+        localStorage.setItem("reverseIsActive", "active");
+      }
   }
 }
