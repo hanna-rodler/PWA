@@ -8,10 +8,8 @@ import KWM_Route from '../js/kwm-route.js?v=0.2';
 
 export let view = new KWM_Route("/ideas", async function () {
   if (window.localStorage.getItem("token")) {
-    // await kwm.model.getAllDateIdeas();
     let myUser = await kwm.model.getOwnUserId();
     await kwm.model.getMyFavorites(myUser);
-    // await kwm.model.getReverseDateIdeas();
     let partner = await kwm.model.getPartner();
     await this.rendering(true);
     console.log("finished rendering");
@@ -225,7 +223,6 @@ export let view = new KWM_Route("/ideas", async function () {
       if (kwm.model.ideaIsFavorite(idea.id)) {
         console.log(document.querySelector(".dateIdea[data-id='" + idea.id + "']"));
         console.log(idea.id, " is Favorite");
-        // console.log(document.querySelector(".dateIdea[data-id='" + idea.id + "']"));
         let heart = document.querySelector(".dateIdea[data-id='" + idea.id + "'] .favs");
         console.log(heart);
         heart.classList.add("fa-solid");
@@ -240,17 +237,13 @@ view.rendering = async function (paginated) {
   kwm.templater.changeNavIcon("Idea");
 
   await kwm.templater.renderTemplate("ideas", document.getElementById("kwmJS"));
-  /*await kwm.model.getAllDateIdeas();
-  let ideas = kwm.model.dateIdeas;
-  for (let idea of ideas) {
-    await this.renderPost(idea);
-  }*/
 
   // FETCH POSTS WITH PAGINATE
   if(paginated){
     await this.fetchPosts();
     console.info("paginated posts")
   }else {
+    // Fetch all posts
     await kwm.model.getAllDateIdeas();
     let ideas = kwm.model.dateIdeas;
     for (let idea of ideas) {
@@ -317,11 +310,9 @@ view.paginate = async function (totalPages) {
 }
 
 view.renderPost = async function (idea) {
-  // console.log("RENDERING POST");
-  // console.log(idea);
+  console.log("RENDERING POST", idea);
   let ideaBox = document.createElement("div");
   ideaBox.classList.add("dateIdea");
-  // ideaBox.classList.add(categoryNames);
   ideaBox.dataset.id = idea.id;
 
   // console.log(idea.date);
@@ -340,7 +331,6 @@ view.renderPost = async function (idea) {
   }
   ideaBox.classList.add("container");
   document.querySelector("#dateIdeas").append(ideaBox);
-  // console.log(document.querySelector("#dateIdeas"));
   let acfIdea = idea.acf;
   if (acfIdea.image === false || kwm.utils.isEmpty(acfIdea.image)) {
     acfIdea.image = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/anastasia-lysiak-3EY-p8uyNTg-unsplash_squareMini.jpg";
@@ -348,14 +338,8 @@ view.renderPost = async function (idea) {
   if (kwm.utils.isEmpty(acfIdea.link)) {
     acfIdea.link = "";
   }
-  // console.log("Idea: ", acfIdea);
   if (!kwm.utils.isEmpty(categoryNames)) {
-    /*let i = document.createElement("i");
-    i.classList.add("fa-solid");
-    i.classList.add("fa-tags");
-    acfIdea.categories= i + categoryNames;*/
     acfIdea.categories = categoryNames;
-    // console.log("Idea with Categories: ", acfIdea);
   } else {
     acfIdea.categories = "";
   }
@@ -364,10 +348,6 @@ view.renderPost = async function (idea) {
   let heart = document.querySelector(".dateIdea[data-id='" + idea.id + "'] .favs");
 
   if (kwm.model.ideaIsFavorite(idea.id)) {
-    // console.log(idea.id, " is Favorite");
-    // console.log(document.querySelector(".dateIdea[data-id='" + idea.id + "']"));
-    // let heart = document.querySelector(".dateIdea[data-id='" + idea.id + "'] .favs");
-    // console.log(heart);
     heart.classList.add("fa-solid");
     heart.classList.remove("fa-regular");
   }
@@ -376,21 +356,15 @@ view.renderPost = async function (idea) {
     let idea = this.parentElement.parentElement.parentElement.parentElement;
     let id = idea.getAttribute("data-id");
     let heart = document.querySelector(".dateIdea[data-id='" + id + "'] .favs");
-    // console.log("Me: "+user1+" and my partner: "+user2.id);*/
-    // console.log("Me: ", myUser, " Partner: ", partner.ID, " want to favorite Idea
-    // ", id);
 
     if (kwm.model.ideaIsFavorite(id)) {
       console.log("Idea is favorite");
       let favoriteID = idea.getAttribute("data-parent");
-      // console.log("Related to favorite ID: ",favoriteID);
       kwm.model.deleteIdeaFromFavorites(favoriteID);
-      // kwm.model.removeFavouriteIdea(id);
       heart.classList.remove("fa-solid");
       heart.classList.add("fa-regular");
     } else {
       kwm.model.addIdeaToFavorites(kwm.model.getOwnUserId(), kwm.model.getPartner(), id);
-      // kwm.model.addFavoriteIdea(id);
       heart.classList.remove("fa-regular");
       heart.classList.add("fa-solid");
     }
