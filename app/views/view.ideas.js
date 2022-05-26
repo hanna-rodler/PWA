@@ -176,7 +176,7 @@ export let view = new KWM_Route("/ideas", async function () {
         let id = idea.getAttribute("data-id");
         let heart = document.querySelector(".dateIdea[data-id='" + id + "'] .favs");
         // console.log(idea);
-        /!*console.log(id);
+        /*console.log(id);
         console.log(heart);
         console.log("Me: "+user1+" and my partner: "+user2.id);*!/
         // console.log("Me: ", myUser, " Partner: ", partner.ID, " want to favorite Idea
@@ -311,7 +311,7 @@ view.paginate = async function (totalPages) {
 }
 
 view.renderPost = async function (idea) {
-  // console.log("RENDERING POST", idea);
+  console.log("RENDERING POST", idea);
   let ideaBox = document.createElement("div");
   ideaBox.classList.add("dateIdea");
   ideaBox.dataset.id = idea.id;
