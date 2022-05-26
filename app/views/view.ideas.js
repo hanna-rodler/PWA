@@ -11,8 +11,8 @@ export let view = new KWM_Route("/ideas", async function () {
     let myUser = await kwm.model.getOwnUserId();
     await kwm.model.getMyFavorites(myUser);
     let partner = await kwm.model.getPartner();
+    await kwm.model.getAllDateIdeas();
     await this.rendering(true);
-    console.log("finished rendering");
     // console.table(kwm.model.dateIdeas);
     // console.log(kwm.model.dateIdeas.length);
 
@@ -21,19 +21,14 @@ export let view = new KWM_Route("/ideas", async function () {
     btn_submit_idea.addEventListener("click", async function (e) {
       e.preventDefault();
       let img_id = await kwm.model.uploadMedia();
-      // console.warn("IMG ID: ", img_id);
-      // console.log(idea_link.value);
       let checkboxes = document.querySelectorAll("input[type='checkbox']:checked");
-      console.log(checkboxes);
       let checkboxArr = [];
       for (let checkbox of checkboxes) {
         checkboxArr.push(checkbox.value);
       }
-      // console.log(checkboxArr);
       let linkUrl = ""
       if (idea_link.value !== "" || !kwm.utils.isEmpty(idea_link.value)) {
         if (idea_link.value.search("^https://") === -1) {
-          console.log("no https//");
           linkUrl = "https://" + idea_link.value;
           linkUrl = linkUrl.split(" ").join("");
         }
@@ -49,7 +44,6 @@ export let view = new KWM_Route("/ideas", async function () {
         status: "publish",
         categories: checkboxArr
       };
-      console.log("POST ", post);
 
       fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea", {
         method: "POST",
@@ -64,7 +58,6 @@ export let view = new KWM_Route("/ideas", async function () {
         return response;
       }).then(response => response.json())
       .then(posts => {
-        console.log(posts);
         kwm.model.dateIdeas.push(posts);
         idea_title.value = "";
         idea_description.value = "";
@@ -81,23 +74,24 @@ export let view = new KWM_Route("/ideas", async function () {
     btn_cancel.addEventListener("click", function () {
       ideaForm.classList.add("hidden");
     })
+
     sortReverse.addEventListener("click", async function () {
-      await kwm.model.getReverseDateIdeas()
+      await kwm.model.getReverseDateIdeas();
+
       console.log("clicked sort reverse");
       let ideaContainer = document.getElementById("dateIdeas");
       // ideaContainer.classList.add("hidden");
-      while (ideaContainer.hasChildNodes()){
+      while (ideaContainer.hasChildNodes()) {
         ideaContainer.removeChild(ideaContainer.firstChild);
       }
       let ideas = document.querySelectorAll(".dateIdea");
-      for(let idea of ideas){
+      for (let idea of ideas) {
         // idea.classList.add("hidden");
         idea.remove();
       }
 
       let reverseIdeas = kwm.model.reversedIdeas;
       for (let post of reverseIdeas) {
-        // console.log(post.id, post.acf.title, post.date);
         await view.renderPost(post);
       }
       // addHeartsToFavoritePosts();
@@ -105,9 +99,7 @@ export let view = new KWM_Route("/ideas", async function () {
     });
 
     document.querySelector("#categorySelect").addEventListener("change", async function () {
-      console.log(this.value);
       await view.rendering(false);
-      console.log("done with rendering");
       if (this.value === "no categories") {
         showAllPosts();
       } else {
@@ -117,7 +109,7 @@ export let view = new KWM_Route("/ideas", async function () {
 
     // addEventListenerToHeart(myUser, partner);
 
-    addHeartsToFavoritePosts();
+    // addHeartsToFavoritePosts();
 
   }
 
@@ -127,7 +119,6 @@ export let view = new KWM_Route("/ideas", async function () {
 
   function filterByCategory(category) {
     let filteredPosts = document.querySelectorAll("." + category);
-    // console.log(filteredPosts);
     let noFound = document.querySelector("#noFound");
     if (noFound !== null)
       noFound.remove();
@@ -202,23 +193,22 @@ export let view = new KWM_Route("/ideas", async function () {
   }*/
 
 
-/*  for (let idea of kwm.model.dateIdeas) {
-    console.log(idea.id);
-    if (!kwm.model.ideaIsFavorite(idea.id)) {
-      console.log(idea);
-      let heart = document.querySelector(".dateIdea[data-id='" + idea.id + "'] .favs");
-      heart.classList.remove("fa-solid");
-      heart.classList.add("fa-regular");
-    }
-  }*/
+  /*  for (let idea of kwm.model.dateIdeas) {
+      console.log(idea.id);
+      if (!kwm.model.ideaIsFavorite(idea.id)) {
+        console.log(idea);
+        let heart = document.querySelector(".dateIdea[data-id='" + idea.id + "'] .favs");
+        heart.classList.remove("fa-solid");
+        heart.classList.add("fa-regular");
+      }
+    }*/
 
   /**
    * Add fa-solid to all ideas that are favorited by that user.
    */
-  function addHeartsToFavoritePosts(){
+  function addHeartsToFavoritePosts() {
     // add hearts to ideas that are favorites
     for (let idea of kwm.model.dateIdeas) {
-      // console.log(idea.id);
       if (kwm.model.ideaIsFavorite(idea.id)) {
         console.log(document.querySelector(".dateIdea[data-id='" + idea.id + "']"));
         console.log(idea.id, " is Favorite");
@@ -238,85 +228,87 @@ view.rendering = async function (paginated) {
   await kwm.templater.renderTemplate("ideas", document.getElementById("kwmJS"));
 
   // FETCH POSTS WITH PAGINATE
-  if(paginated){
+  if (paginated) {
     await this.fetchPosts();
     console.info("paginated posts")
-  }else {
+  } else {
     // Fetch all posts
-    await kwm.model.getAllDateIdeas();
+    // await kwm.model.getAllDateIdeas();
     let ideas = kwm.model.dateIdeas;
     for (let idea of ideas) {
       await view.renderPost(idea);
     }
     console.info("loaded all posts");
   }
-/*  if (!kwm.utils.isEmpty(localStorage.favoriteIdeas)) {
-    let favIdea = JSON.parse(localStorage.favoriteIdeas);
-    for (let favId of favIdea) {
-      let heart = document.querySelector(".dateIdea[data-id='" + favId + "'] .favs");
-      heart.classList.remove("fa-regular");
-      heart.classList.add("fa-solid");
-    }
-  }*/
+  /*  if (!kwm.utils.isEmpty(localStorage.favoriteIdeas)) {
+      let favIdea = JSON.parse(localStorage.favoriteIdeas);
+      for (let favId of favIdea) {
+        let heart = document.querySelector(".dateIdea[data-id='" + favId + "'] .favs");
+        heart.classList.remove("fa-regular");
+        heart.classList.add("fa-solid");
+      }
+    }*/
 
 };
 
-view.fetchPosts = async function () {
-  return new Promise(resolve => {
-    console.log("fetching posts");
-    fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=5")
-    .then(
-      function (response) {
-        console.log("total Pages: ", response.headers.get("X-WP-TotalPages"));
-        view.paginate(response.headers.get("X-WP-TotalPages"));
-        return response;
-      }
-    ).then(response => response.json())
-    .then(posts => {
-      for (let post of posts) {
-        kwm.model.dateIdeas.push(post);
-        view.renderPost(post)
-      }
-      console.log("Date Ideas", kwm.model.dateIdeas);
-      resolve(posts);
-    });
+view.fetchPosts = function () {
+  fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=5")
+  .then(
+    function (response) {
+      // console.log("total Pages: ", response.headers.get("X-WP-TotalPages"));
+      view.paginate(response.headers.get("X-WP-TotalPages"));
+      return response;
+    }
+  )/*.then(response => response.json())
+  .then(posts => {
+    for (let post of posts) {
+      kwm.model.dateIdeas.push(post);
+      view.renderPost(post)
+    }
+    console.log("Date Ideas:", kwm.model.dateIdeas);
+  });*/
+}
+
+view.paginate = function (totalPages) {
+  fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=5").then(
+    response => response.json()
+  ).then(posts => {
+    for (let post of posts) {
+      view.renderPost(post);
+    }
+    if (totalPages > 1) {
+      let button = document.createElement("button");
+      button.innerHTML = "Load more";
+      button.id = "load_more_posts";
+      button.classList.add("myBtn-secondary");
+      button.dataset.totalPages = totalPages;
+      button.dataset.nextPage = 2;
+      // button.removeEventListener("click");
+      button.addEventListener("click", function () {
+        fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=5&page=" +
+          this.dataset.nextPage).then(response => response.json())
+        .then(posts => {
+          for (let post of posts) {
+            kwm.model.dateIdeas.push(post);
+            view.renderPost(post);
+            // console.log("rendered post in pagination ", post);
+          }
+          button.dataset.nextPage++;
+          if (Number(totalPages) === button.dataset.nextPage-1) {
+            button.classList.add("hidden");
+          }
+        })
+      });
+      document.getElementById("main_content").append(button);
+    }
   });
 }
 
-view.paginate = async function (totalPages) {
-  if (totalPages > 1) {
-    let button = document.createElement("button");
-    button.innerHTML = "Mehr laden!";
-    button.id = "load_more_posts";
-    button.classList.add("myBtn-secondary");
-    button.dataset.totalPages = totalPages;
-    button.dataset.nextPage = 2;
-    // button.removeEventListener("click");
-    button.addEventListener("click", async function () {
-      console.log("Clicked paginate");
-      fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=5&page=" +
-        this.dataset.nextPage).then(response => response.json())
-      .then(posts => async function () {
-        console.log("rendering posts after btn click");
-        for (let post of posts) {
-          kwm.model.dateIdeas.push(post);
-          await view.renderPost(post);
-          console.log("rendered post in pagination ", post);
-        }
-        button.dataset.nextPage++;
-      })
-    });
-    document.getElementById("main_content").append(button);
-  }
-}
-
 view.renderPost = async function (idea) {
-  console.log("RENDERING POST", idea);
   let ideaBox = document.createElement("div");
   ideaBox.classList.add("dateIdea");
   ideaBox.dataset.id = idea.id;
 
-  // console.log(idea.date);
   ideaBox.dataset.published = idea.date;
   if (kwm.model.ideaIsFavorite(idea.id)) {
     ideaBox.dataset.parent = kwm.model.getRelatedFavoriteID(idea.id);
@@ -330,7 +322,6 @@ view.renderPost = async function (idea) {
       ideaBox.classList.add(categoryName);
     }
   }
-  // console.log("after category");
   ideaBox.classList.add("container");
   document.querySelector("#dateIdeas").append(ideaBox);
   let acfIdea = idea.acf;
@@ -345,11 +336,9 @@ view.renderPost = async function (idea) {
   } else {
     acfIdea.categories = "";
   }
-  // console.log("before rendering  singletemplate");
 
   await kwm.templater.renderTemplate("ideas.date-idea", ideaBox, acfIdea);
 
-  // console.log("after rendering  singletemplate");
   let heart = document.querySelector(".dateIdea[data-id='" + idea.id + "'] .favs");
 
   if (kwm.model.ideaIsFavorite(idea.id)) {
@@ -363,7 +352,7 @@ view.renderPost = async function (idea) {
     let heart = document.querySelector(".dateIdea[data-id='" + id + "'] .favs");
 
     if (kwm.model.ideaIsFavorite(id)) {
-      console.log("Idea is favorite");
+      // console.log("Idea is favorite");
       let favoriteID = idea.getAttribute("data-parent");
       kwm.model.deleteIdeaFromFavorites(favoriteID);
       heart.classList.remove("fa-solid");
@@ -375,5 +364,4 @@ view.renderPost = async function (idea) {
     }
   });
 
-  // console.log(document.querySelectorAll(".dateIdea"));
 }
