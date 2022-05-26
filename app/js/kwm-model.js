@@ -33,8 +33,9 @@ export default class KWM_Model {
   }
 
   getAllDateIdeas() {
+
     return new Promise(resolve => {
-      fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea')
+      fetch('https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=100')
       .then(response => response.json())
       .then(data => {
         if (kwm.utils.isEmpty(this.dateIdeas)) {
@@ -43,9 +44,12 @@ export default class KWM_Model {
             // console.log(idea);
             this.dateIdeas.push(idea);
           }
-          //console.log("DateIdeas", this.dateIdeas);
+          console.log("DateIdeas", this.dateIdeas);
+          console.info("Lenght: ", this.dateIdeas.length);
           resolve(this.dateIdeas);
         } else
+          console.log("DateIdeas", this.dateIdeas);
+        console.info("Lenght: ", this.dateIdeas.length);
           resolve(this.dateIdeas);
       })
     })
@@ -57,7 +61,7 @@ export default class KWM_Model {
         method: 'GET',
         redirect: 'follow'
       };
-      fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?oderBy=date&order=asc", requestOptions)
+      fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=100&oderBy=date&order=asc", requestOptions)
       .then(response => response.json())
       .then(data => {
         console.table(data);
@@ -91,7 +95,8 @@ export default class KWM_Model {
           for (let invitation of data) {
             this.invitations.push(invitation);
           }
-          // console.log("Invitations", this.invitations);
+          console.table("Invitations", this.invitations);
+          console.info("Lenght: ", this.invitations.count());
           resolve(this.invitations);
         } else
           resolve(this.invitations);

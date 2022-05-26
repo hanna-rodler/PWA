@@ -139,13 +139,14 @@ export let view = new KWM_Route("/ideas", async function () {
       }
       let ideas = document.querySelectorAll(".dateIdea");
       for(let idea of ideas){
-        idea.classList.add("hidden");
+        // idea.classList.add("hidden");
+        idea.remove();
       }
 
       let reverseIdeas = kwm.model.reversedIdeas;
       for (let post of reverseIdeas) {
-        console.log(post);
-        view.renderPost(post);
+        // console.log(post.id, post.acf.title, post.date);
+        await view.renderPost(post);
       }
 
     });
@@ -271,6 +272,7 @@ view.paginate = function (totalPages) {
 
 view.renderPost = async function (idea) {
   // console.log("RENDERING POST");
+  // console.log(idea);
   let ideaBox = document.createElement("div");
   ideaBox.classList.add("dateIdea");
   // ideaBox.classList.add(categoryNames);
@@ -291,9 +293,8 @@ view.renderPost = async function (idea) {
   }
   ideaBox.classList.add("container");
   document.querySelector("#dateIdeas").append(ideaBox);
-  // console.log("Idea: ", idea);
+  // console.log(document.querySelector("#dateIdeas"));
   idea = idea.acf;
-  // console.log("ACF idea: ", idea);
   if (idea.image === false || kwm.utils.isEmpty(idea.image)) {
     idea.image = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/anastasia-lysiak-3EY-p8uyNTg-unsplash_squareMini.jpg";
   }
