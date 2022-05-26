@@ -320,7 +320,7 @@ export default class KWM_Model {
   }
 
   deleteIdeaFromFavorites(ideaID) {
-    console.log("deleting idea ", ideaID);
+    // console.log("deleting idea ", ideaID);
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + window.localStorage.getItem("token"));
 
@@ -330,9 +330,13 @@ export default class KWM_Model {
       redirect: 'follow'
     };
 
-    let index = this.favorites.indexOf(ideaID);
-    this.favorites.splice(index, 1);
-    // console.table(this.favorites);
+
+    for(let fav of this.favorites){
+      if(Number(ideaID) === fav.id){
+        let index = this.favorites.indexOf(fav);
+        this.favorites.splice(index, 1);
+      }
+    }
 
     fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/favorite/" +
       ideaID, requestOptions)
