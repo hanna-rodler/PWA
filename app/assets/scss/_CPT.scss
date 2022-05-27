@@ -1,4 +1,4 @@
-.dateIdea, .favorite{
+.dateIdea, .favorite {
   background-color: white;
   padding: 0.1rem 1rem;
   border-radius: 20px;
@@ -11,17 +11,15 @@
     width: 90vw;*/
 }
 
-.invitation{
-/*  background-color: white;
-  padding: 0.1rem 1rem;
-  border-radius: 20px;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);*/
+@media (min-width: 900px) {
+  width: 80vw;
+}
+
+.invitation {
   @extend .dateIdea;
 }
 
-.card{
+.card {
   background-color: white;
   padding: 0.1rem 1rem;
   border-radius: 20px;
@@ -29,30 +27,31 @@
   margin-bottom: 1rem;
   box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
 }
+
 // vererbung h2
 
-#dateIdeas{
-/*  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  width: 95vw;*/
+#dateIdeas {
+  /*  display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 95vw;*/
 }
 
-.dateIdea a, .invitation a, .favorite a{
+.dateIdea a, .invitation a, .favorite a {
   word-break: break-all;
 }
 
-.favs:hover{
+.favs:hover {
   color: $pink;
   cursor: pointer;
 }
 
-.favs.fa-heart.fa-solid{
-  color:$pink;
+.favs.fa-heart.fa-solid {
+  color: $pink;
 
 }
 
-.favs.fa-solid:hover{
+.favs.fa-solid:hover {
   color: lighten($pink, 30%);
 }
 
@@ -60,7 +59,7 @@
   display: inline;
 }*/
 
-#addIdea{
+#addIdea {
   cursor: pointer;
 }
 
@@ -68,7 +67,11 @@
   cursor: pointer;
 }*/
 
-.acceptionChecks{
+.acceptionChecks {
   cursor: pointer;
   color: green;
+}
+
+.letter {
+  cursor: pointer;
 }

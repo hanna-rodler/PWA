@@ -12,18 +12,31 @@ export let view = new KWM_Route("/invites", async function () {
     let partner = await kwm.model.getPartner();
     await kwm.model.getMyInvitations(myUser);
     await this.rendering(myUser);
-    console.log("finished with rendering");
-    console.table(kwm.model.invitations);
+    // console.table(kwm.model.invitations);
 
     let inviteImgs = document.getElementsByClassName("letter");
-    console.log("Letters", inviteImgs);
-    console.log("Letters", inviteImgs);
-    console.log("Letters", inviteImgs.length);
+    // console.log("Letters", inviteImgs);
+    // console.log("Letters", inviteImgs);
+    // console.log("Letters", inviteImgs.length);
     for(let img of inviteImgs){
       console.log("I am dumb");
       img.addEventListener("click", function (){
         console.log("clicked letter");
       })
+    }
+
+    let closeBtns = document.getElementsByClassName("closeBtn");
+    for(let closeBtn of closeBtns){
+      closeBtn.addEventListener("click", function (){
+        let id = closeBtn.getAttribute("data-id");
+        console.log(id);
+        let inviteImg = document.querySelector(".invitation[data-id='" + id + "'] img");
+        let src = inviteImg.src;
+        console.log(inviteImg, " with source ", src);
+        if(src != "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png"){
+          inviteImg.src = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png";
+        }
+      });
     }
 
 
@@ -98,11 +111,10 @@ export let view = new KWM_Route("/invites", async function () {
     }*/
 
     let acceptionChecks = document.getElementsByClassName("acceptCheck");
-    console.log("found", acceptionChecks);
-    console.log("why?");
+    // console.log("found", acceptionChecks);
     for(let check of acceptionChecks){
-      console.log("in loop");
-      console.log("to", check);
+      // console.log("in loop");
+      // console.log("to", check);
       check.addEventListener("click", function (){
         console.log("clicked on accept");
       })
@@ -124,28 +136,30 @@ view.rendering = async function (myUser) {
     div.classList.add("container");
     div.dataset.id = invite.id;
     document.querySelector("#invitations").append(div);
-    // console.log(invite);
-    invite = invite.acf;
-    if(invite.opened && invite.invitor === myUser){
+    console.log(invite);
+    let acfInvite = invite.acf;
+    if(acfInvite.opened && acfInvite.invitor === myUser){
       // I invited other person & it was opened
-      invite.ph="http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/sent_opened-letter.png"
-    }else if (invite.opened && invite.invited === myUser){
+      acfInvite.ph="http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/sent_opened-letter.png"
+    }else if (acfInvite.opened && acfInvite.invited === myUser){
       // letter opened but I didn't invite
-      invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png";
-    } else if(!invite.opened  && invite.invitor === myUser){
+      acfInvite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png";
+    } else if(!acfInvite.opened  && acfInvite.invitor === myUser){
       // closed and I invited
-      invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/sent_closed-letter.png";
+      acfInvite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/sent_closed-letter.png";
     } else{
       // closed and I got invited
-      invite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_closed-letter.png";
+      acfInvite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_closed-letter.png";
     }
+    acfInvite.id = invite.id;
 
-    kwm.templater.renderTemplate("invites.invitation-invited", div, invite);
+    // await kwm.templater.renderTemplate("invites.invitation-invited", div, acfInvite);
 
-    /*if (invite.invited === myUser) {
-      kwm.templater.renderTemplate("invites.invitation-invited", div, invite);
+    if (acfInvite.invited === myUser) {
+      console.log(acfInvite.title);
+      await kwm.templater.renderTemplate("invites.invitation-invited", div, acfInvite);
     } else
-      kwm.templater.renderTemplate("invites.invitation", div, invite);*/
+      await kwm.templater.renderTemplate("invites.invitation", div, acfInvite);
   }
 
 };
