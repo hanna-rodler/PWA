@@ -38,17 +38,11 @@ export default class KWM_Model {
       .then(response => response.json())
       .then(data => {
         if (kwm.utils.isEmpty(this.dateIdeas)) {
-          // console.table(data);
           for (let idea of data) {
-            // console.log(idea);
             this.dateIdeas.push(idea);
           }
-          // console.log("DateIdeas", this.dateIdeas);
-          // console.info("Lenght: ", this.dateIdeas.length);
           resolve(this.dateIdeas);
         } else
-          // console.log("DateIdeas", this.dateIdeas);
-          // console.info("Lenght: ", this.dateIdeas.length);
           resolve(this.dateIdeas);
       })
     })
@@ -204,9 +198,6 @@ export default class KWM_Model {
       await fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/users/me", requestOptions)
       .then(response => response.json())
       .then(result => {
-        // console.table(result);
-        // console.log(result.acf.partner);
-        // console.log(result.acf.partner.ID);
         let partner = {
           "ID": result.acf.partner.ID,
           "display_name": result.acf.partner.display_name,
@@ -237,7 +228,6 @@ export default class KWM_Model {
    * @param id
    */
   ideaIsFavorite(id) {
-    // console.log("checking if idea is favorite");
     let myUserId = kwm.model.getOwnUserId()
     this.getMyFavorites(myUserId);
     if (!kwm.utils.isEmpty(this.favorites)) {
@@ -280,12 +270,9 @@ export default class KWM_Model {
    */
   removeFavouriteIdea(id) {
     let favIdeas = JSON.parse(localStorage.favoriteIdeas);
-    // console.log("removing idea " + id);
     let index = favIdeas.indexOf(id);
-    // console.log(index);
     favIdeas.splice(index, 1);
     localStorage.favoriteIdeas = JSON.stringify(favIdeas);
-    // console.info(localStorage.favoriteIdeas);
   }
 
 
@@ -325,7 +312,7 @@ export default class KWM_Model {
       },
       status: "publish"
     };
-    console.log("Post ", post);
+    // console.log("Post ", post);
     fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/favorite", {
       method: "POST",
       headers: {
@@ -345,15 +332,15 @@ export default class KWM_Model {
     .then(result => {
       // this.favorites.push(result);
       this.favorites.unshift(result);
-      console.log("New Favorites", this.favorites);
+      console.info("added to Favorites:", this.favorites);
       let el = document.querySelector(".dateIdea[data-id='" + ideaID + "']");
-      console.log(el);
+      // console.log(el);
       el.dataset.parent = result.id;
     });
   }
 
   deleteIdeaFromFavorites(ideaID) {
-    // console.log("deleting idea ", ideaID);
+    console.info("deleting idea ", ideaID);
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + window.localStorage.getItem("token"));
 
@@ -450,7 +437,7 @@ export default class KWM_Model {
   async setOpened(id, opened) {
     for (let invite of this.invitations) {
       if (invite.id == id && !invite.acf.opened) {
-        console.log("setting ", invite.id, " as open");
+        // console.log("setting ", invite.id, " as open");
         invite.acf.opened = opened;
         let post = {
           fields: {
@@ -475,7 +462,7 @@ export default class KWM_Model {
   async setAccepted(id, accepted) {
     for (let invite of this.invitations) {
       if (invite.id == id) {
-        console.log("setting ", invite.id, " as ", accepted);
+        // console.log("setting ", invite.id, " as ", accepted);
         invite.acf.accepted = accepted;
 
         let post = {
@@ -505,7 +492,7 @@ export default class KWM_Model {
 
   isSortReverseActive() {
     if (!kwm.utils.isEmpty(localStorage.reverseIsActive)) {
-      console.log(localStorage.reverseIsActive);
+      // console.log(localStorage.reverseIsActive);
       return localStorage.reverseIsActive === "active"
     } else {
       localStorage.setItem("reverseIsActive", "active");

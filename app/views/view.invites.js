@@ -39,7 +39,6 @@ export let view = new KWM_Route("/invites", async function () {
     for (let closeBtn of closeBtns) {
       closeBtn.addEventListener("click", function () {
         let id = closeBtn.getAttribute("data-id");
-        console.log(id);
         changeLetterImg(id);
         kwm.model.setOpened(id, true);
       });
@@ -65,7 +64,7 @@ export let view = new KWM_Route("/invites", async function () {
     }
 
     let revokeAcceptBtns = document.getElementsByClassName("revokeAcceptBtn");
-    console.log(revokeAcceptBtns);
+    // console.log(revokeAcceptBtns);
     if (revokeAcceptBtns != null) {
       for (let revokeBtn of revokeAcceptBtns) {
         revokeBtn.addEventListener("click", revokeAcception);
@@ -77,7 +76,7 @@ export let view = new KWM_Route("/invites", async function () {
       console.log("NEW accepting ", id);
       let check = document.querySelector(".invitation[data-id='" + id + "']" +
         " .fa-circle-check");
-      console.log(check);
+      // console.log(check);
       check.classList.remove("fa-regular");
       check.classList.add("fa-solid");
       kwm.model.setAccepted(id, true);
@@ -91,7 +90,7 @@ export let view = new KWM_Route("/invites", async function () {
     }
 
     function revokeAcception() {
-      console.log("removing Accepted in outer Btn");
+      // console.log("removing Accepted in outer Btn");
       let id = this.getAttribute("data-id");
       // console.log(id);
       let check = document.querySelector(".invitation[data-id='" + id + "']" +
@@ -111,31 +110,19 @@ export let view = new KWM_Route("/invites", async function () {
 
     function changeLetterImg(id) {
       let inviteImg = document.querySelector(".invitation[data-id='" + id + "'] img");
-      // let src = inviteImg.src;
-      // console.log(inviteImg, " with source ", src);
       if (inviteImg.src !==
         "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png") {
         inviteImg.src = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png";
       }
     }
 
-
-    /*test_notification.addEventListener("click", function () {
-      const title = "Date Invitation";
-      const options = {
-        body: "Hanna is inviting you on a date",
-        vibrate: [200, 100, 200]
-      }
-      new Notification(title, options);
-    });*/
-
     send_invite.addEventListener("click", async function (e) {
       e.preventDefault();
-      console.log(invite_dateTime.value);
+      // console.log(invite_dateTime.value);
       let linkUrl = ""
       if (meeting_link.value !== "" || !kwm.utils.isEmpty(meeting_link.value)) {
         if (meeting_link.value.search("^https://") === -1) {
-          console.log("no https//");
+          // console.log("no https//");
           linkUrl = "https://" + meeting_link.value;
           linkUrl = linkUrl.split(" ").join("");
         }
@@ -153,7 +140,7 @@ export let view = new KWM_Route("/invites", async function () {
         },
         status: "publish"
       };
-      console.log("POST", post);
+      // console.log("POST", post);
       fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/invitation", {
         method: "POST",
         headers: {
