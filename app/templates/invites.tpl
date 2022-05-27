@@ -10,7 +10,7 @@
                 <input type="text" class="form-control" id="invite_title">
             </div>
             <div class="mb-3">
-                <label for="invite_description" class="form-label">Description</label>
+                <label for="invite_description" class="form-label">Text</label>
                 <textarea class="form-control" id="invite_description" rows="3"></textarea>
             </div>
             <div class="mb-3">

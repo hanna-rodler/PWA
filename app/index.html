@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <title>LoDiDa</title>
     <link rel="manifest" href="manifest.json">
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
-
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
     <link rel="stylesheet" href="public/main.min.css">
 </head>
 <body>
@@ -26,27 +23,19 @@
     </nav>
 </header>
 <main class="mx-2 mt-2">
-<!--    <section>
-        <h2>New Invitation</h2>
-        <form action="">
-            <label for="invite_title">Titel</label>
-            <input type="text" id="invite_title"><br>
-            <label for="invite_text">Invite text:</label>
-            <textarea name="inviteText" id="invite_text" rows="5" cols="35"></textarea><br>
-            <input type="file" value="media" id="post_media"><br>
-            <input type="submit" value="Abschicken" id="btn_submit_idea" class="btn-primary">
-        </form>
-    </section>-->
     <section id="login">
-<!--        <span id="login_state" class="red">    </span>-->
         <span id="user_display_name"></span>
 
-        <form action="" id="form_login">
-            <label for="username">Benutzername</label>
-            <input type="text" id="username" autocomplete="username">
-            <label for="password">Passwort</label>
-            <input type="password" id="password" autocomplete="current-password">
-            <button id="btn_login">Einloggen</button>
+        <form action="" id="form_login" class="ms-md-5">
+                <div class="mb-3 col-md-6 col-10">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" autocomplete="username" class="form-control">
+                </div>
+                <div class="mb-3 col-md-6 col-10">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" autocomplete="current-password" class="form-control">
+                </div>
+                <button id="btn_login" class="myBtn-filterActive">Log in</button>
         </form>
     </section>
 
@@ -55,7 +44,6 @@
     </div>
 
 </main>
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>-->
 <script src="https://kit.fontawesome.com/48e799a5b5.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script type="module" src="pwa.js"></script>

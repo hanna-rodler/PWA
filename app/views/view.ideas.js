@@ -341,7 +341,8 @@ view.renderPost = async function (idea, targetContainer) {
       heart.classList.remove("fa-solid");
       heart.classList.add("fa-regular");
     } else {
-      kwm.model.addIdeaToFavorites(await kwm.model.getOwnUserId(), kwm.model.getPartner(), id);
+      let partner = await kwm.model.getPartner();
+      kwm.model.addIdeaToFavorites(await kwm.model.getOwnUserId(), partner.ID, id);
       heart.classList.remove("fa-regular");
       heart.classList.add("fa-solid");
     }

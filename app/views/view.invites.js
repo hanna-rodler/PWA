@@ -69,43 +69,6 @@ export let view = new KWM_Route("/invites", async function () {
     if (revokeAcceptBtns != null) {
       for (let revokeBtn of revokeAcceptBtns) {
         revokeBtn.addEventListener("click", revokeAcception);
-
-        /*revokeBtn.addEventListener("click", function() {
-          console.log("removing Accepted in outer Btn");
-          let id = revokeBtn.getAttribute("data-id");
-          // console.log(id);
-          let check = document.querySelector(".invitation[data-id='" + id + "']" +
-            " .fa-circle-check");
-          // console.log(check);
-          check.classList.add("fa-regular");
-          check.classList.remove("fa-solid");
-          kwm.model.setAccepted(id, false);
-          revokeBtn.classList.remove("revokeAcceptBtn");
-          revokeBtn.classList.add("acceptBtn");
-          revokeBtn.innerHTML="Accept";
-
-          revokeBtn.removeEventListener("click");
-          revokeAcceptBtns = document.getElementsByClassName("revokeAcceptBtn");
-        });*/
-
-        /*        let acceptBtns = document.getElementsByClassName("acceptBtn");
-                for (let acceptBtn of acceptBtns) {
-                  acceptBtn.addEventListener("click", function () {
-                    let id = acceptBtn.getAttribute("data-id");
-                    console.log("accepting ", id);
-                    let check = document.querySelector(".invitation[data-id='" + id + "']" +
-                      " .fa-circle-check");
-                    console.log(check);
-                    check.classList.remove("fa-regular");
-                    check.classList.add("fa-solid");
-                    kwm.model.setAccepted(id, true);
-                    acceptBtn.classList.remove("acceptBtn");
-                    acceptBtn.classList.add("revokeAcceptBtn");
-                    changeLetterImg(id);
-                    acceptBtn.innerHTML = "Remove Accepted";
-                  });
-                }*/
-
       }
     }
 
@@ -212,7 +175,7 @@ export let view = new KWM_Route("/invites", async function () {
         invite_description.value = "";
         meeting_link.value = "";
         invite_dateTime.value = "";
-        // location.reload(true);
+        location.reload(true);
       });
 
     });

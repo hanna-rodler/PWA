@@ -48,7 +48,6 @@ if (window.localStorage.getItem("token")) {
       window.localStorage.setItem("user_display_name", response.user_display_name);
       localStorage.setItem("reverseIsActive", "inactive");
       savePartner();
-      location.reload(true);
       // let partner = getPartner();
         // console.log(partner);
         user_display_name.innerHTML = "Willkommen zurück, " +
@@ -57,7 +56,8 @@ if (window.localStorage.getItem("token")) {
         headerNav.classList.remove("hidden");
         kwmJS.classList.remove("hidden");
       Notification.requestPermission();
-      this.changeView();
+      // this.changeView();
+      location.reload(true);
       }
     )
   });

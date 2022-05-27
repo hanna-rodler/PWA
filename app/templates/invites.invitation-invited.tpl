@@ -1,6 +1,5 @@
 <div class="row">
     <div class="col-4 col-md-2 flex-center-center">
-        <!--<img src="<&>ph<&>" alt="" class="rounded img-fluid my-2 letter">-->
         <img src="<&>ph<&>" alt="" class="rounded img-fluid my-2 inviteImg" data-bs-toggle="modal" data-bs-target="#modal-<&>id<&>">
     </div>
     <div class="col-md-10 col-8 flex-center-start-column">

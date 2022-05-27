@@ -144,15 +144,30 @@ export default class KWM_Model {
     })
   }
 
-  getPartner() {
-    if (!kwm.utils.isEmpty(localStorage.partner)) {
+  async getPartner() {
+    /*if (!kwm.utils.isEmpty(localStorage.partner)) {
       return JSON.parse(localStorage.partner);
     } else {
-      this.savePartner();
+      await this.savePartner();
+    }*/
+    if(kwm.utils.isEmpty(localStorage.partner)){
+      await this.savePartner();
     }
+    return JSON.parse(localStorage.partner);
   }
 
-  savePartner() {
+  /*getPartner(){
+    return new Promise(resolve => {
+      if (!kwm.utils.isEmpty(localStorage.partner)) {
+        resolve(JSON.parse(localStorage.partner));
+      } else {
+        this.savePartner();
+        resolve(JSON.parse(localStorage.partner));
+      }
+    })
+  }*/
+
+/*  savePartner() {
     let myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + window.localStorage.getItem("token"));
     var requestOptions = {
@@ -175,6 +190,31 @@ export default class KWM_Model {
       window.localStorage.setItem("partner", JSON.stringify(partner));
     })
     .catch(error => console.log('error', error));
+  }*/
+
+  async savePartner(){
+      let myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer " + window.localStorage.getItem("token"));
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+
+      await fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/users/me", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        // console.table(result);
+        // console.log(result.acf.partner);
+        // console.log(result.acf.partner.ID);
+        let partner = {
+          "ID": result.acf.partner.ID,
+          "display_name": result.acf.partner.display_name,
+          "nickname": result.acf.partner.nickname
+        }
+        window.localStorage.setItem("partner", JSON.stringify(partner));
+      })
+      .catch(error => console.log('error', error));
   }
 
   logOut() {
@@ -197,21 +237,15 @@ export default class KWM_Model {
    * @param id
    */
   ideaIsFavorite(id) {
-    /*if (!kwm.utils.isEmpty(localStorage.favoriteIdeas))
-      return JSON.parse(localStorage.favoriteIdeas).includes(id);*/
     // console.log("checking if idea is favorite");
     let myUserId = kwm.model.getOwnUserId()
     this.getMyFavorites(myUserId);
     if (!kwm.utils.isEmpty(this.favorites)) {
       for (let idea of this.favorites) {
-        // console.log(idea.acf);
-        // console.log(idea.acf.idea);
-        // console.log("id", id);
         if (id == idea.acf.idea) {
           return true;
         }
       }
-      // console.log(this.favorites);
     }
     return false;
   }

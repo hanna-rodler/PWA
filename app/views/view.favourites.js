@@ -41,6 +41,11 @@ view.rendering = async function () {
 
   await kwm.templater.renderTemplate("favourites", document.getElementById("kwmJS"));
   let favorites = kwm.model.favorites;
+  if(favorites.length===0){
+    let div = document.createElement("div");
+    div.append(document.createTextNode("There are no favorites yet"));
+    document.querySelector("#favorites").append(div);
+  }
 
   for (let favorite of favorites) {
     let favBox = document.createElement("div");
