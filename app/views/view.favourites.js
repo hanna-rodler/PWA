@@ -81,29 +81,4 @@ view.rendering = async function () {
     })
 
   }
-
-/*  let favs = document.getElementsByClassName("favs");
-  console.log(favs);
-
-  for(let fav of favs){
-    fav.addEventListener("click", function(){
-      //TODO: ask if really want to remove from favorite
-      let favIdea = fav.parentElement.parentElement.parentElement.parentElement;
-      let id = favIdea.getAttribute("data-id");
-      console.log("Idea ", favIdea, " id: ", id);
-      let heart = document.querySelector(".favorite[data-id='"+id+"'] .favs");
-      console.log("Heart ", heart);
-
-      heart.classList.remove("fa-solid");
-      heart.classList.add("fa-regular");
-      kwm.model.deleteIdeaFromFavorites(id);
-      // kwm.model.removeFavouriteIdea(favIdea.getAttribute("data-parent"));
-
-      let favPost = document.querySelector(".favorite[data-id='"+id+"']");
-      console.log("removing", favPost);
-      setTimeout(function (){
-        favPost.remove();
-      }, 200);
-    });
-  }*/
 }

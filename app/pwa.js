@@ -63,14 +63,6 @@ if (window.localStorage.getItem("token")) {
   });
 }
 
-function getPartner() {
-  if (!kwm.utils.isEmpty(localStorage.partner)) {
-    // console.log(JSON.parse(localStorage.partner));
-    return JSON.parse(localStorage.partner);
-  } else {
-    savePartner();
-  }
-}
 
 async function savePartner() {
   let myHeaders = new Headers();

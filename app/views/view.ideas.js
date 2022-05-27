@@ -27,6 +27,9 @@ export let view = new KWM_Route("/ideas", async function () {
     }
 
     /* POST idea*/
+    addIdea.addEventListener("click", showIdeaForm);
+    addIdea.addEventListener("touch", showIdeaForm);
+
     btn_submit_idea.addEventListener("click", async function (e) {
       e.preventDefault();
       let img_id = await kwm.model.uploadMedia();
@@ -78,9 +81,6 @@ export let view = new KWM_Route("/ideas", async function () {
         location.reload(true);
       });
     });
-    addIdea.addEventListener("click", showIdeaForm);
-
-    addIdea.addEventListener("touch", showIdeaForm);
 
     btn_cancel.addEventListener("click", function () {
       ideaForm.classList.add("hidden");
@@ -120,10 +120,10 @@ export let view = new KWM_Route("/ideas", async function () {
               }
             }*/
       if (kwm.model.isSortReverseActive()) {
-        console.log("reverse sorting INactive");
         sortReverseBtn.classList.add("myBtn-secondary");
         sortReverseBtn.classList.remove("myBtn-filterActive");
         localStorage.reverseIsActive = "inactive";
+        document.querySelector("#categorySelect [value='all categories']").selected = true;
 
         await removeChildNodes();
 
@@ -147,10 +147,6 @@ export let view = new KWM_Route("/ideas", async function () {
       }
     })
 
-    // addEventListenerToHeart(myUser, partner);
-
-    // addHeartsToFavoritePosts();
-
   }
 
   async function sortReverse() {
@@ -158,6 +154,7 @@ export let view = new KWM_Route("/ideas", async function () {
     localStorage.reverseIsActive = "active";
     sortReverseBtn.classList.add("myBtn-filterActive");
     sortReverseBtn.classList.remove("myBtn-secondary");
+    document.querySelector("#categorySelect [value='all categories']").selected = true;
 
     await removeChildNodes();
     console.log(document.getElementById("dateIdeas"));
@@ -226,78 +223,9 @@ export let view = new KWM_Route("/ideas", async function () {
       await view.renderPost(idea, "dateIdeas");
     }*/
   }
-
-  /*function addEventListenerToHeart(myUser, partner){
-    let favs = document.getElementsByClassName("favs");
-    // console.log("Favs", favs);
-    // console.log("Favs", favs.length);
-
-    // event listener for favoriting post.
-    for (let fav of favs) {
-      fav.addEventListener("click", function () {
-        let idea = fav.parentElement.parentElement.parentElement.parentElement;
-        let id = idea.getAttribute("data-id");
-        let heart = document.querySelector(".dateIdea[data-id='" + id + "'] .favs");
-        // console.log(idea);
-        /*console.log(id);
-        console.log(heart);
-        console.log("Me: "+user1+" and my partner: "+user2.id);*!/
-        // console.log("Me: ", myUser, " Partner: ", partner.ID, " want to favorite Idea
-        // ", id);
-
-        if (kwm.model.ideaIsFavorite(id)) {
-          console.log("Idea is favorite");
-          let favoriteID = idea.getAttribute("data-parent");
-          // console.log("Related to favorite ID: ",favoriteID);
-          kwm.model.deleteIdeaFromFavorites(favoriteID);
-          // kwm.model.removeFavouriteIdea(id);
-          heart.classList.remove("fa-solid");
-          heart.classList.add("fa-regular");
-        } else {
-          kwm.model.addIdeaToFavorites(myUser, partner, id);
-          // kwm.model.addFavoriteIdea(id);
-          heart.classList.remove("fa-regular");
-          heart.classList.add("fa-solid");
-        }
-      });
-    }
-
-  }*/
-
-
-  /*  for (let idea of kwm.model.dateIdeas) {
-      console.log(idea.id);
-      if (!kwm.model.ideaIsFavorite(idea.id)) {
-        console.log(idea);
-        let heart = document.querySelector(".dateIdea[data-id='" + idea.id + "'] .favs");
-        heart.classList.remove("fa-solid");
-        heart.classList.add("fa-regular");
-      }
-    }*/
-
-  /**
-   * Add fa-solid to all ideas that are favorited by that user.
-   */
-  function addHeartsToFavoritePosts() {
-    // add hearts to ideas that are favorites
-    for (let idea of kwm.model.dateIdeas) {
-      if (kwm.model.ideaIsFavorite(idea.id)) {
-        console.log(document.querySelector(".dateIdea[data-id='" + idea.id + "']"));
-        console.log(idea.id, " is Favorite");
-        let heart = document.querySelector(".dateIdea[data-id='" + idea.id + "'] .favs");
-        console.log(heart);
-        heart.classList.add("fa-solid");
-        heart.classList.remove("fa-regular");
-      }
-    }
-  }
-
 });
 
 view.rendering = async function (paginated) {
-  // kwm.templater.changeNavIcon("Idea");
-  //
-  // await kwm.templater.renderTemplate("ideas", document.getElementById("kwmJS"));
 
   // FETCH POSTS WITH PAGINATE
   if (paginated) {
@@ -310,14 +238,6 @@ view.rendering = async function (paginated) {
       await view.renderPost(idea, "dateIdeas");
     }
   }
-  /*  if (!kwm.utils.isEmpty(localStorage.favoriteIdeas)) {
-      let favIdea = JSON.parse(localStorage.favoriteIdeas);
-      for (let favId of favIdea) {
-        let heart = document.querySelector(".dateIdea[data-id='" + favId + "'] .favs");
-        heart.classList.remove("fa-regular");
-        heart.classList.add("fa-solid");
-      }
-    }*/
 
 };
 
@@ -329,14 +249,7 @@ view.fetchPosts = function () {
       view.paginate(response.headers.get("X-WP-TotalPages"));
       return response;
     }
-  )/*.then(response => response.json())
-  .then(posts => {
-    for (let post of posts) {
-      kwm.model.dateIdeas.push(post);
-      view.renderPost(post)
-    }
-    console.log("Date Ideas:", kwm.model.dateIdeas);
-  });*/
+  )
 }
 
 view.paginate = function (totalPages) {

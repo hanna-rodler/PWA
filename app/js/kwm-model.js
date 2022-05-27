@@ -380,18 +380,6 @@ export default class KWM_Model {
     }
   }
 
-  /*  async getRequestOptions(post){
-      let requestOptions = {
-        method: 'POST',
-        headers: {
-          "Content-Type": 'application/json',
-          "Authorization": "Bearer " + window.localStorage.getItem("token"),
-        },
-        redirect: 'follow',
-        body: JSON.stringify(post)
-      };
-      return requestOptions;
-    }*/
 
   getCategoryName(id) {
     return new Promise(async function (resolve) {
