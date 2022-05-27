@@ -436,6 +436,7 @@ export default class KWM_Model {
 
   isSortReverseActive(){
       if(!kwm.utils.isEmpty(localStorage.reverseIsActive)){
+        console.log(localStorage.reverseIsActive);
         return localStorage.reverseIsActive === "active"
       } else{
         localStorage.setItem("reverseIsActive", "active");

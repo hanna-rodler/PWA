@@ -3,14 +3,14 @@
         <!--{*        // TODO: align button right*}-->
         <div class="filterBar" id="filterBar">
             <select class="form-select" aria-label="Default select example" id="categorySelect">
-                <option selected value="no categories">no categories</option>
+                <option selected value="all categories">all categories</option>
                 <option value="art">art</option>
                 <option value="games">games</option>
                 <option value="gettingtoknoweachother">getting to know each other</option>
                 <option value="movies">movies</option>
             </select>
         </div>
-        <button id="sortReverse" class="myBtn-secondary">Sort Reverse</button>
+        <button id="sortReverseBtn" class="myBtn-secondary">Sort Reverse</button>
         <i class="fa-solid fa-plus d-flex me-3" id="addIdea"></i>
     </div>
     <form action="" class="hidden" id="ideaForm">
