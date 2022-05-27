@@ -23,6 +23,18 @@ export let view = new KWM_Route("/invites", async function () {
       })
     }*/
 
+    openInviteForm.addEventListener("click", function () {
+      inviteForm.classList.remove("hidden");
+    })
+
+    btn_cancel.addEventListener("click", function () {
+      inviteForm.classList.add("hidden");
+    })
+
+    sync_invites.addEventListener("click", function (){
+      location.reload(true);
+    });
+
     let closeBtns = document.getElementsByClassName("closeBtn");
     for (let closeBtn of closeBtns) {
       closeBtn.addEventListener("click", function () {
@@ -35,8 +47,10 @@ export let view = new KWM_Route("/invites", async function () {
 
     let acceptBtns = document.getElementsByClassName("acceptBtn");
     for (let acceptBtn of acceptBtns) {
-      acceptBtn.addEventListener("click", function () {
+      acceptBtn.addEventListener("click", markAsAccepted);
+      /*acceptBtn.addEventListener("click", function () {
         let id = acceptBtn.getAttribute("data-id");
+        console.log("NEW accepting ", id);
         let check = document.querySelector(".invitation[data-id='" + id + "']" +
           " .fa-circle-check");
         console.log(check);
@@ -47,52 +61,92 @@ export let view = new KWM_Route("/invites", async function () {
         acceptBtn.classList.add("revokeAcceptBtn");
         changeLetterImg(id);
         acceptBtn.innerHTML="Remove Accepted";
-
-        let revokeAcceptBtns = document.getElementsByClassName("revokeAcceptBtn");
-        console.log(revokeAcceptBtns);
-        if(revokeAcceptBtns!= null){
-          for (let revokeBtn of revokeAcceptBtns) {
-            revokeBtn.addEventListener("click", function () {
-              console.log("removing Accepted");
-              let id = revokeBtn.getAttribute("data-id");
-              console.log(id);
-              let check = document.querySelector(".invitation[data-id='" + id + "']" +
-                " .fa-circle-check");
-              console.log(check);
-              check.classList.add("fa-regular");
-              check.classList.remove("fa-solid");
-              kwm.model.setAccepted(id, false);
-              revokeBtn.classList.remove("revokeAcceptBtn");
-              revokeBtn.classList.add("acceptBtn");
-              revokeBtn.innerHTML="Accept";
-            });
-          }
-        }
-      });
+      });*/
     }
 
     let revokeAcceptBtns = document.getElementsByClassName("revokeAcceptBtn");
     console.log(revokeAcceptBtns);
-    if(revokeAcceptBtns!= null){
+    if (revokeAcceptBtns != null) {
       for (let revokeBtn of revokeAcceptBtns) {
-        revokeBtn.addEventListener("click", function () {
-          console.log("removing Accepted");
+        revokeBtn.addEventListener("click", revokeAcception);
+
+        /*revokeBtn.addEventListener("click", function() {
+          console.log("removing Accepted in outer Btn");
           let id = revokeBtn.getAttribute("data-id");
-          console.log(id);
+          // console.log(id);
           let check = document.querySelector(".invitation[data-id='" + id + "']" +
             " .fa-circle-check");
-          console.log(check);
+          // console.log(check);
           check.classList.add("fa-regular");
           check.classList.remove("fa-solid");
           kwm.model.setAccepted(id, false);
           revokeBtn.classList.remove("revokeAcceptBtn");
           revokeBtn.classList.add("acceptBtn");
           revokeBtn.innerHTML="Accept";
-        });
+
+          revokeBtn.removeEventListener("click");
+          revokeAcceptBtns = document.getElementsByClassName("revokeAcceptBtn");
+        });*/
+
+        /*        let acceptBtns = document.getElementsByClassName("acceptBtn");
+                for (let acceptBtn of acceptBtns) {
+                  acceptBtn.addEventListener("click", function () {
+                    let id = acceptBtn.getAttribute("data-id");
+                    console.log("accepting ", id);
+                    let check = document.querySelector(".invitation[data-id='" + id + "']" +
+                      " .fa-circle-check");
+                    console.log(check);
+                    check.classList.remove("fa-regular");
+                    check.classList.add("fa-solid");
+                    kwm.model.setAccepted(id, true);
+                    acceptBtn.classList.remove("acceptBtn");
+                    acceptBtn.classList.add("revokeAcceptBtn");
+                    changeLetterImg(id);
+                    acceptBtn.innerHTML = "Remove Accepted";
+                  });
+                }*/
+
       }
     }
 
-    function changeLetterImg(id){
+    function markAsAccepted(){
+      let id = this.getAttribute("data-id");
+      console.log("NEW accepting ", id);
+      let check = document.querySelector(".invitation[data-id='" + id + "']" +
+        " .fa-circle-check");
+      console.log(check);
+      check.classList.remove("fa-regular");
+      check.classList.add("fa-solid");
+      kwm.model.setAccepted(id, true);
+      this.classList.remove("acceptBtn");
+      this.classList.add("revokeAcceptBtn");
+      changeLetterImg(id);
+      this.innerHTML = "Remove Accepted";
+      this.removeEventListener("click", markAsAccepted);
+      this.addEventListener("click", revokeAcception);
+
+    }
+
+    function revokeAcception() {
+      console.log("removing Accepted in outer Btn");
+      let id = this.getAttribute("data-id");
+      // console.log(id);
+      let check = document.querySelector(".invitation[data-id='" + id + "']" +
+        " .fa-circle-check");
+      // console.log(check);
+      check.classList.add("fa-regular");
+      check.classList.remove("fa-solid");
+      kwm.model.setAccepted(id, false);
+      this.classList.remove("revokeAcceptBtn");
+      this.classList.add("acceptBtn");
+      this.innerHTML = "Accept";
+
+      this.removeEventListener("click", revokeAcception);
+      this.addEventListener("click", markAsAccepted);
+      // console.log(revokeAcceptBtns, revokeAcception);
+    }
+
+    function changeLetterImg(id) {
       let inviteImg = document.querySelector(".invitation[data-id='" + id + "'] img");
       // let src = inviteImg.src;
       // console.log(inviteImg, " with source ", src);
@@ -206,21 +260,18 @@ view.rendering = async function (myUser) {
     } else
       await kwm.templater.renderTemplate("invites.invitation", div, acfInvite);
 
-    if(acfInvite.accepted){
+    if (acfInvite.accepted) {
       let check = document.querySelector(".invitation[data-id='" + acfInvite.id + "']" +
         " .fa-circle-check");
       // console.log(check);
       check.classList.remove("fa-regular");
       check.classList.add("fa-solid");
 
-      if(acfInvite.invitor !== myUser){
-        console.log(acfInvite.title, " with id ", acfInvite.id, "got accepted");
-        console.log(acfInvite.id, invite.id);
+      if (acfInvite.invitor !== myUser) {
         let acceptBtn = document.querySelector(".acceptBtn[data-id='" + invite.id + "']");
-        console.log(acceptBtn);
         acceptBtn.classList.remove("acceptBtn");
         acceptBtn.classList.add("revokeAcceptBtn");
-        acceptBtn.innerHTML="Remove Accepted";
+        acceptBtn.innerHTML = "Remove Accepted";
       }
     }
 

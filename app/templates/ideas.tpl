@@ -52,7 +52,6 @@
         <div class="d-flex justify-content-between">
             <button type="submit" value="Abschicken" id="btn_submit_idea" class="myBtn-primary">Send&nbsp;&nbsp;<i
                         class="fa-solid fa-paper-plane"></i></button>
-            <!--{*        // TODO: align button right*}-->
             <button value="Cancel" id="btn_cancel" class="myBtn">Cancel</button>
         </div>
     </form>

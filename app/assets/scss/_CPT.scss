@@ -1,4 +1,4 @@
-.dateIdea, .favorite {
+.dateIdea, .favorite, .invitation {
   background-color: white;
   padding: 0.1rem 1rem;
   border-radius: 20px;
@@ -11,13 +11,25 @@
     width: 90vw;*/
 }
 
-@media (min-width: 900px) {
-  width: 80vw;
+/*.invitation {
+  @extend .dateIdea;
+  h2 {
+    color: $pink;
+  }
 }
 
-.invitation {
+.favorite{
   @extend .dateIdea;
+  h2{
+    color: $pink;
+  }
 }
+
+.dateIdea h2{
+  //color: #637F11;
+  color: $darkGreen;
+  //color: #7c912f;
+}*/
 
 .card {
   background-color: white;
@@ -39,6 +51,7 @@
 
 .dateIdea a, .invitation a, .favorite a {
   word-break: break-all;
+  color: black;
 }
 
 .favs:hover {
@@ -59,19 +72,6 @@
   display: inline;
 }*/
 
-#addIdea {
-  cursor: pointer;
-}
-
-/*.invitation *{
-  cursor: pointer;
-}*/
-
-.acceptionChecks {
-  cursor: pointer;
-  color: green;
-}
-
-.letter {
+#addIdea, #openInviteForm, .letter, .invitation img {
   cursor: pointer;
 }
