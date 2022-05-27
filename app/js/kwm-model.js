@@ -413,13 +413,63 @@ export default class KWM_Model {
     }
   }
 
-  setOpened(id, opened) {
+  async setOpened(id, opened) {
     for (let invite of this.invitations) {
-      if (invite.id = id) {
+      if (invite.id == id && !invite.acf.opened) {
+        console.log("setting ", invite.id, " as open");
         invite.acf.opened = opened;
+
+        let post = {
+          fields: {
+            opened: true
+          }
+        }
+
+        var requestOptions = {
+          method: 'POST',
+          headers: await this.getHeader(),
+          body: JSON.stringify(post),
+          redirect: 'follow'
+        };
+
+        fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/invitation/" +
+          id, requestOptions)
+        .then(response => response.json())
+        .catch(error => console.log('error', error));
       }
     }
   }
+
+  async setAccepted(id, accepted) {
+    for (let invite of this.invitations) {
+      if (invite.id == id) {
+        console.log("setting ", invite.id, " as ", accepted);
+        invite.acf.accepted = accepted;
+
+        let post = {
+          fields: {
+            accepted: accepted
+          }
+        }
+
+        var requestOptions = {
+          method: 'POST',
+          headers: await this.getHeader(),
+          body: JSON.stringify(post),
+          redirect: 'follow'
+        };
+
+        fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/invitation/" +
+          id, requestOptions)
+        .then(response => response.json())
+        .catch(error => console.log('error', error));
+      }
+      if(!invite.acf.opened){
+        this.setOpened(id, accepted);
+      }
+    }
+  }
+
 
   isSortReverseActive() {
     if (!kwm.utils.isEmpty(localStorage.reverseIsActive)) {

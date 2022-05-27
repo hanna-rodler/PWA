@@ -25,7 +25,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary closeBtn" data-bs-dismiss="modal" id="closeBtn" data-id="<&>id<&>">Close</button>
-                    <button type="button" class="btn btn-secondary acceptBtn" data-id="<&>id<&>">Accept</button>
+                    <button type="button" class="btn btn-secondary acceptBtn"  data-bs-dismiss="modal" data-id="<&>id<&>">Accept</button>
                 </div>
             </div>
         </div>

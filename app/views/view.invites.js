@@ -18,25 +18,97 @@ export let view = new KWM_Route("/invites", async function () {
     // console.log("Letters", inviteImgs);
     // console.log("Letters", inviteImgs);
     // console.log("Letters", inviteImgs.length);
-    for(let img of inviteImgs){
+    for (let img of inviteImgs) {
       console.log("I am dumb");
-      img.addEventListener("click", function (){
+      img.addEventListener("click", function () {
         console.log("clicked letter");
       })
     }
 
     let closeBtns = document.getElementsByClassName("closeBtn");
-    for(let closeBtn of closeBtns){
-      closeBtn.addEventListener("click", function (){
+    for (let closeBtn of closeBtns) {
+      closeBtn.addEventListener("click", function () {
         let id = closeBtn.getAttribute("data-id");
         console.log(id);
-        let inviteImg = document.querySelector(".invitation[data-id='" + id + "'] img");
+        changeLetterImg(id);
+        /*let inviteImg = document.querySelector(".invitation[data-id='" + id + "'] img");
         let src = inviteImg.src;
         console.log(inviteImg, " with source ", src);
-        if(src != "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png"){
+        if (src !=
+          "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png") {
           inviteImg.src = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png";
+        }*/
+        kwm.model.setOpened(id, true);
+      });
+    }
+
+    let acceptBtns = document.getElementsByClassName("acceptBtn");
+    for (let acceptBtn of acceptBtns) {
+      acceptBtn.addEventListener("click", function () {
+        let id = acceptBtn.getAttribute("data-id");
+        let check = document.querySelector(".invitation[data-id='" + id + "']" +
+          " .fa-circle-check");
+        console.log(check);
+        check.classList.remove("fa-regular");
+        check.classList.add("fa-solid");
+        kwm.model.setAccepted(id, true);
+        acceptBtn.classList.remove("acceptBtn");
+        acceptBtn.classList.add("revokeAcceptBtn");
+        changeLetterImg(id);
+        acceptBtn.innerHTML="Remove Accepted";
+
+        let revokeAcceptBtns = document.getElementsByClassName("revokeAcceptBtn");
+        console.log(revokeAcceptBtns);
+        if(revokeAcceptBtns!= null){
+          for (let revokeBtn of revokeAcceptBtns) {
+            revokeBtn.addEventListener("click", function () {
+              console.log("removing Accepted");
+              let id = revokeBtn.getAttribute("data-id");
+              console.log(id);
+              let check = document.querySelector(".invitation[data-id='" + id + "']" +
+                " .fa-circle-check");
+              console.log(check);
+              check.classList.add("fa-regular");
+              check.classList.remove("fa-solid");
+              kwm.model.setAccepted(id, false);
+              revokeBtn.classList.remove("revokeAcceptBtn");
+              revokeBtn.classList.add("acceptBtn");
+              revokeBtn.innerHTML="Accept";
+            });
+          }
         }
       });
+    }
+
+    let revokeAcceptBtns = document.getElementsByClassName("revokeAcceptBtn");
+    console.log(revokeAcceptBtns);
+    if(revokeAcceptBtns!= null){
+      for (let revokeBtn of revokeAcceptBtns) {
+        revokeBtn.addEventListener("click", function () {
+          console.log("removing Accepted");
+          let id = revokeBtn.getAttribute("data-id");
+          console.log(id);
+          let check = document.querySelector(".invitation[data-id='" + id + "']" +
+            " .fa-circle-check");
+          console.log(check);
+          check.classList.add("fa-regular");
+          check.classList.remove("fa-solid");
+          kwm.model.setAccepted(id, false);
+          revokeBtn.classList.remove("revokeAcceptBtn");
+          revokeBtn.classList.add("acceptBtn");
+          revokeBtn.innerHTML="Accept";
+        });
+      }
+    }
+
+    function changeLetterImg(id){
+      let inviteImg = document.querySelector(".invitation[data-id='" + id + "'] img");
+      // let src = inviteImg.src;
+      // console.log(inviteImg, " with source ", src);
+      if (inviteImg.src !==
+        "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png") {
+        inviteImg.src = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png";
+      }
     }
 
 
@@ -110,15 +182,15 @@ export let view = new KWM_Route("/invites", async function () {
       })
     }*/
 
-    let acceptionChecks = document.getElementsByClassName("acceptCheck");
+    /*let acceptionChecks = document.getElementsByClassName("acceptCheck");
     // console.log("found", acceptionChecks);
-    for(let check of acceptionChecks){
+    for (let check of acceptionChecks) {
       // console.log("in loop");
       // console.log("to", check);
-      check.addEventListener("click", function (){
+      check.addEventListener("click", function () {
         console.log("clicked on accept");
       })
-    }
+    }*/
   }
 });
 
@@ -136,18 +208,18 @@ view.rendering = async function (myUser) {
     div.classList.add("container");
     div.dataset.id = invite.id;
     document.querySelector("#invitations").append(div);
-    console.log(invite);
+    // console.log(invite);
     let acfInvite = invite.acf;
-    if(acfInvite.opened && acfInvite.invitor === myUser){
+    if (acfInvite.opened && acfInvite.invitor === myUser) {
       // I invited other person & it was opened
-      acfInvite.ph="http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/sent_opened-letter.png"
-    }else if (acfInvite.opened && acfInvite.invited === myUser){
+      acfInvite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/sent_opened-letter.png"
+    } else if (acfInvite.opened && acfInvite.invited === myUser) {
       // letter opened but I didn't invite
       acfInvite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png";
-    } else if(!acfInvite.opened  && acfInvite.invitor === myUser){
+    } else if (!acfInvite.opened && acfInvite.invitor === myUser) {
       // closed and I invited
       acfInvite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/sent_closed-letter.png";
-    } else{
+    } else {
       // closed and I got invited
       acfInvite.ph = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_closed-letter.png";
     }
@@ -156,10 +228,29 @@ view.rendering = async function (myUser) {
     // await kwm.templater.renderTemplate("invites.invitation-invited", div, acfInvite);
 
     if (acfInvite.invited === myUser) {
-      console.log(acfInvite.title);
+      // console.log(acfInvite.title);
       await kwm.templater.renderTemplate("invites.invitation-invited", div, acfInvite);
     } else
       await kwm.templater.renderTemplate("invites.invitation", div, acfInvite);
+
+    if(acfInvite.accepted){
+      let check = document.querySelector(".invitation[data-id='" + acfInvite.id + "']" +
+        " .fa-circle-check");
+      // console.log(check);
+      check.classList.remove("fa-regular");
+      check.classList.add("fa-solid");
+
+      if(acfInvite.invitor !== myUser){
+        console.log(acfInvite.title, " with id ", acfInvite.id, "got accepted");
+        console.log(acfInvite.id, invite.id);
+        let acceptBtn = document.querySelector(".acceptBtn[data-id='" + invite.id + "']");
+        console.log(acceptBtn);
+        acceptBtn.classList.remove("acceptBtn");
+        acceptBtn.classList.add("revokeAcceptBtn");
+        acceptBtn.innerHTML="Remove Accepted";
+      }
+    }
+
   }
 
 };
