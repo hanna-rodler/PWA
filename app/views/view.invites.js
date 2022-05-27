@@ -12,18 +12,16 @@ export let view = new KWM_Route("/invites", async function () {
     let partner = await kwm.model.getPartner();
     await kwm.model.getMyInvitations(myUser);
     await this.rendering(myUser);
+    kwm.model.closedDateInvitation(myUser, partner);
     // console.table(kwm.model.invitations);
 
-    let inviteImgs = document.getElementsByClassName("letter");
-    // console.log("Letters", inviteImgs);
-    // console.log("Letters", inviteImgs);
-    // console.log("Letters", inviteImgs.length);
+    /*let inviteImgs = document.getElementsByClassName("letter");
     for (let img of inviteImgs) {
       console.log("I am dumb");
       img.addEventListener("click", function () {
         console.log("clicked letter");
       })
-    }
+    }*/
 
     let closeBtns = document.getElementsByClassName("closeBtn");
     for (let closeBtn of closeBtns) {
@@ -31,13 +29,6 @@ export let view = new KWM_Route("/invites", async function () {
         let id = closeBtn.getAttribute("data-id");
         console.log(id);
         changeLetterImg(id);
-        /*let inviteImg = document.querySelector(".invitation[data-id='" + id + "'] img");
-        let src = inviteImg.src;
-        console.log(inviteImg, " with source ", src);
-        if (src !=
-          "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png") {
-          inviteImg.src = "http://api.s2010456026.student.kwmhgb.at/wp-content/uploads/2022/05/receive_opened-letter.png";
-        }*/
         kwm.model.setOpened(id, true);
       });
     }
@@ -172,25 +163,7 @@ export let view = new KWM_Route("/invites", async function () {
 
     });
 
-    /*let invitations = document.querySelectorAll(".invitation");
-    for(let invite of invitations){
-      invite.addEventListener("click", function (e){
-        console.log(e.target);
-        let invitationCard = e.target.closest(".invitation");
-        console.log(invitationCard.getAttribute("data-id"));
-      //  TODO detail View?
-      })
-    }*/
 
-    /*let acceptionChecks = document.getElementsByClassName("acceptCheck");
-    // console.log("found", acceptionChecks);
-    for (let check of acceptionChecks) {
-      // console.log("in loop");
-      // console.log("to", check);
-      check.addEventListener("click", function () {
-        console.log("clicked on accept");
-      })
-    }*/
   }
 });
 

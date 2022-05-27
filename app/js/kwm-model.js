@@ -418,13 +418,11 @@ export default class KWM_Model {
       if (invite.id == id && !invite.acf.opened) {
         console.log("setting ", invite.id, " as open");
         invite.acf.opened = opened;
-
         let post = {
           fields: {
-            opened: true
+            opened: opened
           }
         }
-
         var requestOptions = {
           method: 'POST',
           headers: await this.getHeader(),
