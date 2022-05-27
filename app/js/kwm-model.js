@@ -48,14 +48,10 @@ export default class KWM_Model {
           resolve(this.dateIdeas);
         } else
           // console.log("DateIdeas", this.dateIdeas);
-        // console.info("Lenght: ", this.dateIdeas.length);
+          // console.info("Lenght: ", this.dateIdeas.length);
           resolve(this.dateIdeas);
       })
     })
-  }
-
-  getFirstPaginatedPosts(){
-
   }
 
   getReverseDateIdeas() {
@@ -67,11 +63,14 @@ export default class KWM_Model {
       fetch("https://api.s2010456026.student.kwmhgb.at/wp-json/wp/v2/datingIdea?per_page=100&oderBy=date&order=asc", requestOptions)
       .then(response => response.json())
       .then(data => {
-        for (let idea of data) {
-          this.reversedIdeas.push(idea);
-        }
-        // console.log(this.reversedIdeas);
-        resolve(this.reversedIdeas);
+        if (kwm.utils.isEmpty(this.reversedIdeas)) {
+          for (let idea of data) {
+            this.reversedIdeas.push(idea);
+          }
+          // console.log(this.reversedIdeas);
+          resolve(this.reversedIdeas);
+        } else
+          resolve(this.reversedIdeas);
       })
       .catch(error => console.log('error', error));
     });
@@ -331,8 +330,8 @@ export default class KWM_Model {
     };
 
 
-    for(let fav of this.favorites){
-      if(Number(ideaID) === fav.id){
+    for (let fav of this.favorites) {
+      if (Number(ideaID) === fav.id) {
         let index = this.favorites.indexOf(fav);
         this.favorites.splice(index, 1);
       }
@@ -413,12 +412,12 @@ export default class KWM_Model {
     })
   }
 
-  closedDateInvitation(myUser, partner){
-    for(let invite of this.invitations){
-      if(invite.acf.invited == myUser && !invite.acf.opened){
+  closedDateInvitation(myUser, partner) {
+    for (let invite of this.invitations) {
+      if (invite.acf.invited == myUser && !invite.acf.opened) {
         const title = "New Date Invitation";
         const options = {
-          body: partner.display_name+" is inviting you on the date "+invite.acf.title,
+          body: partner.display_name + " is inviting you on the date " + invite.acf.title,
           vibrate: [200, 100, 200]
         }
         new Notification(title, options);
@@ -426,20 +425,20 @@ export default class KWM_Model {
     }
   }
 
-  setOpened(id, opened){
-    for(let invite of this.invitations){
-      if(invite.id = id){
+  setOpened(id, opened) {
+    for (let invite of this.invitations) {
+      if (invite.id = id) {
         invite.acf.opened = opened;
       }
     }
   }
 
-  isSortReverseActive(){
-      if(!kwm.utils.isEmpty(localStorage.reverseIsActive)){
-        console.log(localStorage.reverseIsActive);
-        return localStorage.reverseIsActive === "active"
-      } else{
-        localStorage.setItem("reverseIsActive", "active");
-      }
+  isSortReverseActive() {
+    if (!kwm.utils.isEmpty(localStorage.reverseIsActive)) {
+      console.log(localStorage.reverseIsActive);
+      return localStorage.reverseIsActive === "active"
+    } else {
+      localStorage.setItem("reverseIsActive", "active");
+    }
   }
 }

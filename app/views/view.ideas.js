@@ -12,19 +12,20 @@ export let view = new KWM_Route("/ideas", async function () {
     await kwm.model.getMyFavorites(myUser);
     let partner = await kwm.model.getPartner();
     await kwm.model.getAllDateIdeas();
-    await this.rendering(true);
+    kwm.templater.changeNavIcon("Idea");
 
-    // console.table(kwm.model.dateIdeas);
-    // console.log(kwm.model.dateIdeas.length);
+    await kwm.templater.renderTemplate("ideas", document.getElementById("kwmJS"));
 
-    if(!kwm.model.isSortReverseActive()){
-      await kwm.model.getReverseDateIdeas();
-    }else {
+    await kwm.model.getReverseDateIdeas();
+    // localStorage.setItem("reverseIsActive", "inactive");
+
+    if (!kwm.model.isSortReverseActive()) {
+      await this.rendering(true);
+    }else{
       console.log("Should sort reverse");
       await sortReverse();
     }
 
-    // TODO: favorite gets rendered twice when reverse sorted.
     /* POST idea*/
     btn_submit_idea.addEventListener("click", async function (e) {
       e.preventDefault();
@@ -124,7 +125,7 @@ export let view = new KWM_Route("/ideas", async function () {
         sortReverseBtn.classList.remove("myBtn-filterActive");
         localStorage.reverseIsActive = "inactive";
 
-        removeChildNodes();
+        await removeChildNodes();
 
         let ideas = kwm.model.dateIdeas;
         for (let idea of ideas) {
@@ -152,13 +153,14 @@ export let view = new KWM_Route("/ideas", async function () {
 
   }
 
-  async function sortReverse(){
+  async function sortReverse() {
     console.log("reverse sorting active");
     localStorage.reverseIsActive = "active";
     sortReverseBtn.classList.add("myBtn-filterActive");
     sortReverseBtn.classList.remove("myBtn-secondary");
 
-    removeChildNodes();
+    await removeChildNodes();
+    console.log(document.getElementById("dateIdeas"));
 
     let reverseIdeas = kwm.model.reversedIdeas;
     console.log(reverseIdeas);
@@ -167,19 +169,30 @@ export let view = new KWM_Route("/ideas", async function () {
     }
   }
 
-  function removeChildNodes(){
+  async function removeChildNodes() {
     let ideaContainer = document.querySelector("#dateIdeas");
-    while(ideaContainer.hasChildNodes()){
+    while (ideaContainer.hasChildNodes()) {
       ideaContainer.firstChild.remove();
     }
-    console.log(ideaContainer);
+    console.log("removed from", ideaContainer);
   }
 
   function showIdeaForm() {
     ideaForm.classList.remove("hidden");
   }
 
-  function filterByCategory(category) {
+  async function filterByCategory(category) {
+    let morePosts = document.getElementById("load_more_posts");
+    if(morePosts !== null){
+      if (!morePosts.classList.contains("hidden") ){
+        if(!kwm.model.isSortReverseActive()){
+          for (let idea of kwm.model.dateIdeas) {
+            await view.renderPost(idea, "dateIdeas");
+          }
+        }
+        load_more_posts.classList.add("hidden");
+      }
+    }
     let filteredPosts = document.querySelectorAll("." + category);
     let noFound = document.querySelector("#noFound");
     if (noFound !== null)
@@ -208,6 +221,10 @@ export let view = new KWM_Route("/ideas", async function () {
     for (let post of allPosts) {
       post.classList.remove("hidden");
     }
+    /*let allIdeas = kwm.model.dateIdeas;
+    for(let idea of allIdeas){
+      await view.renderPost(idea, "dateIdeas");
+    }*/
   }
 
   /*function addEventListenerToHeart(myUser, partner){
@@ -278,12 +295,9 @@ export let view = new KWM_Route("/ideas", async function () {
 });
 
 view.rendering = async function (paginated) {
-  kwm.templater.changeNavIcon("Idea");
-
-  await kwm.templater.renderTemplate("ideas", document.getElementById("kwmJS"));
-  /*if(!kwm.utils.isEmpty(localStorage.category)){
-    document.querySelector("#categorySelect [value='"+this.value+"']").selected = true;
-  }*/
+  // kwm.templater.changeNavIcon("Idea");
+  //
+  // await kwm.templater.renderTemplate("ideas", document.getElementById("kwmJS"));
 
   // FETCH POSTS WITH PAGINATE
   if (paginated) {
