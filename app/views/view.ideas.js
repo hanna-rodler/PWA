@@ -422,7 +422,7 @@ view.renderPost = async function (idea, targetContainer) {
     let heart = document.querySelector(".dateIdea[data-id='" + id + "'] .favs");
 
     if (kwm.model.ideaIsFavorite(id)) {
-      // console.log("Idea is favorite");
+      console.log("Idea is favorite");
       let favoriteID = idea.getAttribute("data-parent");
       kwm.model.deleteIdeaFromFavorites(favoriteID);
       heart.classList.remove("fa-solid");

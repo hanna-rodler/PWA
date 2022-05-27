@@ -1,6 +1,5 @@
 <section id="main_content">
     <div class="ideaBar d-flex justify-content-between align-items-baseline">
-        <!--{*        // TODO: align button right*}-->
         <div class="filterBar" id="filterBar">
             <select class="form-select" aria-label="Default select example" id="categorySelect">
                 <option selected value="all categories">all categories</option>

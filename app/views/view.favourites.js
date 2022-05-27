@@ -29,6 +29,9 @@ export let view = new KWM_Route("/", async function () {
     let myUser = await kwm.model.getOwnUserId();
     await kwm.model.getMyFavorites(myUser);
     await this.rendering();
+    sync_favorites.addEventListener("click", function (){
+      location.reload(true);
+    })
   }
 });
 
