@@ -2,14 +2,10 @@
     <div class="col-4 col-md-2 flex-center-center">
         <img src="<&>image<&>" alt=""  height="100" class="rounded img-fluid my-2">
     </div>
-    <!--<div class="col-4 col-md-2 d-flex justify-content-center align-items-center">
-        <img src="<&>image<&>" alt=""  height="100" class="rounded img-fluid my-2">
-    </div>-->
     <div class="col-md-9 col-8 flex-center-start-column">
-        <div class="row d-flex align-items-baseline justify-content-between">
+        <div class="d-flex justify-content-between align-items-baseline w-100">
             <h2 class="pt-3"><&>title<&></h2>
-            <i class="fa-regular fa-heart favs"></i>
-            <!--{*TODO: style*}-->
+            <i class="fa-regular fa-heart favs me-3"></i>
         </div>
         <a href="<&>link<&>" target="_blank" class="d-flex mb-2"><&>link<&></a>
         <p><&>description<&></p>

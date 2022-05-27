@@ -22,9 +22,14 @@ export let view = new KWM_Route("/ideas", async function () {
     if (!kwm.model.isSortReverseActive()) {
       await this.rendering(true);
     }else{
-      console.log("Should sort reverse");
+      // console.log("Should sort reverse");
       await sortReverse();
     }
+
+    console.group("Dateideas");
+    console.table(kwm.model.dateIdeas);
+    console.log("Partner",partner);
+    console.groupEnd("Dateideas");
 
     /* POST idea*/
     addIdea.addEventListener("click", showIdeaForm);
@@ -43,6 +48,8 @@ export let view = new KWM_Route("/ideas", async function () {
         if (idea_link.value.search("^https://") === -1) {
           linkUrl = "https://" + idea_link.value;
           linkUrl = linkUrl.split(" ").join("");
+        }else{
+          linkUrl=idea_link.value;
         }
       }
       let post = {
