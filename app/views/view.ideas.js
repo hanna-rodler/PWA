@@ -16,7 +16,23 @@ export let view = new KWM_Route("/ideas", async function () {
     // console.table(kwm.model.dateIdeas);
     // console.log(kwm.model.dateIdeas.length);
 
+/*    if(kwm.model.isSortReverseActive()){
+      console.log("wasn't sorted before click");
+      localStorage.reverseIsActive = "active";
+      sortReverse.classList.add("myBtn-filterActive");
+      sortReverse.classList.remove("myBtn-secondary");
 
+      let ideas = document.querySelectorAll(".dateIdea");
+      for (let idea of ideas) {
+        idea.remove();
+      }
+      *let reverseIdeas = kwm.model.reversedIdeas;
+      for (let post of reverseIdeas) {
+        await view.renderPost(post);
+      }
+    }*/
+
+    // TODO: favorite gets rendered twice when reverse sorted.
     /* POST idea*/
     btn_submit_idea.addEventListener("click", async function (e) {
       e.preventDefault();
@@ -68,8 +84,8 @@ export let view = new KWM_Route("/ideas", async function () {
         location.reload(true);
       });
     });
-
     addIdea.addEventListener("click", showIdeaForm);
+
     addIdea.addEventListener("touch", showIdeaForm);
 
     btn_cancel.addEventListener("click", function () {
@@ -79,65 +95,109 @@ export let view = new KWM_Route("/ideas", async function () {
     sortReverse.addEventListener("click", async function () {
       console.log("clicked sort reverse");
       await kwm.model.getReverseDateIdeas();
-      // console.log(localStorage.reverseIsActive);
-      if(kwm.model.isSortReverseActive()){
+      /*      if (kwm.model.isSortReverseActive()) {
+              console.log("was sorted reverse before click");
+              sortReverse.classList.add("myBtn-secondary");
+              sortReverse.classList.remove("myBtn-filterActive");
+              localStorage.reverseIsActive = "inactive";
+
+              // TODO: just switch between containers.
+              let reverseIdeas = document.querySelectorAll(".dateIdea");
+              for (let reverseIdea of reverseIdeas) {
+                reverseIdea.remove();
+              }
+              let ideas = kwm.model.dateIdeas;
+              for (let idea of ideas) {
+                await view.renderPost(idea);
+              }
+
+            } else {
+              console.log("wasn't sorted before click");
+              localStorage.reverseIsActive = "active";
+              sortReverse.classList.add("myBtn-filterActive");
+              sortReverse.classList.remove("myBtn-secondary");
+
+              let ideas = document.querySelectorAll(".dateIdea");
+              for (let idea of ideas) {
+                idea.remove();
+              }
+              let reverseIdeas = kwm.model.reversedIdeas;
+              for (let post of reverseIdeas) {
+                await view.renderPost(post);
+              }
+            }*/
+      if (kwm.model.isSortReverseActive()) {
+        console.log("reverse sorting INactive");
         sortReverse.classList.add("myBtn-secondary");
         sortReverse.classList.remove("myBtn-filterActive");
         localStorage.reverseIsActive = "inactive";
 
         // TODO: just switch between containers.
         let reverseIdeas = document.querySelectorAll(".dateIdea");
-        for (let reverseIdea of reverseIdeas) {
-          reverseIdea.remove();
-        }
-        let ideas = kwm.model.dateIdeas;
-        for(let idea of ideas){
-          await view.renderPost(idea);
+        let ideaContainer = document.querySelector("#dateIdeas");
+        while(ideaContainer.hasChildNodes()){
+          ideaContainer.firstChild.remove();
         }
 
-      }else{
+        // console.log("Reverse Ideas", reverseIdeas);
+        // either child nodes or really different container.
+        // for (let reverseIdea of reverseIdeas) {
+        //   console.log("got ", reverseIdea);
+        //   reverseIdea.remove();
+        // }
+        let ideas = kwm.model.dateIdeas;
+        // console.table("Model ideas", ideas);
+        /*for (let idea of ideas) {
+          await view.renderPost(idea);
+        }*/
+
+      } else {
+        console.log("reverse sorting active");
         localStorage.reverseIsActive = "active";
         sortReverse.classList.add("myBtn-filterActive");
         sortReverse.classList.remove("myBtn-secondary");
 
-        let ideaContainer = document.getElementById("dateIdeas");
-        while (ideaContainer.hasChildNodes()) {
-          ideaContainer.removeChild(ideaContainer.firstChild);
+        let ideaContainer = document.querySelector("#dateIdeas");
+        while(ideaContainer.hasChildNodes()){
+          ideaContainer.firstChild.remove();
         }
-        let ideas = document.querySelectorAll(".dateIdea");
-        for (let idea of ideas) {
-          idea.remove();
+        console.log(ideaContainer);
+        document.querySelectorAll("#dateIdeas");
 
+        let ideas = document.querySelectorAll(".dateIdea");
+        // console.log("Model Ideas", ideas);
+        for (let idea of ideas) {
+          console.log("remove ", idea);
+          idea.remove();
         }
         let reverseIdeas = kwm.model.reversedIdeas;
         for (let post of reverseIdeas) {
           await view.renderPost(post);
         }
       }
-/*      console.log("clicked sort reverse");
-      let ideaContainer = document.getElementById("dateIdeas");
-      // ideaContainer.classList.add("hidden");
-      while (ideaContainer.hasChildNodes()) {
-        ideaContainer.removeChild(ideaContainer.firstChild);
-      }
-      let ideas = document.querySelectorAll(".dateIdea");
-      for (let idea of ideas) {
-        // idea.classList.add("hidden");
-        idea.remove();
-      }
+      /*      console.log("clicked sort reverse");
+            let ideaContainer = document.getElementById("dateIdeas");
+            // ideaContainer.classList.add("hidden");
+            while (ideaContainer.hasChildNodes()) {
+              ideaContainer.removeChild(ideaContainer.firstChild);
+            }
+            let ideas = document.querySelectorAll(".dateIdea");
+            for (let idea of ideas) {
+              // idea.classList.add("hidden");
+              idea.remove();
+            }
 
-      let reverseIdeas = kwm.model.reversedIdeas;
-      for (let post of reverseIdeas) {
-        await view.renderPost(post);
-      }*/
-      // addHeartsToFavoritePosts();
-      // addEventListenerToHeart(myUser, partner);
+            let reverseIdeas = kwm.model.reversedIdeas;
+            for (let post of reverseIdeas) {
+              await view.renderPost(post);
+            }*/
     });
 
     document.querySelector("#categorySelect").addEventListener("change", async function () {
       // localStorage.category=this.value;
       // await view.rendering(false);
-      document.querySelector("#categorySelect [value='"+this.value+"']").selected = true;
+      document.querySelector("#categorySelect [value='" + this.value +
+        "']").selected = true;
       if (this.value === "no categories") {
         showAllPosts();
       } else {
@@ -186,13 +246,6 @@ export let view = new KWM_Route("/ideas", async function () {
     }
   }
 
-  /**
-   * Adds event listeners to all hearts and favorites / unfavorites them upon click
-   * plus creates / uncreates correspondant favorite post.
-   *
-   * @param myUser
-   * @param partner
-   */
   /*function addEventListenerToHeart(myUser, partner){
     let favs = document.getElementsByClassName("favs");
     // console.log("Favs", favs);
@@ -333,7 +386,7 @@ view.paginate = function (totalPages) {
             // console.log("rendered post in pagination ", post);
           }
           button.dataset.nextPage++;
-          if (Number(totalPages) === button.dataset.nextPage-1) {
+          if (Number(totalPages) === button.dataset.nextPage - 1) {
             button.classList.add("hidden");
           }
         })
